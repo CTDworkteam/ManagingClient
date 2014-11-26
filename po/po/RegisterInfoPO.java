@@ -1,0 +1,33 @@
+package po;
+
+import enumType.UserJob;
+
+public class RegisterInfoPO implements java.io.Serializable{
+	private String name;
+	private String password;
+	private UserJob role;
+	public RegisterInfoPO(String name, String password, UserJob role) {
+		this.name = name;
+		this.password = password;
+		this.role = role;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public UserJob getRole() {
+		return role;
+	}
+	public void setRole(UserJob role) {
+		this.role = role;
+	}
+	
+}
