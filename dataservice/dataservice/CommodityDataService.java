@@ -1,6 +1,7 @@
 package dataservice;
 import java.rmi.*;
 import java.util.*;
+
 import po.*;
 public interface CommodityDataService extends Remote{
 	public void insertCommodity(CommodityPO po)throws RemoteException;
@@ -14,4 +15,5 @@ public interface CommodityDataService extends Remote{
 	public TreeMap<String,TreeSet<CommodityPO> > getCommodityList() throws RemoteException;
 	public String[] getTypeNames() throws RemoteException;
 	public boolean hasCommodity() throws RemoteException;
+	public CommodityPO findCommodityInName(String commodity) throws RemoteException;
 }

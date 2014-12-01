@@ -1,4 +1,4 @@
-package financebl;
+/*package financebl;
 import java.util.ArrayList;
 import vo.PaymentVO;
 import vo.ReciptVO;
@@ -61,4 +61,4 @@ public class FinanceController implements FinanceBLService{
 		return null;
 	}
 
-}
+}*/

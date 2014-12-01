@@ -1,6 +1,8 @@
 package dataservice;
 import java.rmi.*;
 import java.util.*;
+
+import loginbl.RegisterInfo;
 import po.*;
 import enumType.*;
 public interface UserDataService extends Remote{
@@ -11,5 +13,8 @@ public interface UserDataService extends Remote{
 	public void update(UserPO po) throws RemoteException;
 	public TreeSet<UserPO> getList() throws RemoteException;
 	public boolean isEmpty() throws RemoteException;
+	public boolean isMax(UserJob role) throws RemoteException;
+	public UserPO find(String operator) throws RemoteException;
+	public void insert(RegisterInfo register) throws RemoteException;
 }
 

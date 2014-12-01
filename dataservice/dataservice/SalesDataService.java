@@ -1,6 +1,9 @@
 package dataservice;
 import java.util.*;
+
 import po.*;
+import po.SalesBillPO.SalesBillItemPO;
+
 import java.rmi.*;
 public interface SalesDataService extends Remote{
 	    public void insert(SalesBillPO po) throws RemoteException;
@@ -22,5 +25,11 @@ public interface SalesDataService extends Remote{
 	    public String[] getIDs2() throws RemoteException;
 	    public boolean hasBills() throws RemoteException;
 	    public boolean hasReturnBills() throws RemoteException;
+		public boolean containCommodity(String commodity) throws RemoteException;
+		public ArrayList<SalesBillItemPO> findCommodity1(String commodity) throws RemoteException;
+		public boolean containsClient(ClientPO po) throws RemoteException;
+		public ArrayList<SalesBillPO> findClient1(ClientPO po) throws RemoteException;
+		public boolean containsOperator(UserPO po) throws RemoteException;
+		public ArrayList<SalesBillPO> findOperator(UserPO po) throws RemoteException;
 }
 

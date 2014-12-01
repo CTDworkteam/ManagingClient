@@ -4,7 +4,6 @@ import vo.RegisterInfoVO;
 import vo.UserListVO;
 import vo.UserVO;
 import enumType.ResultMessage;
-import blservice.UserBLService;
 
 public class UserController implements UserBLService{
 

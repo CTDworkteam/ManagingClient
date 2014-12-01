@@ -3,7 +3,7 @@ package po;
 import java.util.ArrayList;
 
 public class InitialPO implements java.io.Serializable{
-	private String id;
+	String id;
 	private ArrayList<CommodityPO> commodity=new ArrayList<CommodityPO>();
 	private ArrayList<CommodityTypePO> type=new ArrayList<CommodityTypePO>();
 	private ArrayList<ClientPO> client=new ArrayList<ClientPO>();
@@ -18,9 +18,11 @@ public class InitialPO implements java.io.Serializable{
 	public String getID(){
 		return id;
 	}
-	public void setID(String id){
-		this.id=id;
+	
+	public void setID(String i){
+		this.id=i;
 	}
+	
 	public ArrayList<CommodityPO> getCommodityList(){
 		return commodity;
 	}

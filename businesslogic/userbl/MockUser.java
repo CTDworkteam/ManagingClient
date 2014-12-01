@@ -11,7 +11,7 @@ public class MockUser extends User{
 	public MockUser(){	
 	}
 	
-	public MockUser(long i,loginbl.RegisterInfo r){
+	public MockUser(long i,RegisterInfo r){
 		this.id=i;
 		this.register=r;
 	}

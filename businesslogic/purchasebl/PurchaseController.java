@@ -1,4 +1,4 @@
-package purchasebl;
+/*package purchasebl;
 
 import java.util.ArrayList;
 
@@ -65,4 +65,4 @@ public class PurchaseController implements PurchaseBLService{
 		return null;
 	}
 	
-}
+}*/

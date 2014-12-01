@@ -1,6 +1,8 @@
 package dataservice;
 import java.rmi.*;
+
 import po.*;
+
 import java.util.*;
 public interface FinanceDataService {
 	public void insert(ReciptPO po)throws RemoteException;
@@ -24,4 +26,6 @@ public interface FinanceDataService {
 	public TreeMap<String,PaymentPO> getList2() throws RemoteException;
 	public String[] getPaymentIDs() throws RemoteException;
 	public boolean hasPayments() throws RemoteException;
+	public ClientPO findClient1(String client) throws RemoteException;
+	public AccountPO findAccount1(String account) throws RemoteException;
 }

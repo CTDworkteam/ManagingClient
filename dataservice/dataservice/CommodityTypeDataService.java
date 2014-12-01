@@ -1,6 +1,7 @@
 package dataservice;
 import java.util.*;
 import java.rmi.*;
+
 import po.*;
 import object.*;
 public interface CommodityTypeDataService extends Remote{
@@ -13,4 +14,5 @@ public interface CommodityTypeDataService extends Remote{
 	public void updateCommodityType(CommodityTypePO po) throws RemoteException;
 	public TypeTree<CommodityTypePO> getTree() throws RemoteException;
 	public boolean hasCommodityType() throws RemoteException;
+	public CommodityTypePO findCommodityTypeInName(String type) throws RemoteException;
 }
