@@ -728,7 +728,7 @@ class stockGoods extends JPanel{
 										JOptionPane.showMessageDialog(null, "Œ¥—°‘Ò‘˘ÀÕ…Ã∆∑");
 									else
 									{
-									StockController stock=new StockController();
+									/*StockController stock=new StockController();
 									GiftBillVO vo=new GiftBillVO();
 									ArrayList<vo.GiftBillItemVO> list=new ArrayList<vo.GiftBillItemVO>();
 									vo.GiftBillItemVO item=new vo.GiftBillItemVO(presentListTableModel.getValueAt(presentListTable.getSelectedRow(),1),presentListTableModel.getValueAt(presentListTable.getSelectedRow(), 2),numberField.getText());
@@ -751,7 +751,7 @@ class stockGoods extends JPanel{
 									{
 									JOptionPane.showMessageDialog(null, "‘˘ÀÕ ß∞‹");
 									subPresentFrame.dispose();
-									}
+									}*/
 									}
 								}
 							});
