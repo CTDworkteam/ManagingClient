@@ -16,4 +16,5 @@ public interface CommodityDataService extends Remote{
 	public String[] getTypeNames() throws RemoteException;
 	public boolean hasCommodity() throws RemoteException;
 	public CommodityPO findCommodityInName(String commodity) throws RemoteException;
+	public ClientPO find(String client) throws RemoteException; 
 }

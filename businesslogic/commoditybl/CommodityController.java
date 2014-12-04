@@ -8,59 +8,35 @@ import enumType.ResultMessage;
 import blservice.*;
 
 public class CommodityController implements CommodityBLService{
-
-	@Override
+	public Commodity commodity;
+	public CommodityController(){
+		commodity=new Commodity();
+	}
 	public ResultMessage addCommodity(CommodityVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.addCommodity(vo);
 	}
-
-	@Override
 	public ResultMessage deleteCommodity(CommodityVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.deleteCommodity(vo);
 	}
-
-	@Override
 	public ResultMessage updateCommodity(CommodityVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.updateCommodity(vo);
 	}
-
-	@Override
 	public ResultMessage addModel(CommodityModelVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.addModel(vo);
 	}
-
-	@Override
 	public ResultMessage deleteModel(CommodityModelVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.deleteModel(vo);
 	}
-
-	@Override
 	public ResultMessage updateModel(String beforeName, CommodityModelVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.updateModel(beforeName,vo);
 	}
-
-	@Override
 	public CommodityVO findCommodityInID(String id) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.findCommodityInID(id);
 	}
-
-	@Override
 	public ArrayList<CommodityVO> findCommodityInKeyword(String key) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.findCommodityInKeyword(key);
 	}
-
-	@Override
 	public CommodityModelVO getModel(CommodityVO vo, String model) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.getModel(vo, model);
 	}
-	
 }

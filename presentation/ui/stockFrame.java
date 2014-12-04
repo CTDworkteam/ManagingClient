@@ -641,6 +641,7 @@ class stockGoods extends JPanel{
 							jbtPathCancel.addActionListener(new ActionListener(){
 								public void actionPerformed(ActionEvent e){
 									oneStockInfoFrame.dispose();
+									
 								}
 							});
 						}
