@@ -3,18 +3,20 @@ package po;
 public class NoticeBillPO implements java.io.Serializable{
 	private String id;
 	private String storehouse;
-	private CommodityPO commodity;
+	private String commodityID;
 	private String model;
 	private int noticeNumber;
 	private int actualNumber;
-	public NoticeBillPO(String id, String storehouse, CommodityPO commodity,
+	public NoticeBillPO(String id, String storehouse, String commodityID,
 			String model, int noticeNumber, int actualNumber) {
 		this.id = id;
 		this.storehouse = storehouse;
-		this.commodity = commodity;
+		this.commodityID = commodityID;
 		this.model = model;
 		this.noticeNumber = noticeNumber;
 		this.actualNumber = actualNumber;
+	}
+	public NoticeBillPO() {
 	}
 	public String getId() {
 		return id;
@@ -27,12 +29,6 @@ public class NoticeBillPO implements java.io.Serializable{
 	}
 	public void setStorehouse(String storehouse) {
 		this.storehouse = storehouse;
-	}
-	public CommodityPO getCommodity() {
-		return commodity;
-	}
-	public void setCommodity(CommodityPO commodity) {
-		this.commodity = commodity;
 	}
 	public String getModel() {
 		return model;
@@ -51,5 +47,11 @@ public class NoticeBillPO implements java.io.Serializable{
 	}
 	public void setActualNumber(int actualNumber) {
 		this.actualNumber = actualNumber;
+	}
+	public String getCommodityID() {
+		return commodityID;
+	}
+	public void setCommodityID(String commodityID) {
+		this.commodityID = commodityID;
 	}
 }

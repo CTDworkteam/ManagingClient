@@ -5,13 +5,16 @@ import java.util.ArrayList;
 public class VoucherStrategyPO implements java.io.Serializable{
 	private String id;
 	private double voucher;
-	private ArrayList<ClientPO> clientList;
+	private ArrayList<String> clientList;
 	public VoucherStrategyPO(String id, double voucher,
-			ArrayList<ClientPO> clientList) {
+			ArrayList<String> clientList) {
 		super();
 		this.id = id;
 		this.voucher = voucher;
 		this.clientList = clientList;
+	}
+	public VoucherStrategyPO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
@@ -25,10 +28,10 @@ public class VoucherStrategyPO implements java.io.Serializable{
 	public void setVoucher(double voucher) {
 		this.voucher = voucher;
 	}
-	public ArrayList<ClientPO> getClientList() {
+	public ArrayList<String> getClientList() {
 		return clientList;
 	}
-	public void setClientList(ArrayList<ClientPO> clientList) {
+	public void setClientList(ArrayList<String> clientList) {
 		this.clientList = clientList;
 	}
 }

@@ -3,55 +3,50 @@ package po;
 import java.util.ArrayList;
 
 public class InitialPO implements java.io.Serializable{
-	String id;
-	private ArrayList<CommodityPO> commodity=new ArrayList<CommodityPO>();
-	private ArrayList<CommodityTypePO> type=new ArrayList<CommodityTypePO>();
-	private ArrayList<ClientPO> client=new ArrayList<ClientPO>();
-	private ArrayList<AccountPO> account=new ArrayList<AccountPO>();
-	
-	public InitialPO(ArrayList<CommodityPO> c,ArrayList<CommodityTypePO> ct,ArrayList<ClientPO> cl,ArrayList<AccountPO> a){
-		this.commodity=c;
-		this.type=ct;
-		this.client=cl;
-		this.account=a;
+	private String id;
+	private ArrayList<String> commodity;
+	private ArrayList<String> type;
+	private ArrayList<String> client;
+	private ArrayList<String> account;
+	public InitialPO(){
 	}
-	public String getID(){
+	public InitialPO(String id, ArrayList<String> commodity,
+			ArrayList<String> type, ArrayList<String> client,
+			ArrayList<String> account) {
+		this.id = id;
+		this.commodity = commodity;
+		this.type = type;
+		this.client = client;
+		this.account = account;
+	}
+	public String getId() {
 		return id;
 	}
-	
-	public void setID(String i){
-		this.id=i;
+	public void setId(String id) {
+		this.id = id;
 	}
-	
-	public ArrayList<CommodityPO> getCommodityList(){
+	public ArrayList<String> getCommodity() {
 		return commodity;
 	}
-	
-	public void setCommodityList(ArrayList<CommodityPO> c){
-		this.commodity=c;
+	public void setCommodity(ArrayList<String> commodity) {
+		this.commodity = commodity;
 	}
-	
-	public ArrayList<CommodityTypePO> getCommodityTypeList(){
+	public ArrayList<String> getType() {
 		return type;
 	}
-	
-	public void setCommodityTypeList(ArrayList<CommodityTypePO> c){
-		this.type=c;
+	public void setType(ArrayList<String> type) {
+		this.type = type;
 	}
-	
-	public ArrayList<ClientPO> getClientList(){
+	public ArrayList<String> getClient() {
 		return client;
 	}
-	
-	public void setClientList(ArrayList<ClientPO> c){
-		this.client=c;
+	public void setClient(ArrayList<String> client) {
+		this.client = client;
 	}
-	
-	public ArrayList<AccountPO> getAccountList(){
+	public ArrayList<String> getAccount() {
 		return account;
 	}
-	
-	public void setAccountList(ArrayList<AccountPO> a){
-		this.account=a;
+	public void setAccount(ArrayList<String> account) {
+		this.account = account;
 	}
 }

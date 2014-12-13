@@ -13,6 +13,9 @@ public class UserPO implements java.io.Serializable{
 		this.password = password;
 		this.role = role;
 	}
+	public UserPO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public long getId() {
 		return id;
 	}

@@ -2,8 +2,38 @@ package config;
 import dataservice.*;
 import java.net.*;
 import java.rmi.*;
+import java.io.*;
 public class RMI {
-	public static final String URL="rmi://127.0.0.1:8888";
+	public static final File file=new File("config/URL.txt");//存储URL的文件对象
+	public static final String URL=RMI.getURL();//从文件对象中所获得的URL
+	public static AccountDataService accountdataservice=RMI.getAccountDataService();
+	public static ClientDataService clientdataservice=RMI.getClientDataService();
+	public static CommodityDataService commoditydataservice=RMI.getCommodityDataService();
+	public static CommodityTypeDataService commoditytypedataservice=RMI.getCommodityTypeDataService();
+	public static ExpenseDataService expensedataservice=RMI.getExpenseDataService();
+	public static FinanceDataService financedataservice=RMI.getFinanceDataService();
+	public static InitialDataService initialdataservice=RMI.getInitialDataService();
+	public static PurchaseDataService purchasedataservice=RMI.getPurchaseDataService();
+	public static SalesDataService salesdataservice=RMI.getSalesDataService();
+	public static RecordDataService recorddataservice=RMI.getRecordDataService();
+	public static StockDataService stockdataservice=RMI.getStockDataService();
+	public static StrategyDataService strategydataservice=RMI.getStrategyDataService();
+	public static UserDataService userdataservice=RMI.getUserDataService();
+	public static String getURL(){
+		String output=null;
+		BufferedReader reader=null;
+		try {
+			reader=new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			output=reader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return output;
+	}
 	public static AccountDataService getAccountDataService(){
 		AccountDataService service=null;
 		try {

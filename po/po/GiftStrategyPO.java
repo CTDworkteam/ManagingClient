@@ -2,22 +2,14 @@ package po;
 import java.util.*;
 public class GiftStrategyPO implements java.io.Serializable{
 	public class GiftItemPO implements java.io.Serializable{
-		private CommodityPO commodity;
+		private String commodityID;
 		private String model;
 		private int number;
-		private GiftItemPO next;
-		public GiftItemPO(CommodityPO commodity, String model, int number,
-				GiftItemPO next) {
-			this.commodity = commodity;
-			this.model = model;
-			this.number = number;
-			this.next = next;
+		public String getCommodityID() {
+			return commodityID;
 		}
-		public CommodityPO getCommodity() {
-			return commodity;
-		}
-		public void setCommodity(CommodityPO commodity) {
-			this.commodity = commodity;
+		public void setCommodityID(String commodityID) {
+			this.commodityID = commodityID;
 		}
 		public String getModel() {
 			return model;
@@ -31,25 +23,28 @@ public class GiftStrategyPO implements java.io.Serializable{
 		public void setNumber(int number) {
 			this.number = number;
 		}
-		public GiftItemPO getNext() {
-			return next;
+		public GiftItemPO(){
 		}
-		public void setNext(GiftItemPO next) {
-			this.next = next;
+		public GiftItemPO(String commodityID, String model, int number) {
+			super();
+			this.commodityID = commodityID;
+			this.model = model;
+			this.number = number;
 		}
 	}
 	private String id;
-	private GiftItemPO first;
-	private GiftItemPO last;
-	private ArrayList<ClientPO> clientList;
-	private UserPO operator;
-	public GiftStrategyPO(String id, GiftItemPO first, GiftItemPO last,
-			ArrayList<ClientPO> clientList, UserPO operator) {
+	private ArrayList<GiftItemPO> itemlist;
+	private ArrayList<String> clientList;
+	private String operator;
+	public GiftStrategyPO(String id, String operator,
+			ArrayList<String> clientList, ArrayList<GiftItemPO> itemlist) {
 		this.id = id;
-		this.first = first;
-		this.last = last;
+		this.itemlist = itemlist;
 		this.clientList = clientList;
 		this.operator = operator;
+	}
+	public GiftStrategyPO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
@@ -57,28 +52,22 @@ public class GiftStrategyPO implements java.io.Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public GiftItemPO getFirst() {
-		return first;
+	public ArrayList<GiftItemPO> getItemlist() {
+		return itemlist;
 	}
-	public void setFirst(GiftItemPO first) {
-		this.first = first;
+	public void setItemlist(ArrayList<GiftItemPO> itemlist) {
+		this.itemlist = itemlist;
 	}
-	public GiftItemPO getLast() {
-		return last;
-	}
-	public void setLast(GiftItemPO last) {
-		this.last = last;
-	}
-	public ArrayList<ClientPO> getClientList() {
+	public ArrayList<String> getClientList() {
 		return clientList;
 	}
-	public void setClientList(ArrayList<ClientPO> clientList) {
+	public void setClientList(ArrayList<String> clientList) {
 		this.clientList = clientList;
 	}
-	public UserPO getOperator() {
+	public String getOperator() {
 		return operator;
 	}
-	public void setOperator(UserPO operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
 }

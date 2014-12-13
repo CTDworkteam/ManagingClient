@@ -1,35 +1,33 @@
 package dataservice;
 import java.util.*;
-
 import po.*;
-import po.SalesBillPO.SalesBillItemPO;
-
-import java.rmi.*;
-public interface SalesDataService extends Remote{
-	    public void insert(SalesBillPO po) throws RemoteException;
-	    public boolean contain(String id) throws RemoteException;
-	    public void delete(SalesBillPO po) throws RemoteException;
-	    public void update(SalesBillPO po) throws RemoteException;
-	    public SalesBillPO find1(String id) throws RemoteException;
-	    public SalesReturnBillPO find2(String id) throws RemoteException;
-	    public void insert(SalesReturnBillPO po) throws RemoteException;
-	    public void delete(SalesReturnBillPO po) throws RemoteException;
-	    public void update(SalesReturnBillPO po) throws RemoteException;
-	    public boolean contains1(GregorianCalendar start,GregorianCalendar end) throws RemoteException;
-	    public boolean contains2(GregorianCalendar start,GregorianCalendar end) throws RemoteException;
-	    public TreeSet<SalesBillPO> finds1(GregorianCalendar before,GregorianCalendar after) throws RemoteException;
-	    public TreeSet<SalesReturnBillPO> finds2(GregorianCalendar before,GregorianCalendar after) throws RemoteException;
-	    public TreeMap<String,SalesBillPO> getList1() throws RemoteException;
-	    public String[] getIDs1() throws RemoteException;
-	    public TreeMap<String,SalesReturnBillPO> getList2() throws RemoteException;
-	    public String[] getIDs2() throws RemoteException;
-	    public boolean hasBills() throws RemoteException;
-	    public boolean hasReturnBills() throws RemoteException;
-		public boolean containCommodity(String commodity) throws RemoteException;
-		public ArrayList<SalesBillItemPO> findCommodity1(String commodity) throws RemoteException;
-		public boolean containsClient(ClientPO po) throws RemoteException;
-		public ArrayList<SalesBillPO> findClient1(ClientPO po) throws RemoteException;
-		public boolean containsOperator(UserPO po) throws RemoteException;
-		public ArrayList<SalesBillPO> findOperator(UserPO po) throws RemoteException;
+public interface SalesDataService {
+	   public void insert(SalesBillPO po);
+	    public boolean contain(String id);
+	    public void delete(SalesBillPO po);
+	    public void update(SalesBillPO po);
+	    public SalesBillPO find1(String id);
+	    public SalesReturnBillPO find2(String id);
+	    public void insert(SalesReturnBillPO po);
+	    public void delete(SalesReturnBillPO po);
+	    public void update(SalesReturnBillPO po);
+	    public boolean contains1(GregorianCalendar start,GregorianCalendar end);
+	    public boolean contains2(GregorianCalendar start,GregorianCalendar end);
+	    public Iterator<SalesBillPO> finds1(GregorianCalendar before,GregorianCalendar after);
+	    public Iterator<SalesReturnBillPO> finds2(GregorianCalendar before,GregorianCalendar after);
+	    public TreeMap<String,SalesBillPO> getList1();
+	    public ArrayList<String> getIDs1();
+	    public TreeMap<String,SalesReturnBillPO> getList2();
+	    public ArrayList<String> getIDs2();
+	    public boolean hasBills();
+	    public boolean hasReturnBills();
+	    public boolean containCommodity(String commodityID);
+	    public Iterator<SalesBillPO> findCommodity1(String commodityID);
+	    public boolean containsClient(long id);
+	    public Iterator<SalesBillPO> findClient1(long id);
+	    public boolean containsOperator(String name);
+	    public Iterator<SalesBillPO> findOperator(String name);
+	    
+	    public void init();
+	    public void save();
 }
-

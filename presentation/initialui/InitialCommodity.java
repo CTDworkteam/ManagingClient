@@ -1,5 +1,6 @@
 package initialui;
 import javax.swing.*;
+
 import java.awt.*;
 
 public class InitialCommodity {
@@ -26,5 +27,4 @@ public class InitialCommodity {
 		panelCommodity.add(button);
 		panelCommodity.add(scroller);
 	}
-
 }

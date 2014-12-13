@@ -51,5 +51,4 @@ public class Initialui {
 			inew.go();
 		}
 	}
-
 }

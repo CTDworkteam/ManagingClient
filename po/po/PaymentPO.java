@@ -1,22 +1,22 @@
 package po;
-
 import java.util.ArrayList;
-
 public class PaymentPO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
-	private UserPO operator;
-	private ClientPO client;
+	private String operator;
+	private long clientID;
 	private ArrayList<PaymentItemPO> list;
 	private double total;
-	public PaymentPO(String id, UserPO operator, ClientPO client,
-			ArrayList<PaymentItemPO> list, double total) {
+	public PaymentPO(){
+	}
+	public PaymentPO(boolean isPassed, String id, String operator,
+			long clientID, ArrayList<PaymentItemPO> list, double total) {
+		this.isPassed = isPassed;
 		this.id = id;
 		this.operator = operator;
-		this.client = client;
+		this.clientID = clientID;
 		this.list = list;
 		this.total = total;
-		this.isPassed=false;
 	}
 	public boolean isPassed() {
 		return isPassed;
@@ -30,17 +30,17 @@ public class PaymentPO implements java.io.Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public UserPO getOperator() {
+	public String getOperator() {
 		return operator;
 	}
-	public void setOperator(UserPO operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	public ClientPO getClient() {
-		return client;
+	public long getClientID() {
+		return clientID;
 	}
-	public void setClient(ClientPO client) {
-		this.client = client;
+	public void setClientID(long clientID) {
+		this.clientID = clientID;
 	}
 	public ArrayList<PaymentItemPO> getList() {
 		return list;
@@ -55,19 +55,20 @@ public class PaymentPO implements java.io.Serializable{
 		this.total = total;
 	}
 	public class PaymentItemPO implements java.io.Serializable{
-		private AccountPO account;
+		private String account;
 		private double money;
 		private String note;
-		public PaymentItemPO(AccountPO account, double money, String note) {
-			super();
+		public PaymentItemPO(){
+		}
+		public PaymentItemPO(String account, double money, String note) {
 			this.account = account;
 			this.money = money;
 			this.note = note;
 		}
-		public AccountPO getAccount() {
+		public String getAccount() {
 			return account;
 		}
-		public void setAccount(AccountPO account) {
+		public void setAccount(String account) {
 			this.account = account;
 		}
 		public double getMoney() {
@@ -83,5 +84,4 @@ public class PaymentPO implements java.io.Serializable{
 			this.note = note;
 		}
 	}
-
 }

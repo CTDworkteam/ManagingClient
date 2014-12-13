@@ -4,19 +4,26 @@ public class UnderflowBillPO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
 	private String storehouse;
-	private CommodityPO commodity;
+	private String commodityID;
 	private String model;
 	private int recordNumber;
 	private int actualNumber;
-	public UnderflowBillPO(String id, String storehouse, CommodityPO commodity,
-			String model, int recordNumber, int actualNumber) {
+	private String operator;
+	private String note;
+	public UnderflowBillPO(){
+	}
+	public UnderflowBillPO(boolean isPassed, String id, String storehouse,
+			String commodityID, String model, int recordNumber,
+			int actualNumber, String operator, String note) {
+		this.isPassed = isPassed;
 		this.id = id;
 		this.storehouse = storehouse;
-		this.commodity = commodity;
+		this.commodityID = commodityID;
 		this.model = model;
 		this.recordNumber = recordNumber;
 		this.actualNumber = actualNumber;
-		this.isPassed=false;
+		this.operator = operator;
+		this.note = note;
 	}
 	public boolean isPassed() {
 		return isPassed;
@@ -36,11 +43,11 @@ public class UnderflowBillPO implements java.io.Serializable{
 	public void setStorehouse(String storehouse) {
 		this.storehouse = storehouse;
 	}
-	public CommodityPO getCommodity() {
-		return commodity;
+	public String getCommodityID() {
+		return commodityID;
 	}
-	public void setCommodity(CommodityPO commodity) {
-		this.commodity = commodity;
+	public void setCommodityID(String commodityID) {
+		this.commodityID = commodityID;
 	}
 	public String getModel() {
 		return model;
@@ -59,5 +66,17 @@ public class UnderflowBillPO implements java.io.Serializable{
 	}
 	public void setActualNumber(int actualNumber) {
 		this.actualNumber = actualNumber;
+	}
+	public String getOperator() {
+		return operator;
+	}
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 }

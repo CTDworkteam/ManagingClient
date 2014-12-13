@@ -1,19 +1,21 @@
 package po;
-
 import java.util.ArrayList;
-
+import po.PurchaseBillPO.PurchaseBillItemPO;
 public class PurchaseReturnBillPO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
-	private ClientPO supplier;
+	private String supplier;
 	private String storehouse;
-	private UserPO operator;
+	private String operator;
 	private ArrayList<PurchaseReturnBillItemPO> list;
 	private double total;
-	private String note;	
-	public PurchaseReturnBillPO(String id, ClientPO supplier, String storehouse,
-			UserPO operator, ArrayList<PurchaseReturnBillItemPO> list, double total,
-			String note) {
+	private String note;
+	public PurchaseReturnBillPO(){
+	}
+	public PurchaseReturnBillPO(boolean isPassed, String id, String supplier,
+			String storehouse, String operator,
+			ArrayList<PurchaseReturnBillItemPO> list, double total, String note) {
+		this.isPassed = isPassed;
 		this.id = id;
 		this.supplier = supplier;
 		this.storehouse = storehouse;
@@ -21,7 +23,6 @@ public class PurchaseReturnBillPO implements java.io.Serializable{
 		this.list = list;
 		this.total = total;
 		this.note = note;
-		this.isPassed=false;
 	}
 	public boolean isPassed() {
 		return isPassed;
@@ -35,10 +36,10 @@ public class PurchaseReturnBillPO implements java.io.Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public ClientPO getSupplier() {
+	public String getSupplier() {
 		return supplier;
 	}
-	public void setSupplier(ClientPO supplier) {
+	public void setSupplier(String supplier) {
 		this.supplier = supplier;
 	}
 	public String getStorehouse() {
@@ -47,10 +48,10 @@ public class PurchaseReturnBillPO implements java.io.Serializable{
 	public void setStorehouse(String storehouse) {
 		this.storehouse = storehouse;
 	}
-	public UserPO getOperator() {
+	public String getOperator() {
 		return operator;
 	}
-	public void setOperator(UserPO operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
 	public ArrayList<PurchaseReturnBillItemPO> getList() {
@@ -72,26 +73,28 @@ public class PurchaseReturnBillPO implements java.io.Serializable{
 		this.note = note;
 	}
 	public class PurchaseReturnBillItemPO implements java.io.Serializable{
-		private CommodityPO commodity;
+		private String commodityID;
 		private String model;
 		private int number;
 		private double price;
 		private double total;
 		private String note;
-		public PurchaseReturnBillItemPO(CommodityPO commodity,String model,int number,
-				double price,String note){
-			this.commodity=commodity;
-			this.model=model;
-			this.number=number;
-			this.price=price;
-			this.note=note;
-			this.total=price*(double)number;
+		public PurchaseReturnBillItemPO(){
 		}
-		public CommodityPO getCommodity() {
-			return commodity;
+		public PurchaseReturnBillItemPO(String commodityID, String model, int number,
+				double price, double total, String note) {
+			this.commodityID = commodityID;
+			this.model = model;
+			this.number = number;
+			this.price = price;
+			this.total = total;
+			this.note = note;
 		}
-		public void setCommodity(CommodityPO commodity) {
-			this.commodity = commodity;
+		public String getCommodityID() {
+			return commodityID;
+		}
+		public void setCommodityID(String commodityID) {
+			this.commodityID = commodityID;
 		}
 		public String getModel() {
 			return model;

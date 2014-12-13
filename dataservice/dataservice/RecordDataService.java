@@ -1,10 +1,12 @@
 package dataservice;
-import java.rmi.*;
+import java.util.Iterator;
 import po.*;
-import java.util.*;
-import enumType.*;
-public interface RecordDataService extends Remote{
-	public void insert(RecordPO po) throws RemoteException;
-	public TreeMap<RecordType,TreeSet<RecordPO> > list() throws RemoteException;
-	public boolean isEmpty() throws RemoteException;
+import enumType.ResultMessage;
+public interface RecordDataService {
+	public ResultMessage addRecord(BillRecordPO po);
+	public ResultMessage addRecord(DataModifyRecordPO po);
+	public Iterator<BillRecordPO> getBillRecordList();
+	public Iterator<DataModifyRecordPO> getDataModifyRecordList();
+	public void init();
+	public void save();
 }

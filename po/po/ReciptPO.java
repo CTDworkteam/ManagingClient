@@ -5,18 +5,20 @@ import java.util.ArrayList;
 public class ReciptPO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
-	private ClientPO client;
-	private UserPO operator;
+	private long clientID;
+	private String operator;
 	private ArrayList<ReciptItemPO> list;
 	private double total;
-	public ReciptPO(String id, ClientPO client, UserPO operator,
-			ArrayList<ReciptItemPO> list, double total) {
+	public ReciptPO(){
+	}
+	public ReciptPO(boolean isPassed, String id, long clientID,
+			String operator, ArrayList<ReciptItemPO> list, double total) {
+		this.isPassed = isPassed;
 		this.id = id;
-		this.client = client;
+		this.clientID = clientID;
 		this.operator = operator;
 		this.list = list;
 		this.total = total;
-		this.isPassed=false;
 	}
 	public boolean isPassed() {
 		return isPassed;
@@ -30,16 +32,16 @@ public class ReciptPO implements java.io.Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public ClientPO getClient() {
-		return client;
+	public long getClientID() {
+		return clientID;
 	}
-	public void setClient(ClientPO client) {
-		this.client = client;
+	public void setClientID(long clientID) {
+		this.clientID = clientID;
 	}
-	public UserPO getOperator() {
+	public String getOperator() {
 		return operator;
 	}
-	public void setOperator(UserPO operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
 	public ArrayList<ReciptItemPO> getList() {
@@ -55,18 +57,20 @@ public class ReciptPO implements java.io.Serializable{
 		this.total = total;
 	}
 	public class ReciptItemPO implements java.io.Serializable{
-		private AccountPO account;
+		private String account;
 		private double money;
 		private String note;
-		public ReciptItemPO(AccountPO account, double money, String note) {
+		public ReciptItemPO(){
+		}
+		public ReciptItemPO(String account, double money, String note) {
 			this.account = account;
 			this.money = money;
 			this.note = note;
 		}
-		public AccountPO getAccount() {
+		public String getAccount() {
 			return account;
 		}
-		public void setAccount(AccountPO account) {
+		public void setAccount(String account) {
 			this.account = account;
 		}
 		public double getMoney() {
@@ -81,6 +85,5 @@ public class ReciptPO implements java.io.Serializable{
 		public void setNote(String note) {
 			this.note = note;
 		}
-		
 	}
 }

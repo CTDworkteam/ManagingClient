@@ -1,18 +1,17 @@
 package dataservice;
-import java.util.*;
-import java.rmi.*;
-
 import po.*;
-import object.*;
-public interface CommodityTypeDataService extends Remote{
-	public void insertCommodityType(CommodityTypePO po) throws RemoteException;
-	public boolean containCommdityType(String id) throws RemoteException;
-	public CommodityTypePO findCommodityType(String id) throws RemoteException;
-	public boolean containCommodityTypes(String keyword) throws RemoteException;
-	public TreeSet<CommodityTypePO> findCommodityTypes(String keyword) throws RemoteException;
-	public void deleteCommodityType(CommodityTypePO po) throws RemoteException;
-	public void updateCommodityType(CommodityTypePO po) throws RemoteException;
-	public TypeTree<CommodityTypePO> getTree() throws RemoteException;
-	public boolean hasCommodityType() throws RemoteException;
-	public CommodityTypePO findCommodityTypeInName(String type) throws RemoteException;
+import java.util.*;
+public interface CommodityTypeDataService {
+	public void insert(CommodityTypePO po);
+	public void delete(CommodityTypePO po);
+	public void update(CommodityTypePO po);
+	public boolean containInID(String id);
+	public boolean containInKey(String key);
+	public CommodityTypePO findByName(String name);
+	public CommodityTypePO findByID(String ID);
+	public Iterator<CommodityTypePO> findByKeyword(String key);
+	public Iterator<CommodityTypePO> getAllCommodityTypes();
+	public boolean hasCommodityType();
+	public void init();
+	public void save();
 }
