@@ -1,6 +1,7 @@
 package strategybl;
 import java.util.*;
 
+import blservice.StrategyBLService;
 import config.RMI;
 import po.*;
 import vo.*;
@@ -165,5 +166,75 @@ public class Strategy{
 			ex.printStackTrace();
 			return null;
 		}
+	}
+	@Override
+	public ResultMessage setGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage executeVoucher(VoucherStrategyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage executeDiscount(DiscountStrategyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage executeCombination(CombinationStrategyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage executeGift(GiftStrategyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage executeGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage deleteDiscount(DiscountStrategyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage deleteCombination(CombinationStrategyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ResultMessage deleteGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<DiscountStrategyVO> getAllDiscounts() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<VoucherStrategyVO> getAllVouchers() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<CombinationStrategyVO> getAllCombinations() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<GiftStrategyVO> getAllGifts() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<GiftBasedOnTotalMoneyVO> getAllGBOTMs() {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 }

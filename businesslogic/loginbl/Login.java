@@ -1,8 +1,9 @@
 package loginbl;
+import blservice.LoginBLservice;
 import config.RMI;
 import dataservice.UserDataService;
 import enumType.*;
-public class Login {
+public class Login{
 	public long id;
 	public String password;
 	public Login(){

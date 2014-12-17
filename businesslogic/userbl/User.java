@@ -152,4 +152,9 @@ public class User{
 				po.getRole());
 		return vo;
 	}
+	@Override
+	public ResultMessage checkRegister(RegisterInfoVO info) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
 }

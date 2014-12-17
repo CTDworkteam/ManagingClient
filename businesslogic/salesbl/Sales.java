@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.rmi.Naming;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
+import blservice.SalesBLService;
 import config.RMI;
 import po.*;
 import vo.*;
@@ -264,5 +266,27 @@ public class Sales{
 			ex.printStackTrace();
 			return null;
 		}
+	}
+	@Override
+	public ArrayList<SalesBillVO> findBills(GregorianCalendar before,
+			GregorianCalendar after) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<SalesReturnBillVO> findReturnBills(
+			GregorianCalendar before, GregorianCalendar after) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<SalesBillVO> getAllBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<SalesReturnBillVO> getAllReturnBills() {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 }
