@@ -70,7 +70,7 @@ public class Expense {
 		}
 	}
 	
-	public ResultMessage execute(ExpenseVO vo){
+/*	public ResultMessage execute(ExpenseVO vo){
 		try{
 			ExpenseDataService service = RMI.getExpenseDataService();
 			AccountDataService account = RMI.getAccountDataService();
@@ -86,8 +86,16 @@ public class Expense {
 			ex.printStackTrace();
 			return ResultMessage.Failure;
 		}
+	}*/
+	public ExpenseVO find(String id){
+		return null;
 	}
-
+	public ArrayList<ExpenseVO> findByCalendar(GregorianCalendar before,GregorianCalendar after){
+		return null;
+	}
+	public ArrayList<ExpenseVO> getList(){
+		return null;
+	}
 	private ExpensePO exchange(ExpenseVO vo){
 		try{
 			UserDataService service=RMI.getUserDataService();

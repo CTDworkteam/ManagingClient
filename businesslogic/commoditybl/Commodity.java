@@ -203,6 +203,10 @@ public class Commodity{
 			}
 		}
 	}
+	public ArrayList<CommodityVO> getAllCommodity(){
+		return null;
+		
+	}
 	private CommodityModelVO exchange(String commodityID,CommodityPO.CommodityModelPO po) {
 		CommodityModelVO vo=new CommodityModelVO();
 		vo.setCommodity(commodityID);

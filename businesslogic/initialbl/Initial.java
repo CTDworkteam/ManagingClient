@@ -3,6 +3,8 @@ package initialbl;
 import java.rmi.Naming;
 import java.util.ArrayList;
 
+import object.TypeTree;
+import blservice.InitialBLService;
 import po.AccountPO;
 import po.ClientPO;
 import po.CommodityModelPO;
@@ -12,6 +14,7 @@ import po.InitialPO;
 import vo.AccountVO;
 import vo.ClientVO;
 import vo.CommodityModelVO;
+import vo.CommodityTypeVO;
 import vo.CommodityVO;
 import vo.InitialVO;
 import clientbl.Client;
@@ -26,7 +29,7 @@ import dataservice.CommodityTypeDataService;
 import dataservice.InitialDataService;
 import enumType.ResultMessage;
 
-public class Initial {
+public class Initial{
 	public ArrayList<Commodity> commodity=new ArrayList<Commodity>();
 	public ArrayList<CommodityType> type=new ArrayList<CommodityType>();
 	public ArrayList<Client> client=new ArrayList<Client>();
@@ -211,5 +214,17 @@ public AccountPO exchange(AccountVO vo) {   //该方法用于将VO对象转化为PO对象
 public AccountVO exchange(AccountPO po){   //该方法用于将PO对象转化为VO对象
 	AccountVO vo = new AccountVO(po.getId(),po.getName(),po.getMoney());
 	return vo;
+}
+
+@Override
+public ResultMessage addCommodityType(TypeTree<CommodityTypeVO> tree) {
+	// TODO 自动生成的方法存根
+	return null;
+}
+
+@Override
+public ArrayList<InitialVO> getList() {
+	// TODO 自动生成的方法存根
+	return null;
 }
 }

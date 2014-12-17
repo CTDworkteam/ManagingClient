@@ -1,5 +1,6 @@
 package commoditytypebl;
 import java.util.*;
+
 import commoditybl.*;
 import config.RMI;
 import po.*;

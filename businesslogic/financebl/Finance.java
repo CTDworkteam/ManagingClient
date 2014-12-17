@@ -112,7 +112,7 @@ public class Finance {
 		}
 	}
 	
-	public ResultMessage executeBill(ReciptVO bill){
+	/*public ResultMessage executeBill(ReciptVO bill){
 		try{
 			FinanceDataService service = RMI.getFinanceDataService();
 			AccountDataService account = RMI.getAccountDataService();
@@ -132,9 +132,9 @@ public class Finance {
 			ex.printStackTrace();
 			return ResultMessage.Failure;
 		}
-	}
+	}*/
 	
-	public ResultMessage executeReturnBill(PaymentVO bill){
+	/*public ResultMessage executeReturnBill(PaymentVO bill){
 		try{
 			FinanceDataService service = RMI.getFinanceDataService();
 			AccountDataService account = RMI.getAccountDataService();
@@ -154,8 +154,25 @@ public class Finance {
 			ex.printStackTrace();
 			return ResultMessage.Failure;
 		}
+	}*/
+	public ReciptVO findRecipt(String id){
+		return null;
 	}
-	
+	public PaymentVO findPayment(String id){
+		return null;
+	}
+	public ArrayList<ReciptVO> findRecipts(GregorianCalendar before,GregorianCalendar after){
+		return null;
+	}
+	public ArrayList<PaymentVO> findPayments(GregorianCalendar before,GregorianCalendar after){
+		return null;
+	}
+	public ArrayList<ReciptVO> getAllRecipts(){
+		return null;
+	}
+	public ArrayList<PaymentVO> getAllPayments(){
+		return null;
+	}
 	private PaymentPO exchange(PaymentVO vo){
 		try{
 			UserDataService service=RMI.getUserDataService();

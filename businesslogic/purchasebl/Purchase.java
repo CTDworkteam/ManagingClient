@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.rmi.Naming;
 import java.util.*;
 
+import blservice.PurchaseBLService;
 import config.RMI;
 import po.ClientPO;
 import po.CommodityPO;
@@ -266,5 +267,27 @@ private PurchaseReturnBillPO exchange(PurchaseReturnBillVO vo){
 		ex.printStackTrace();
 		return null;
 	}
+}
+@Override
+public ArrayList<PurchaseBillVO> findBills(GregorianCalendar before,
+		GregorianCalendar after) {
+	// TODO 自动生成的方法存根
+	return null;
+}
+@Override
+public ArrayList<PurchaseReturnBillVO> findReturnBills(
+		GregorianCalendar before, GregorianCalendar after) {
+	// TODO 自动生成的方法存根
+	return null;
+}
+@Override
+public ArrayList<PurchaseBillVO> getAllBills() {
+	// TODO 自动生成的方法存根
+	return null;
+}
+@Override
+public ArrayList<PurchaseReturnBillVO> getAllReturnBills() {
+	// TODO 自动生成的方法存根
+	return null;
 }
 }

@@ -26,7 +26,7 @@ import userbl.*;
 import vo.StockCheckListVO;
 import vo.StockCommodityListVO;
 import blservice.*;
-public class StockCheck {
+public class StockCheck{
 	public User operator;
 	public StockCheckListVO check(String storehouse, GregorianCalendar start,
 			GregorianCalendar end){
