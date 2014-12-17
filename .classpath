@@ -8,6 +8,5 @@
 	<classpathentry kind="src" path="businesslogicservice"/>
 	<classpathentry kind="src" path="vo"/>
 	<classpathentry kind="src" path="businesslogic"/>
-	<classpathentry kind="src" path="UserInterface"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
