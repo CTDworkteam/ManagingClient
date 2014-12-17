@@ -7,7 +7,7 @@ import dataservice.AccountDataService;
 import enumType.ResultMessage;
 import po.*;
 import vo.AccountVO;
-public class Account {
+public class Account {  //
 	public long id;
 	public String name;
 	public double money;
