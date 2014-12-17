@@ -16,227 +16,196 @@ import enumType.ResultMessage;
 public class Commodity{
 	public Commodity(){
 	}
-	/*public ResultMessage addCommodity(CommodityVO vo);
-	public ResultMessage deleteCommodity(CommodityVO vo);
-	public ResultMessage updateCommodity(CommodityVO vo);
-	public ResultMessage addModel(CommodityModelVO model);
-	public ResultMessage deleteModel(CommodityVO commodity,String modelName);
-	public ResultMessage updateModel(String beforeName,CommodityModelVO vo);
-	public CommodityVO findCommodityByID(String id);
-	public CommodityVO findCommodityByName(String name);
+	/*
 	public ArrayList<CommodityVO> findCommodityInKeyword(String key);
-	public CommodityModelVO getModel(CommodityVO vo,String model);*/
+	public CommodityModelVO getModel(String commodityID,String model);*/
 	public ResultMessage addCommodity(CommodityVO vo) {      //该方法用于增加商品		
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		}
-		CommodityDataService service=null;
-		try {
-			service=factory.getCommodityDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		}
-		if(service.containInId(vo.getId())||service.containInName(vo.getName())){
+		CommodityDataService service=RMI.getCommodityDataService();
+		CommodityTypeDataService typeservice=RMI.getCommodityTypeDataService();
+		if(service==null||typeservice==null){
 			return ResultMessage.Failure;
 		}
 		else{
-			try {
-				CommodityTypeDataService typeservice=factory.getCommodityTypeDataService();
-				if(!typeservice.findByID(vo.getType()).isLeafNode()){
-					return ResultMessage.Failure;
-				}
-				else{
-					service.insert(exchange(vo));
-					return ResultMessage.Success;
-				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
+			if(typeservice.findByID(vo.getId().substring(0,11)).isLeafNode()==false){
 				return ResultMessage.Failure;
 			}
-			
+			if(service.containInId(vo.getId())||service.containInName(vo.getName())){
+				return ResultMessage.Failure;
+			}
+			service.insert(exchange(vo));
+			return ResultMessage.Success;
 		}
 	}
 	public ResultMessage deleteCommodity(CommodityVO vo) {		//该方法用于删除商品
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
-		CommodityDataService service=null;
-		try {
-			service=factory.getCommodityDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
+		else{
+			if((!service.containInId(vo.getId()))||(!service.containInName(vo.getName()))){
+				return ResultMessage.Failure;
+			}
+			if(vo.getTotal()!=0){
+				return ResultMessage.Failure;
+			}
+			service.delete(exchange(vo));
+			return ResultMessage.Success;
 		}
 	}
-	
 	public ResultMessage updateCommodity(CommodityVO vo) {		 //该方法用于更新商品
-		try{
-			CommodityDataService service = RMI.getCommodityDataService();
-		
-			if(service.containCommodity(vo.getName())){      //判断是否存在该商品
-				CommodityPO po = exchange(vo);
-				service.updateCommodity(po);
-				return ResultMessage.Success;
-			}
-			return ResultMessage.Failure;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
+		else{
+			if((!service.containInId(vo.getId()))){
+				return ResultMessage.Failure;
+			}
+			service.update(exchange(vo));
+			return ResultMessage.Success;
+		}
 	}
-	
 	public ResultMessage addModel(CommodityModelVO vo){
-		try{
-			CommodityDataService service = RMI.getCommodityDataService();
-			
-			if(service.findCommodityInName(vo.getCommodity())!=null){
-				CommodityPO po=service.findCommodityInName(vo.getCommodity());
-				ArrayList<CommodityModelPO> temp=po.getList();
-				for(int i=0;i<temp.size();i++){
-					if(temp.get(i).getModel().equals(vo.getModel()))
-						return ResultMessage.Failure;
-				}
-				temp.add(exchange(vo));
-				po.setList(temp);
-				service.updateCommodity(po);
-				return ResultMessage.Success;
-			}
-			return ResultMessage.Failure;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
-	}
-	
-	public ResultMessage deleteModel(CommodityModelVO vo){
-		try{
-			CommodityDataService service = RMI.getCommodityDataService();
-			
-			if(service.findCommodityInName(vo.getCommodity())!=null){
-				CommodityPO po=service.findCommodityInName(vo.getCommodity());
-				ArrayList<CommodityModelPO> temp=po.getList();
-				for(int i=0;i<temp.size();i++){
-					if(temp.get(i).getModel().equals(vo.getModel())){
-						temp.remove(i);
-						po.setList(temp);
-						service.updateCommodity(po);
+		else{
+			if(!service.containInId(vo.getCommodity())){
+				return ResultMessage.Failure;
+			}
+			else{
+				CommodityPO po=service.findCommodityInID(vo.getCommodity());
+				Iterator<CommodityPO.CommodityModelPO> iterator=po.getList().iterator();
+				while(iterator.hasNext()){
+					if(iterator.next().getName().equals(vo.getModel())){
+						return ResultMessage.Failure;
+					}
+				}
+				po.getList().add(exchange(vo));
+				service.update(po);
+				return ResultMessage.Success;
+			}
+		}
+		
+	}	
+	public ResultMessage deleteModel(String commodityID,String modelName){
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			if(!service.containInId(commodityID)){
+				return ResultMessage.Failure;
+			}
+			else{
+				CommodityPO po=service.findCommodityInID(commodityID);
+				Iterator<CommodityPO.CommodityModelPO> iterator=po.getList().iterator();
+				while(iterator.hasNext()){
+					if(iterator.next().getName().equals(modelName)){
+						iterator.remove();
 						return ResultMessage.Success;
 					}
 				}
+				return ResultMessage.Failure;
 			}
-			return ResultMessage.Failure;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
-	
 	public ResultMessage updateModel(String beforeName, CommodityModelVO vo){
-		try{
-			CommodityDataService service = RMI.getCommodityDataService();
-			
-			if(service.findCommodityInName(vo.getCommodity())!=null){
-				CommodityPO po=service.findCommodityInName(vo.getCommodity());
-				ArrayList<CommodityModelPO> temp=po.getList();
-				int position=0;
-				for(int i=0;i<temp.size();i++){
-					if(temp.get(i).getModel().equals(beforeName)){
-						return ResultMessage.Failure;
-					}
-					else if(temp.get(i).getModel().equals(vo.getModel()))
-						position=i;
-				}
-				temp.get(position).setModel(beforeName);
-				po.setList(temp);
-				service.updateCommodity(po);
-				return ResultMessage.Success;
-			}
-			return ResultMessage.Failure;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
-	}
-
-	public CommodityVO findCommodityInID(String id) {      //该方法用于查找商品
-		try {
-			CommodityDataService service = RMI.getCommodityDataService();
-			if(service.containCommodity(id)) {
-				CommodityPO po = service.findCommodity(id);
-				CommodityVO vo = exchange(po);
-				return vo;
+		else{
+			if(!service.containInId(vo.getCommodity())){
+				return ResultMessage.Failure;
 			}
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}finally {
-			return null;
-		}
-	}
-	
-	public ArrayList<CommodityVO> findCommodityInKeyword(String key) {     //该方法用于模糊查找商品
-		try{
-			CommodityDataService service = RMI.getCommodityDataService();
-			if(service.containCommodities(key)) {
-				TreeSet<CommodityPO> po = service.findCommodities(key);
-				ArrayList<CommodityVO> vo = new ArrayList<CommodityVO>();
-				Iterator<CommodityPO> i = po.iterator();            //迭代器遍历
-				while(i.hasNext()){
-					vo.add(exchange((CommodityPO) i.next()));
-				}
-				return vo;
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			return null;
-		}
-	}
-	
-	public CommodityModelVO getModel(CommodityVO vo, String model){
-		try{
-			CommodityDataService service = RMI.getCommodityDataService();
-			
-			if(service.containCommodity(vo.getId())){
-				CommodityPO po=service.findCommodity(vo.getId());
-				ArrayList<CommodityModelPO> temp=po.getList();
-				for(int i=0;i<temp.size();i++){
-					if(temp.get(i).getModel().equals(model)){
-						CommodityModelVO m=exchange(temp.get(i));
-						return m;
+			else{
+				CommodityPO po=service.findCommodityInID(vo.getCommodity());
+				Iterator<CommodityPO.CommodityModelPO> iterator=po.getList().iterator();
+				while(iterator.hasNext()){
+					if(iterator.next().equals(beforeName)){
+						iterator.remove();
+						po.getList().add(exchange(vo));
+						service.update(po);
+						return ResultMessage.Success;
 					}
 				}
+				return ResultMessage.Failure;
 			}
+		}
+	}
+	public CommodityVO findCommodityByID(String id){
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
 			return null;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+		}
+		else{
+			if(!service.containInId(id)){
+				return null;
+			}
+			else{
+				CommodityPO po=service.findCommodityInID(id);
+				return exchange(po);
+			}
 		}
 	}
 	public CommodityVO findCommodityByName(String name){
-		
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			if(!service.containInName(name)){
+				return null;
+			}
+			else{
+				return exchange(service.findCommodityInName(name));
+			}
+		}
 	}
-	private CommodityModelVO exchange(CommodityModelPO po) {
+	public ArrayList<CommodityVO> findCommodityInKeyword(String key) {     //该方法用于模糊查找商品
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			if(!service.containInKeyword(key)){
+				return null;
+			}
+			else{
+				ArrayList<CommodityVO> list=new ArrayList<CommodityVO>();
+				Iterator<CommodityPO> iterator=service.findCommoditiesInKeyword(key);
+				while(iterator.hasNext()){
+					list.add(exchange(iterator.next()));
+				}
+				return list;
+			}
+		}
+	}
+	public CommodityModelVO getModel(String commodityID, String model){
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			if(!service.containInId(commodityID)){
+				return null;
+			}
+			else{
+				CommodityPO po=service.findCommodityInID(commodityID);
+				Iterator<CommodityPO.CommodityModelPO> iterator=po.getList().iterator();
+				while(iterator.hasNext()){
+					CommodityPO.CommodityModelPO m=iterator.next();
+					if(m.getName().equals(model)){
+						return exchange(po.getId(),m);
+					}
+				}
+				return null;
+			}
+		}
+	}
+	private CommodityModelVO exchange(String commodityID,CommodityPO.CommodityModelPO po) {
 		CommodityModelVO vo=new CommodityModelVO(po.getName(),po.getModel(),
 				po.getStorehouse(),po.getNoticeNumber(),po.getStock(),
 				po.getPurchasePrice(),po.getRetailPrice(),
@@ -286,7 +255,7 @@ public class Commodity{
 		}
 	}
 	
-	private CommodityModelPO exchange(CommodityModelVO vo) {
+	private CommodityPO.CommodityModelPO exchange(CommodityModelVO vo) {
 		CommodityModelPO po=new CommodityModelPO(vo.getCommodity(),vo.getModel(),
 				vo.getStockNumber(),vo.getStorehouse(),vo.getNoticeNumber(),
 				vo.getPurchasePrice(),vo.getRetailPrice(),

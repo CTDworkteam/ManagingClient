@@ -5,9 +5,9 @@ public class CommodityPO implements java.io.Serializable{
 	private String name;
 	private String typeid;
 	private int total;
-	private ArrayList<CommodityModelPO> list;
+	private ArrayList<CommodityPO.CommodityModelPO> list;
 	public CommodityPO(String id, String name, String type, int total,
-			ArrayList<CommodityModelPO> list) {
+			ArrayList<CommodityPO.CommodityModelPO> list) {
 		this.id = id;
 		this.name = name;
 		this.typeid = type;
