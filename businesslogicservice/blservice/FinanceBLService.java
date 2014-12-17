@@ -25,5 +25,9 @@ public interface FinanceBLService {
 	public ArrayList<PaymentVO> findPayments(GregorianCalendar before,GregorianCalendar after);
 	public ArrayList<ReciptVO> getAllRecipts();
 	public ArrayList<PaymentVO> getAllPayments();
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/master
 }
+=======
+}
+>>>>>>> refs/remotes/origin/master

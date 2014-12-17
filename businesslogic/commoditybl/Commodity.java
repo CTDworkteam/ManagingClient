@@ -203,32 +203,25 @@ public class Commodity{
 		}
 	}
 	private CommodityModelVO exchange(String commodityID,CommodityPO.CommodityModelPO po) {
-		CommodityModelVO vo=new CommodityModelVO(po.getName(),po.getModel(),
-				po.getStorehouse(),po.getNoticeNumber(),po.getStock(),
-				po.getPurchasePrice(),po.getRetailPrice(),
-				po.getRecentPurchasePrice(),po.getRecentRetailPrice());
+		CommodityModelVO vo=new CommodityModelVO();
+		vo.setCommodity(commodityID);
+		vo.setModel(po.getName());
+		vo.setNoticeNumber(po.getNoticeNumber());
+		vo.setPurchasePrice(po.getPurchasePrice());
+		vo.setRecentPurchasePrice(po.getRecentPurchasePrice());
+		vo.setRecentRetailPrice(po.getRecentRetailPrice());
+		vo.setRetailPrice(po.getRetailPrice());
+		vo.setStockNumber(po.getStock());
+		vo.setStorehouse(po.getStorehouse());
 		return vo;
 	}
-
 	public CommodityPO exchange(CommodityVO vo) {        //VO转化为PO
-		try{
-			CommodityTypeDataService service = (CommodityTypeDataService) Naming.lookup("");
-			ArrayList<CommodityModelPO> list=new ArrayList<CommodityModelPO>();
-			ArrayList<CommodityModelVO> list2=vo.getList();
-			for(int i=0;i<list2.size();i++){
-				CommodityModelPO a=new CommodityModelPO(list2.get(i).getCommodity(),list2.get(i).getModel(),list2.get(i).getStockNumber(),
-						list2.get(i).getStorehouse(),list2.get(i).getNoticeNumber(),
-						list2.get(i).getPurchasePrice(),list2.get(i).getRetailPrice(),
-						list2.get(i).getRecentPurchasePrice(),list2.get(i).getRecentRetailPrice());
-				list.add(a);
-			}
-			CommodityTypePO type=service.findCommodityTypeInName(vo.getType());
-			CommodityPO po=new CommodityPO(vo.getId(),vo.getName(),type,vo.getTotal(),list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
+		CommodityPO po=new CommodityPO();
+		po.setId(vo.getId());
+		po.setName(vo.getName());
+		po.setTotal(po.getTotal());
+		po.setType(vo.getType());
+		ArrayList<CommodityPO.CommodityModelPO> list=new ArrayList<CommodityPO.CommodityModelPO>();
 	}
 	
 	public CommodityVO exchange(CommodityPO po){          //PO转化为VO
