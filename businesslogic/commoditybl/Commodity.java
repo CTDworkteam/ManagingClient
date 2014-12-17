@@ -16,9 +16,6 @@ import enumType.ResultMessage;
 public class Commodity{
 	public Commodity(){
 	}
-	/*
-	public ArrayList<CommodityVO> findCommodityInKeyword(String key);
-	public CommodityModelVO getModel(String commodityID,String model);*/
 	public ResultMessage addCommodity(CommodityVO vo) {      //该方法用于增加商品		
 		CommodityDataService service=RMI.getCommodityDataService();
 		CommodityTypeDataService typeservice=RMI.getCommodityTypeDataService();
