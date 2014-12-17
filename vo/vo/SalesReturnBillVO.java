@@ -33,6 +33,9 @@ public class SalesReturnBillVO {
 		this.note = note;
 		this.isPassed=false;
 	}
+	public SalesReturnBillVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public boolean isPassed() {
 		return isPassed;
 	}
@@ -121,6 +124,9 @@ public class SalesReturnBillVO {
 			this.price = price;
 			this.total = total;
 			this.note = note;
+		}
+		public SalesReturnBillItemVO() {
+			// TODO 自动生成的构造函数存根
 		}
 		public String getCommodity() {
 			return commodity;

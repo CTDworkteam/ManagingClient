@@ -17,6 +17,9 @@ public class NoticeBillVO {
 		this.noticeNumber = noticeNumber;
 		this.actualNumber = actualNumber;
 	}
+	public NoticeBillVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getId() {
 		return id;
 	}

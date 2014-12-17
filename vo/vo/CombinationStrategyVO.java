@@ -13,6 +13,9 @@ public class CombinationStrategyVO {
 		this.initialMoney = initialMoney;
 		this.laterMoney = laterMoney;
 	}
+	public CombinationStrategyVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getId() {
 		return id;
 	}
@@ -46,6 +49,9 @@ public class CombinationStrategyVO {
 			this.commodity = commodity;
 			this.model = model;
 			this.number = number;
+		}
+		public CombinationItemVO() {
+			// TODO 自动生成的构造函数存根
 		}
 		public String getCommodity() {
 			return commodity;

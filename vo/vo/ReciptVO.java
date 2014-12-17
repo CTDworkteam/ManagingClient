@@ -19,6 +19,9 @@ public class ReciptVO {
 		this.total = total;
 		this.isPassed=false;
 	}
+	public ReciptVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public boolean isPassed() {
 		return isPassed;
 	}
