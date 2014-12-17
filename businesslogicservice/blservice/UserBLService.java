@@ -10,5 +10,8 @@ public interface UserBLService {
 	public UserVO findUser(long id);
 	public ResultMessage updateUser(UserVO user);
 	public UserListVO getAll();
+<<<<<<< HEAD
+=======
 	
+>>>>>>> refs/remotes/origin/master
 }

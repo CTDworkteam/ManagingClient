@@ -4,9 +4,9 @@
 	<classpathentry kind="src" path="po"/>
 	<classpathentry kind="src" path="utility"/>
 	<classpathentry kind="src" path="dataservice"/>
-	<classpathentry kind="src" path="presentation"/>
 	<classpathentry kind="src" path="businesslogicservice"/>
 	<classpathentry kind="src" path="vo"/>
 	<classpathentry kind="src" path="businesslogic"/>
+	<classpathentry kind="src" path="presentation"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

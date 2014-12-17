@@ -1,8 +1,7 @@
 package loginui;
 import javax.swing.*;
 import java.awt.event.*;
-import financemanagerui.Financemanagerui;
-import managerui.Managerui;
+import mainui.Mainui;
 
 public class Loginui {
 	
@@ -10,10 +9,10 @@ public class Loginui {
 	JPanel panel;
 	JComboBox<String> box;
 	
-	Financemanagerui finance=new Financemanagerui();
-	Managerui manager=new Managerui();
 	Registerui register=new Registerui();
 	FindPasswordui find=new FindPasswordui();
+	
+	Mainui mainui=new Mainui();
 	
 	public void go(){
 		frame=new JFrame();
@@ -74,21 +73,7 @@ public class Loginui {
 	class loginListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			String work=(String) box.getSelectedItem();
-			if(work=="财务人员"){
-				finance.go();
-			}
-			if(work=="进货人员"){
-				
-			}
-			if(work=="库存管理员"){
-				
-			}
-			if(work=="销售人员"){
-				
-			}
-			if(work=="总经理"){
-				manager.go();
-			}
+			mainui.go(work);
 			frame.dispose();
 		}
 	}
