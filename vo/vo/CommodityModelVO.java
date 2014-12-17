@@ -25,6 +25,9 @@ public class CommodityModelVO {
 		this.recentPurchasePrice = recentPurchasePrice;
 		this.recentRetailPrice = recentRetailPrice;
 	}
+	public CommodityModelVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getCommodity() {
 		return commodity;
 	}
