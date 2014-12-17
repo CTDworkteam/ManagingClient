@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
 
+import blservice.*;
 import datafactory.*;
 import config.RMI;
 import po.*;
@@ -251,5 +252,10 @@ public class Commodity{
 				vo.getPurchasePrice(),vo.getRetailPrice(),
 				vo.getRecentPurchasePrice(),vo.getRecentRetailPrice());
 		return po;
+	}
+	@Override
+	public ArrayList<CommodityVO> getAllCommodity() {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 }
