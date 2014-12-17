@@ -3,16 +3,19 @@ import java.util.ArrayList;
 public class CommodityPO implements java.io.Serializable{
 	private String id;
 	private String name;
-	private CommodityTypePO type;
+	private String typeid;
 	private int total;
-	private ArrayList<CommodityModelPO> list;
-	public CommodityPO(String id, String name, CommodityTypePO type, int total,
-			ArrayList<CommodityModelPO> list) {
+	private ArrayList<CommodityPO.CommodityModelPO> list;
+	public CommodityPO(String id, String name, String type, int total,
+			ArrayList<CommodityPO.CommodityModelPO> list) {
 		this.id = id;
 		this.name = name;
-		this.type = type;
+		this.typeid = type;
 		this.total = total;
 		this.list = list;
+	}
+	public CommodityPO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
@@ -26,11 +29,11 @@ public class CommodityPO implements java.io.Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public CommodityTypePO getType() {
-		return type;
+	public String getType() {
+		return typeid;
 	}
-	public void setType(CommodityTypePO type) {
-		this.type = type;
+	public void setType(String type) {
+		this.typeid = type;
 	}
 	public int getTotal() {
 		return total;
@@ -65,6 +68,9 @@ public class CommodityPO implements java.io.Serializable{
 			this.retailPrice = retailPrice;
 			this.recentPurchasePrice = recentPurchasePrice;
 			this.recentRetailPrice = recentRetailPrice;
+		}
+		public CommodityModelPO() {
+			// TODO 自动生成的构造函数存根
 		}
 		public String getName() {
 			return name;

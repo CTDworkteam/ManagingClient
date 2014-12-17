@@ -7,62 +7,27 @@ import vo.PurchaseReturnBillVO;
 import enumType.ResultMessage;
 import blservice.PurchaseBLService;
 
-
-
 public class PurchaseController implements PurchaseBLService{
-
-	@Override
-	public ResultMessage addBill(PurchaseBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+	public Purchase purchase;
+	public PurchaseController(){
+		purchase=new Purchase();
 	}
-
-	@Override
-	public ResultMessage addReturnBill(PurchaseReturnBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-
-	@Override
-	public ResultMessage deleteBill(PurchaseBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-
-	@Override
-	public ResultMessage deleteReturnBill(PurchaseReturnBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-
-	@Override
 	public ResultMessage sendBill(ArrayList<PurchaseBillVO> bills) {
-		// TODO 自动生成的方法存根
-		return null;
+		return purchase.sendBill(bills);
 	}
-
-	@Override
 	public ResultMessage sendReturnBill(ArrayList<PurchaseReturnBillVO> bills) {
-		// TODO 自动生成的方法存根
-		return null;
+		return purchase.sendReturnBill(bills);
 	}
-
-	@Override
-	public ResultMessage save() {
-		// TODO 自动生成的方法存根
-		return null;
+	public ResultMessage save(PurchaseBillVO vo) {
+		return purchase.save(vo);
 	}
-
-	@Override
+	public ResultMessage save(PurchaseReturnBillVO vo) {
+		return purchase.save(vo);
+	}
 	public ResultMessage executeBill(PurchaseBillVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
+		return purchase.executeBill(bill);
 	}
-
-	@Override
 	public ResultMessage executeBill(PurchaseReturnBillVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
+		return purchase.executeBill(bill);
 	}
-	
 }

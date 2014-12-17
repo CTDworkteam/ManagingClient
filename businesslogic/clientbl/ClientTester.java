@@ -1,4 +1,4 @@
-package clientbl;
+/*package clientbl;
 
 import java.util.ArrayList;
 
@@ -52,4 +52,4 @@ public class ClientTester {
     		
     
 	}
-}
+}*/

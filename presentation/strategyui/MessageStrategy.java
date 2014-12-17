@@ -1,18 +1,13 @@
 package strategyui;
 import javax.swing.*;
-import java.awt.event.*;
 
-/*
- * 已有促销策略列表界面
- */
+import java.awt.*;
+
 public class MessageStrategy {
 	
 	public JPanel panel=new JPanel();
 	
 	public MessageStrategy(){
-		
-		JButton button=new JButton("刷新");//刷新已有促销策略列表按钮
-		button.addActionListener(new buttonListener());
 		String[] heading={"实施起始日期","实施结束日期","策略内容"};
 		String[][] data={{"2014/1/2","2014/3/5","*******************************"}};
 		JTable table=new JTable(data,heading);
@@ -25,21 +20,12 @@ public class MessageStrategy {
 		scroller.getViewport().add(table);
 		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		table.getColumnModel().getColumn(2).setPreferredWidth(300);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setSize(new Dimension(460,60));
 		
 		panel.setLayout(null);
-		button.setBounds(330,0,65,25);
-		scroller.setBounds(0,35,410,405);
+		scroller.setBounds(0,0,410,460);
 		
-		panel.add(button);
 		panel.add(scroller);
-	}
-	
-	class buttonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-		}
 	}
 
 }

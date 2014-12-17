@@ -1,4 +1,4 @@
-package clientbl;
+/*package clientbl;
 
 import java.util.ArrayList;
 
@@ -79,4 +79,4 @@ public class MockClient extends Client {
 		list.add(new ClientVO(client[0].id,client[0].name, type, rank, address, address, address, address, amountReserved, amountReserved, amountReserved, address, amountReserved, amountReserved));
 		return list;
 	}
-}
+}*/

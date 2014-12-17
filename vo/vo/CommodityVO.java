@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class CommodityVO {
 	private String id;
 	private String name;
-	private String type;
+	private String type;//commodity type's id
 	private int total;
 	private ArrayList<CommodityModelVO> list;
 	public CommodityVO(String id, String name, String type, int total,
@@ -14,6 +14,9 @@ public class CommodityVO {
 		this.type = type;
 		this.total = total;
 		this.list = list;
+	}
+	public CommodityVO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;

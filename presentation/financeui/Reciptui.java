@@ -3,9 +3,6 @@ import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.*;
 
-/*
- * 制定收款单界面
- */
 public class Reciptui {
 	
 	public JPanel panel=new JPanel();
@@ -14,10 +11,9 @@ public class Reciptui {
 	JTextField fieldMoney;
 	JTextArea text;
 	
+	ReciptConfirm recipt=new ReciptConfirm();
+	
 	public Reciptui(){
-		
-		JButton button=new JButton("刷新");//刷新收款单列表按钮
-		button.addActionListener(new buttonListener());
 		String[] heading={"编号","账户名","转账金额"};
 		String[][] data={{"1","account1","100.0"},{"2","account2","200,0"}};
 		JTable table=new JTable(data,heading);
@@ -48,8 +44,7 @@ public class Reciptui {
 		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		
 		panel.setLayout(null);
-		button.setBounds(20,10,65,25);
-		scrollTable.setBounds(20,50,230,360);
+		scrollTable.setBounds(20,10,230,400);
 		labelNew.setBounds(400,10,100,25);
 		labelCustomer.setBounds(250,45,100,25);
 		fieldCustomer.setBounds(360,45,150,25);
@@ -62,7 +57,6 @@ public class Reciptui {
 		buttonCancel.setBounds(500,380,65,25);
 		buttonOkay.setBounds(400,380,65,25);
 		
-		panel.add(button);
 		panel.add(scrollTable);
 		panel.add(labelNew);
 		panel.add(labelCustomer);
@@ -78,15 +72,8 @@ public class Reciptui {
 		panel.add(buttonOkay);
 	}
 	
-	class buttonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-		}
-	}
-	
 	class cancelListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			//将输入的内容清空
 			fieldCustomer.setText(null);
 			fieldAccount.setText(null);
 			fieldMoney.setText(null);
@@ -96,7 +83,6 @@ public class Reciptui {
 	
 	class okayListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			ReciptConfirm recipt=new ReciptConfirm();
 			recipt.go();
 		}
 	}

@@ -5,46 +5,27 @@ import java.util.ArrayList;
 import vo.ClientVO;
 import enumType.ResultMessage;
 import blservice.ClientBLService;
-
-
-
 public class ClientController implements ClientBLService{
-
-	@Override
+	public Client client;
+	public ClientController(){
+		client=new Client();
+	}
 	public ResultMessage add(ClientVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return client.add(vo);
 	}
-
-	@Override
 	public ResultMessage delete(ClientVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return client.delete(vo);
 	}
-
-	@Override
 	public ResultMessage update(ClientVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return client.update(vo);
 	}
-
-	@Override
 	public ClientVO find(String id) {
-		// TODO 自动生成的方法存根
-		return null;
+		return client.find(id);
 	}
-
-	@Override
 	public ArrayList<ClientVO> finds(String key) {
-		// TODO 自动生成的方法存根
-		return null;
+		return client.finds(key);
 	}
-
-	@Override
 	public ArrayList<ClientVO> getList() {
-		// TODO 自动生成的方法存根
-		return null;
+		return client.getList();
 	}
-	
 }
-

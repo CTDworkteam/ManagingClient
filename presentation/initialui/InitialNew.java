@@ -1,9 +1,10 @@
 package initialui;
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.awt.event.*;
 
-public class InitialNew{
+public class InitialNew implements ChangeListener{
 	
 	JFrame frame;
 	JPanel panel;
@@ -12,8 +13,8 @@ public class InitialNew{
 	InitialAccount account=new InitialAccount();
 	InitialClient client=new InitialClient();
 	InitialCommodity commodity=new InitialCommodity();
-
-	public void go() {
+	
+	public void go(){
 		frame=new JFrame();
 		panel=new JPanel();
 		
@@ -40,7 +41,12 @@ public class InitialNew{
 		buttonSave.setBounds(700,10,65,25);
 		tab.setBounds(30,50,820,500);
 		
-		tab.addChangeListener(new tabChangeListener());
+		tab.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e){
+				int selectedIndex=tab.getSelectedIndex();
+				tab.getToolTipTextAt(selectedIndex);
+			}
+		});
 		
 		panel.add(buttonCancel);
 		panel.add(buttonSave);
@@ -48,14 +54,12 @@ public class InitialNew{
 		
 		frame.getContentPane().add(panel);
 		frame.setVisible(true);
-	
 	}
-	
-	class tabChangeListener implements ChangeListener{
-		public void stateChanged(ChangeEvent e){
-			int selectedIndex=tab.getSelectedIndex();
-			tab.getToolTipTextAt(selectedIndex);
-		}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	class saveListener implements ActionListener{
@@ -69,5 +73,4 @@ public class InitialNew{
 			frame.dispose();
 		}
 	}
-
 }

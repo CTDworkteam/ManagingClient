@@ -5,88 +5,82 @@ import java.util.ArrayList;
 public class GiftBillPO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
-	private ClientPO client;
+	private long clientID;
 	private String storehouse;
-	private UserPO operator;
+	private String operator;
 	private ArrayList<GiftBillItemPO> list;
-	public GiftBillPO(String id, ClientPO client, String storehouse,
-			UserPO operator, ArrayList<GiftBillItemPO> list) {
-		this.id = id;
-		this.client = client;
-		this.storehouse = storehouse;
-		this.operator = operator;
-		this.list = list;
-		this.isPassed=false;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public ClientPO getClient() {
-		return client;
-	}
-
-	public void setClient(ClientPO client) {
-		this.client = client;
-	}
-
-	public String getStorehouse() {
-		return storehouse;
-	}
-
-	public void setStorehouse(String storehouse) {
-		this.storehouse = storehouse;
-	}
-
-	public UserPO getOperator() {
-		return operator;
-	}
-
-	public void setOperator(UserPO operator) {
-		this.operator = operator;
-	}
-
-	public ArrayList<GiftBillItemPO> getList() {
-		return list;
-	}
-
-	public void setList(ArrayList<GiftBillItemPO> list) {
-		this.list = list;
-	}
-
+	private String note;
 	public boolean isPassed() {
 		return isPassed;
 	}
-
 	public void setPassed(boolean isPassed) {
 		this.isPassed = isPassed;
 	}
-
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public long getClientID() {
+		return clientID;
+	}
+	public void setClientID(long clientID) {
+		this.clientID = clientID;
+	}
+	public String getStorehouse() {
+		return storehouse;
+	}
+	public void setStorehouse(String storehouse) {
+		this.storehouse = storehouse;
+	}
+	public String getOperator() {
+		return operator;
+	}
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+	public ArrayList<GiftBillItemPO> getList() {
+		return list;
+	}
+	public void setList(ArrayList<GiftBillItemPO> list) {
+		this.list = list;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+	public GiftBillPO(boolean isPassed, String id, long clientID,
+			String storehouse, String operator, ArrayList<GiftBillItemPO> list,
+			String note) {
+		this.isPassed = isPassed;
+		this.id = id;
+		this.clientID = clientID;
+		this.storehouse = storehouse;
+		this.operator = operator;
+		this.list = list;
+		this.note = note;
+	}
+	public GiftBillPO(){
+	}
 	public class GiftBillItemPO implements java.io.Serializable{
-		private CommodityPO commodity;
+		private String commodityID;
 		private String model;
 		private int number;
-		public GiftBillItemPO(CommodityPO commodity, String model,int number) {
-			this.commodity = commodity;
+		public GiftBillItemPO(){
+		}
+		public GiftBillItemPO(String commodityID, String model, int number) {
+			this.commodityID = commodityID;
+			this.model = model;
 			this.number = number;
-			this.model=model;
 		}
-		public CommodityPO getCommodity() {
-			return commodity;
+		public String getCommodityID() {
+			return commodityID;
 		}
-		public void setCommodity(CommodityPO commodity) {
-			this.commodity = commodity;
-		}
-		public int getNumber() {
-			return number;
-		}
-		public void setNumber(int number) {
-			this.number = number;
+		public void setCommodityID(String commodityID) {
+			this.commodityID = commodityID;
 		}
 		public String getModel() {
 			return model;
@@ -94,7 +88,12 @@ public class GiftBillPO implements java.io.Serializable{
 		public void setModel(String model) {
 			this.model = model;
 		}
+		public int getNumber() {
+			return number;
+		}
+		public void setNumber(int number) {
+			this.number = number;
+		}
 	}
-
 }
 

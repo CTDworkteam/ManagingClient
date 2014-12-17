@@ -5,12 +5,15 @@ public class GiftBasedOnTotalMoneyPO {
 	private double lower;
 	private double upper;
 	private ArrayList<GBOTMItemPO> list;
-	public GiftBasedOnTotalMoneyPO(double lower, double upper,
+	public GiftBasedOnTotalMoneyPO(String id,double lower, double upper,
 			ArrayList<GBOTMItemPO> list) {
-		super();
+		this.id=id;
 		this.lower = lower;
 		this.upper = upper;
 		this.list = list;
+	}
+	public GiftBasedOnTotalMoneyPO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getID(){
 		return id;
@@ -37,19 +40,27 @@ public class GiftBasedOnTotalMoneyPO {
 		this.list = list;
 	}
 	public class GBOTMItemPO{
-		private CommodityPO commodity;
+		private String commodityid;
 		private String model;
 		private int number;
-		public GBOTMItemPO(CommodityPO commodity, int number) {
-			super();
-			this.commodity = commodity;
+		public GBOTMItemPO(){
+		}
+		public GBOTMItemPO(String commodityid, String model, int number) {
+			this.commodityid = commodityid;
+			this.model = model;
 			this.number = number;
 		}
-		public CommodityPO getCommodity() {
-			return commodity;
+		public String getModel() {
+			return model;
 		}
-		public void setCommodity(CommodityPO commodity) {
-			this.commodity = commodity;
+		public void setModel(String model) {
+			this.model = model;
+		}
+		public String getCommodityid() {
+			return commodityid;
+		}
+		public void setCommodityid(String commodityid) {
+			this.commodityid = commodityid;
 		}
 		public int getNumber() {
 			return number;
@@ -57,5 +68,6 @@ public class GiftBasedOnTotalMoneyPO {
 		public void setNumber(int number) {
 			this.number = number;
 		}
+		
 	}
 }

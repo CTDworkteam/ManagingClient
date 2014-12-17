@@ -3,14 +3,14 @@ import java.util.ArrayList;
 public class CombinationStrategyPO implements java.io.Serializable{
 	private String id;
 	private ArrayList<CombinationItemPO> list;
-	private double initialMoney;
-	private double laterMoney;
-	public CombinationStrategyPO(String id, ArrayList<CombinationItemPO> list,
-			double initialMoney, double laterMoney) {
+	private double total;
+	public CombinationStrategyPO(String id, ArrayList<CombinationItemPO> list, double total) {
 		this.id = id;
 		this.list = list;
-		this.initialMoney = initialMoney;
-		this.laterMoney = laterMoney;
+		this.total = total;
+	}
+	public CombinationStrategyPO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
@@ -24,33 +24,30 @@ public class CombinationStrategyPO implements java.io.Serializable{
 	public void setList(ArrayList<CombinationItemPO> list) {
 		this.list = list;
 	}
-	public double getInitialMoney() {
-		return initialMoney;
+	public double getTotal(){
+		return total;
 	}
-	public void setInitialMoney(double initialMoney) {
-		this.initialMoney = initialMoney;
-	}
-	public double getLaterMoney() {
-		return laterMoney;
-	}
-	public void setLaterMoney(double laterMoney) {
-		this.laterMoney = laterMoney;
+	public void setTotal(double total){
+		this.total=total;
 	}
 	public class CombinationItemPO implements java.io.Serializable{
-		private CommodityPO commodity;
+		private String commodityID;
 		private String model;
 		private int number;
-		public CombinationItemPO(CommodityPO commodity, String model, int number) {
+		public CombinationItemPO(String commodityID, String model, int number) {
 			super();
-			this.commodity = commodity;
+			this.commodityID = commodityID;
 			this.model = model;
 			this.number = number;
 		}
-		public CommodityPO getCommodity() {
-			return commodity;
+		public CombinationItemPO() {
+			// TODO 自动生成的构造函数存根
 		}
-		public void setCommodity(CommodityPO commodity) {
-			this.commodity = commodity;
+		public String getCommodityID() {
+			return commodityID;
+		}
+		public void setCommodityID(String commodityID) {
+			this.commodityID = commodityID;
 		}
 		public String getModel() {
 			return model;

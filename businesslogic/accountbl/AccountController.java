@@ -5,35 +5,23 @@ import vo.AccountVO;
 import enumType.ResultMessage;
 import blservice.*;
 public class AccountController implements AccountBLService{
-
-	@Override
+	private Account account;
+	public AccountController(){
+		account=new Account();
+	}
 	public ResultMessage add(AccountVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return account.add(vo);
 	}
-
-	@Override
 	public ResultMessage delete(AccountVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return account.delete(vo);
 	}
-
-	@Override
 	public ResultMessage update(AccountVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return account.update(vo);
 	}
-
-	@Override
 	public AccountVO find(String name) {
-		// TODO 自动生成的方法存根
-		return null;
+		return account.find(name);
 	}
-
-	@Override
 	public ArrayList<AccountVO> getList() {
-		// TODO 自动生成的方法存根
-		return null;
+		return account.getList();
 	}
-
 }

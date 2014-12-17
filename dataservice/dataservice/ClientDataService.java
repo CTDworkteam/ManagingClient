@@ -1,14 +1,16 @@
 package dataservice;
 import po.*;
-import java.rmi.*;
 import java.util.*;
-import enumType.*;
-public interface ClientDataService extends Remote{
-	public void insert(ClientPO po) throws RemoteException;
-    public void delete(ClientPO po) throws RemoteException;
-    public boolean contain(String name) throws RemoteException;
-    public ClientPO find(String name) throws RemoteException;
-    public void update(ClientPO po) throws RemoteException;
-    public TreeMap<ClientType,TreeSet<ClientPO> > list() throws RemoteException;
-    public boolean isEmpty() throws RemoteException;
+public interface ClientDataService {
+	public void insert(ClientPO po);
+    public void delete(ClientPO po);
+    public boolean contain(String name);
+    public boolean contain(long id);
+    public ClientPO find(String name);
+    public ClientPO find(long id);
+    public void update(ClientPO po);
+    public Iterator<ClientPO> list();
+    public int number();
+    public void init();
+    public void save();
 }

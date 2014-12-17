@@ -5,19 +5,21 @@ public class CommodityTypePO implements java.io.Serializable{
 	private String name;
 	private boolean isRootNode;
 	private boolean isLeafNode;
-	private ArrayList<CommodityPO> commodityList;
-	private CommodityTypePO father;
-    private ArrayList<CommodityTypePO> child;
+	private ArrayList<String> commodityList;
+	private String father;
+    private ArrayList<String> childs;
+	public CommodityTypePO(){
+	}
 	public CommodityTypePO(String id, String name, boolean isRootNode,
-			boolean isLeafNode, ArrayList<CommodityPO> commodityList,
-			CommodityTypePO father, ArrayList<CommodityTypePO> child) {
+			boolean isLeafNode, ArrayList<String> commodityList, String father,
+			ArrayList<String> childs) {
 		this.id = id;
 		this.name = name;
 		this.isRootNode = isRootNode;
 		this.isLeafNode = isLeafNode;
 		this.commodityList = commodityList;
 		this.father = father;
-		this.child = child;
+		this.childs = childs;
 	}
 	public String getId() {
 		return id;
@@ -43,22 +45,22 @@ public class CommodityTypePO implements java.io.Serializable{
 	public void setLeafNode(boolean isLeafNode) {
 		this.isLeafNode = isLeafNode;
 	}
-	public ArrayList<CommodityPO> getCommodityList() {
+	public ArrayList<String> getCommodityList() {
 		return commodityList;
 	}
-	public void setCommodityList(ArrayList<CommodityPO> commodityList) {
+	public void setCommodityList(ArrayList<String> commodityList) {
 		this.commodityList = commodityList;
 	}
-	public CommodityTypePO getFather() {
+	public String getFather() {
 		return father;
 	}
-	public void setFather(CommodityTypePO father) {
+	public void setFather(String father) {
 		this.father = father;
 	}
-	public ArrayList<CommodityTypePO> getChild() {
-		return child;
+	public ArrayList<String> getChilds() {
+		return childs;
 	}
-	public void setChild(ArrayList<CommodityTypePO> child) {
-		this.child = child;
+	public void setChilds(ArrayList<String> childs) {
+		this.childs = childs;
 	}
 }

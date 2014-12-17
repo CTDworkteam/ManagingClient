@@ -1,24 +1,12 @@
 package accountui;
 import javax.swing.*;
-import confirmui.ConfirmSuccessui;
-import confirmui.ConfirmFailui;
 import java.awt.event.*;
-import enumType.ResultMessage;
-import vo.AccountVO;
-import accountbl.AccountController;
 
-/*
- * 增加账户界面
- */
 public class AccountAddui {
 	
 	JFrame frame;
 	JPanel panel;
-	JTextField fieldName;
-	JTextField fieldMoney;
 	
-	AccountController controller=new AccountController();
-
 	public void go(){
 		frame=new JFrame();
 		panel=new JPanel();
@@ -29,9 +17,9 @@ public class AccountAddui {
 		int high=frame.getToolkit().getScreenSize().height;
 		
 		JLabel labelName=new JLabel("账户名",JLabel.RIGHT);
-		fieldName=new JTextField();
+		JTextField fieldName=new JTextField();
 		JLabel labelMoney=new JLabel("初始金额",JLabel.RIGHT);
-		fieldMoney=new JTextField();
+		JTextField fieldMoney=new JTextField();
 		JButton buttonAdd=new JButton("增加");
 		buttonAdd.addActionListener(new addListener());
 		JButton buttonCancel=new JButton("取消");
@@ -61,23 +49,6 @@ public class AccountAddui {
 	
 	class addListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			AccountVO theAccount=new AccountVO();
-			theAccount.setName(fieldName.getText());
-			theAccount.setMoney(Double.parseDouble(fieldMoney.getText()));
-			
-			ResultMessage result;
-			result=controller.add(theAccount);
-			
-			if(result==ResultMessage.Success){
-				Runnable r=new ConfirmSuccessui("添加账户成功");
-				Thread t=new Thread(r);
-				t.start();
-			}
-			if(result==ResultMessage.Failure){
-				Runnable r=new ConfirmFailui("添加账户失败");
-				Thread t=new Thread(r);
-				t.start();
-			}
 			frame.dispose();
 		}
 	}

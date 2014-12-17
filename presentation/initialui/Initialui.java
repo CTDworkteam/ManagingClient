@@ -3,20 +3,16 @@ import java.awt.Dimension;
 import javax.swing.*;
 import java.awt.event.*;
 
-/*
- * 期初建账界面
- */
-public class Initialui{
+public class Initialui {
 
 	public JPanel panelInitial=new JPanel();
+	InitialNew inew=new InitialNew();
 	
 	public Initialui(){
 		JLabel label=new JLabel("期初标识");
 		JTextField text=new JTextField();
 		JButton buttonLook=new JButton("查看");
 		buttonLook.addActionListener(new lookListener());
-		JButton button=new JButton("刷新");//刷新期初建账信息列表按钮
-		button.addActionListener(new buttonListener());
 		String[] heading={"序号","期初标识"};
 		String[][] data={{"1","2013"},{"2","2014"}};
 		JTable table=new JTable(data,heading);
@@ -34,35 +30,25 @@ public class Initialui{
 		label.setBounds(125,20,70,25);
 		text.setBounds(205,20,100,25);
 		buttonLook.setBounds(330,20,65,25);
-		button.setBounds(70,65,65,25);
 		scroller.setBounds(150,65,200,370);
 		buttonNew.setBounds(530,70,65,65);
 		
 		panelInitial.add(label);
 		panelInitial.add(text);
 		panelInitial.add(buttonLook);
-		panelInitial.add(button);
 		panelInitial.add(scroller);
 		panelInitial.add(buttonNew);
 	}
 	
-	class buttonListener implements ActionListener{
+	class lookListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			
 		}
 	}
 	
-	class lookListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			InitialLook ilook=new InitialLook();
-		}
-	}
-	
 	class newListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			InitialNew inew=new InitialNew();
 			inew.go();
 		}
 	}
-
 }

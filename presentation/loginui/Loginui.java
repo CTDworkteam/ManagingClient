@@ -3,17 +3,15 @@ import javax.swing.*;
 import java.awt.event.*;
 import mainui.Mainui;
 
-/*
- * 登陆界面
- */
 public class Loginui {
 	
 	JFrame frame;
 	JPanel panel;
-	JComboBox<String> box;//登陆身份
+	JComboBox<String> box;
 	
 	Registerui register=new Registerui();
 	FindPasswordui find=new FindPasswordui();
+	
 	Mainui mainui=new Mainui();
 	
 	public void go(){
@@ -44,22 +42,19 @@ public class Loginui {
 		JButton buttonFind=new JButton("忘记密码");
 		buttonFind.addActionListener(new findListener());
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		frame.setSize(wide/2+100,high/2+200);
 		frame.setLocation(wide/4,high/6);
 		
 		panel.setLayout(null);
-		
-		labelWork.setBounds(350,250,50,25);
-		box.setBounds(410,250,150,25);
-		labelName.setBounds(350,300,50,25);
-		fieldName.setBounds(410,300,150,25);
-		labelPassword.setBounds(350,350,50,25);
-		fieldPassword.setBounds(410,350,150,25);
-		buttonSure.setBounds(450,400,65,25);
-		buttonRegister.setBounds(600,300,90,25);
-		buttonFind.setBounds(600,350,90,25);
+		labelWork.setBounds(300,220,50,25);
+		box.setBounds(360,220,150,25);
+		labelName.setBounds(300,270,50,25);
+		fieldName.setBounds(360,270,150,25);
+		labelPassword.setBounds(300,320,50,25);
+		fieldPassword.setBounds(360,320,150,25);
+		buttonSure.setBounds(400,370,65,25);
+		buttonRegister.setBounds(550,270,90,25);
+		buttonFind.setBounds(550,320,90,25);
 		
 		panel.add(labelWork);
 		panel.add(box);
@@ -78,7 +73,7 @@ public class Loginui {
 	class loginListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			String work=(String) box.getSelectedItem();
-			mainui.Jump(work);
+			mainui.go(work);
 			frame.dispose();
 		}
 	}

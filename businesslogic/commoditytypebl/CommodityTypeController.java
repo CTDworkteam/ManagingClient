@@ -1,49 +1,37 @@
 package commoditytypebl;
 import java.util.ArrayList;
+
 import vo.CommodityTypeVO;
 import vo.CommodityVO;
 import enumType.ResultMessage;
 import blservice.*;
 public class CommodityTypeController implements CommodityTypeBLService{
-	@Override
+	public CommodityType type;
+	public CommodityTypeController(){
+		type=new CommodityType();
+	}
 	public ResultMessage addType(CommodityTypeVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.addType(vo);
 	}
-
-	@Override
 	public ResultMessage deleteType(CommodityTypeVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.deleteType(vo);
 	}
-
-	@Override
 	public ResultMessage updateType(CommodityTypeVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.updateType(vo);
 	}
-
-	@Override
 	public CommodityTypeVO findInID(String id) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.findInID(id);
 	}
-
-	@Override
 	public ArrayList<CommodityTypeVO> findInKeyword(String key) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.findInKeyword(key);
 	}
-
-	@Override
 	public ArrayList<CommodityTypeVO> getAllSubType(CommodityTypeVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.getAllSubType(vo);
 	}
-
-	@Override
 	public ArrayList<CommodityVO> getAllCommodity(CommodityTypeVO vo) {
-		// TODO 自动生成的方法存根
+		return type.getAllCommodity(vo);
+	}
+	public ArrayList<CommodityTypeVO> getAllCommodityType() {
 		return null;
 	}
 }

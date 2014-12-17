@@ -3,19 +3,14 @@ import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.*;
 
-/*
- * 制定现金费用单界面
- */
 public class Expenseui {
 	
 	public JPanel panel=new JPanel();
+	ExpenseConfirm expense=new ExpenseConfirm();
 	
 	JTable tableNew;
 	
 	public Expenseui(){
-		
-		JButton button=new JButton("刷新");//刷新现金费用单列表按钮
-		button.addActionListener(new buttonListener());
 		String[] headingLook={"单据编号","银行账户名"};
 		String[][] dataLook={{"XJFYD2014120100001","account1"},{" ","account2"},{"XJFYD2014120100002","account2"}};
 		JTable tableLook=new JTable(dataLook,headingLook);
@@ -43,14 +38,12 @@ public class Expenseui {
 		}
 		
 		panel.setLayout(null);
-		button.setBounds(20,10,65,25);
-		scrollerLook.setBounds(20,50,300,360);
+		scrollerLook.setBounds(20,10,300,400);
 		scrollerNew.setBounds(350,45,300,300);
 		labelNew.setBounds(450,10,150,25);
 		buttonOkay.setBounds(410,380,65,25);
 		buttonCancel.setBounds(520,380,65,25);
 		
-		panel.add(button);
 		panel.add(scrollerLook);
 		panel.add(labelNew);
 		panel.add(scrollerNew);
@@ -68,22 +61,15 @@ public class Expenseui {
 		return n;
 	}
 	
-	class buttonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-		}
-	}
-	
 	class okayListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			ExpenseConfirm expense=new ExpenseConfirm();
 			expense.go();
 		}
 	}
 	
 	class cancelListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			tableNew.removeAll();
+			
 		}
 	}
 	

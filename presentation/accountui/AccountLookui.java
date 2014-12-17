@@ -1,17 +1,13 @@
 package accountui;
 import javax.swing.*;
 import java.awt.event.*;
-import vo.AccountVO;
 
-/*
- * 查看账户属性界面
- */
 public class AccountLookui implements ActionListener{
 	
 	JFrame frame;
 	JPanel panel;
 	
-	public void go(AccountVO vo){
+	public void go(){
 		frame=new JFrame();
 		panel=new JPanel();
 		
@@ -20,8 +16,8 @@ public class AccountLookui implements ActionListener{
 		int wide=frame.getToolkit().getScreenSize().width;
 		int high=frame.getToolkit().getScreenSize().height;
 		
-		JLabel labelName=new JLabel("银行账户名"+vo.getName());
-		JLabel labelMoney=new JLabel("账户余额"+Double.toString(vo.getMoney()));
+		JLabel labelName=new JLabel("银行账户名  ********");
+		JLabel labelMoney=new JLabel("账户余额 *****");
 		JButton button=new JButton("确定");
 		button.addActionListener(this);
 		

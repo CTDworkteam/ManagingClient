@@ -1,6 +1,8 @@
 package initialui;
 import javax.swing.*;
 
+import java.awt.*;
+
 public class InitialCommodity {
 	
 	public JPanel panelCommodity=new JPanel();
@@ -15,17 +17,14 @@ public class InitialCommodity {
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(true);
 		
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scroller=new JScrollPane(table);
-		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		
 		panelCommodity.setLayout(null);
 		button.setBounds(600,3,65,25);
-		scroller.setBounds(0,35,820,440);
+		scroller.setBounds(0,35,820,500);
 		
 		panelCommodity.add(button);
 		panelCommodity.add(scroller);
 	}
-
 }

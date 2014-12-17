@@ -3,18 +3,26 @@ import java.util.ArrayList;
 public class ExpensePO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
-	private UserPO operator;
-	private AccountPO account;
+	private String operator;
+	private String accountname;
 	private double total;
 	private ArrayList<ExpenseItemPO> list;
-	public ExpensePO(String id, UserPO operator, AccountPO account,
-			double total, ArrayList<ExpenseItemPO> list) {
+	public ExpensePO(){
+	}
+	public ExpensePO(boolean isPassed, String id, String operator,
+			String accountname, double total, ArrayList<ExpenseItemPO> list) {
+		this.isPassed = isPassed;
 		this.id = id;
 		this.operator = operator;
-		this.account = account;
+		this.accountname = accountname;
 		this.total = total;
 		this.list = list;
-		this.isPassed=false;
+	}
+	public boolean isPassed() {
+		return isPassed;
+	}
+	public void setPassed(boolean isPassed) {
+		this.isPassed = isPassed;
 	}
 	public String getId() {
 		return id;
@@ -22,17 +30,17 @@ public class ExpensePO implements java.io.Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public UserPO getOperator() {
+	public String getOperator() {
 		return operator;
 	}
-	public void setOperator(UserPO operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	public AccountPO getAccount() {
-		return account;
+	public String getAccountname() {
+		return accountname;
 	}
-	public void setAccount(AccountPO account) {
-		this.account = account;
+	public void setAccountname(String accountname) {
+		this.accountname = accountname;
 	}
 	public double getTotal() {
 		return total;
@@ -45,12 +53,6 @@ public class ExpensePO implements java.io.Serializable{
 	}
 	public void setList(ArrayList<ExpenseItemPO> list) {
 		this.list = list;
-	}
-	public boolean isPassed() {
-		return isPassed;
-	}
-	public void setPassed(boolean isPassed) {
-		this.isPassed = isPassed;
 	}
 	public class ExpenseItemPO{
 		private String itemName;

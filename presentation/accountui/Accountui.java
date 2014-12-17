@@ -2,34 +2,26 @@ package accountui;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import vo.AccountVO;
-import accountbl.AccountController;
 
-/*
- * 财务管理panel
- */
 public class Accountui {
 	
 	public JPanel panelAccount=new JPanel();
 	JTextField fieldNum;
 	JTable table;
-	JTextField fieldName;
-	
-	AccountController controller=new AccountController();
+	AccountAddui add=new AccountAddui();
+	AccountLookui look=new AccountLookui();
+	AccountModifyui modify=new AccountModifyui();
+	AccountDeleteui delete=new AccountDeleteui();
 	
 	public Accountui(){
-		
-		JButton button=new JButton("刷新");//刷新账户列表按钮
-		button.addActionListener(new buttonListener());
 		String[] heading={"序号","银行账户名"};
 		String[][] data={{"1","account1"},{"2","account2"}};
 		table=new JTable(data,heading);
-		table.addMouseListener(new tableListener());
 		JLabel labelNumber=new JLabel("共有            个账户");
 		fieldNum=new JTextField();
 		setNum();
 		JLabel labelName=new JLabel("银行帐户名");
-		fieldName=new JTextField();//银行帐户名输入
+		JTextField fieldName=new JTextField();//银行帐户名输入
 		JButton buttonAdd=new JButton("增加");//增加账户操作
 		buttonAdd.addActionListener(new addListener());
 		JButton buttonLook=new JButton("查看");//查看账户属性操作按钮
@@ -48,8 +40,7 @@ public class Accountui {
 	    table.setRowSelectionAllowed(true);
 		
 		panelAccount.setLayout(null);
-		button.setBounds(70,10,65,25);
-		scroller.setBounds(70,50,250,440);
+		scroller.setBounds(70,10,250,450);
 		labelNumber.setBounds(350,33,130,25);
 		fieldNum.setBounds(380,33,30,25);
 		buttonAdd.setBounds(600,33,65,25);
@@ -59,7 +50,6 @@ public class Accountui {
 	    buttonModify.setBounds(600,200,65,25);
 	    buttonDelete.setBounds(600,250,65,25);
 	    
-	    panelAccount.add(button);
 	    panelAccount.add(scroller);
 	    panelAccount.add(labelNumber);
 	    panelAccount.add(fieldNum);
@@ -76,81 +66,27 @@ public class Accountui {
 		fieldNum.setText(Integer.toString(n));
 	}
 	
-	class buttonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-		}
-	}
-	
-	class tableListener implements MouseListener{
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			Object aim=e.getSource();
-			JTable tableTwo=(JTable)aim;
-			String result=(String) tableTwo.getValueAt(tableTwo.getSelectedRow(), tableTwo.getSelectedColumn());
-			fieldName.setText(result);
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-	}
-	
 	class addListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			AccountAddui add=new AccountAddui();
 			add.go();
 		}
 	}
 	
 	class lookListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			AccountLookui look=new AccountLookui();
-			AccountVO theAccount=new AccountVO();
-			theAccount=controller.find(fieldName.getText());
-			look.go(theAccount);
+			look.go();
 		}
 	}
 	
 	class modifyListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			AccountModifyui modify=new AccountModifyui();
-			AccountVO theAccount=new AccountVO();
-			theAccount=controller.find(fieldName.getText());
-			modify.go(theAccount);
+			modify.go();
 		}
 	}
 	
 	class deleteListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			AccountDeleteui delete=new AccountDeleteui();
-			AccountVO theAccount=new AccountVO();
-			theAccount=controller.find(fieldName.getText());
-			delete.go(theAccount);
+			delete.go();
 		}
 	}
-
 }

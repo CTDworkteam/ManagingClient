@@ -10,4 +10,5 @@ public interface CommodityTypeBLService {
 	public ArrayList<CommodityTypeVO> findInKeyword(String key);
 	public ArrayList<CommodityTypeVO> getAllSubType(CommodityTypeVO vo);
 	public ArrayList<CommodityVO> getAllCommodity(CommodityTypeVO vo);
+	public ArrayList<CommodityTypeVO> getAllCommodityType();
 }

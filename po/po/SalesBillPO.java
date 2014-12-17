@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class SalesBillPO implements java.io.Serializable{
 	private boolean isPassed;
 	private String id;
-	private ClientPO client;
+	private long clientID;
 	private String defaultOperator;
-	private UserPO operator;
+	private String operator;
 	private String storehouse;
 	private ArrayList<SalesBillItemPO> list;
 	private double initialTotal;
@@ -15,12 +15,15 @@ public class SalesBillPO implements java.io.Serializable{
 	private double voucher;
 	private double total;
 	private String note;
-	public SalesBillPO(String id, ClientPO client, String defaultOperator,
-			UserPO operator, String storehouse,
+	public SalesBillPO(){
+	}
+	public SalesBillPO(boolean isPassed, String id, long clientID,
+			String defaultOperator, String operator, String storehouse,
 			ArrayList<SalesBillItemPO> list, double initialTotal,
 			double discount, double voucher, double total, String note) {
+		this.isPassed = isPassed;
 		this.id = id;
-		this.client = client;
+		this.clientID = clientID;
 		this.defaultOperator = defaultOperator;
 		this.operator = operator;
 		this.storehouse = storehouse;
@@ -30,7 +33,6 @@ public class SalesBillPO implements java.io.Serializable{
 		this.voucher = voucher;
 		this.total = total;
 		this.note = note;
-		this.isPassed=false;
 	}
 	public boolean isPassed() {
 		return isPassed;
@@ -44,11 +46,11 @@ public class SalesBillPO implements java.io.Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public ClientPO getClient() {
-		return client;
+	public long getClientID() {
+		return clientID;
 	}
-	public void setClient(ClientPO client) {
-		this.client = client;
+	public void setClientID(long clientID) {
+		this.clientID = clientID;
 	}
 	public String getDefaultOperator() {
 		return defaultOperator;
@@ -56,10 +58,10 @@ public class SalesBillPO implements java.io.Serializable{
 	public void setDefaultOperator(String defaultOperator) {
 		this.defaultOperator = defaultOperator;
 	}
-	public UserPO getOperator() {
+	public String getOperator() {
 		return operator;
 	}
-	public void setOperator(UserPO operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
 	public String getStorehouse() {
@@ -105,26 +107,28 @@ public class SalesBillPO implements java.io.Serializable{
 		this.note = note;
 	}
 	public class SalesBillItemPO implements java.io.Serializable{
-		private CommodityPO commodity;
+		private String commodityID;
 		private String model;
 		private int number;
 		private double price;
 		private double total;
 		private String note;
-		public SalesBillItemPO(CommodityPO commodity, String model, int number,
-				double price, String note) {
-			this.commodity = commodity;
+		public SalesBillItemPO(){
+		}
+		public SalesBillItemPO(String commodityID, String model, int number,
+				double price, double total, String note) {
+			this.commodityID = commodityID;
 			this.model = model;
 			this.number = number;
 			this.price = price;
+			this.total = total;
 			this.note = note;
-			this.total=price*(double)number;
 		}
-		public CommodityPO getCommodity() {
-			return commodity;
+		public String getCommodityID() {
+			return commodityID;
 		}
-		public void setCommodity(CommodityPO commodity) {
-			this.commodity = commodity;
+		public void setCommodityID(String commodityID) {
+			this.commodityID = commodityID;
 		}
 		public String getModel() {
 			return model;
@@ -155,6 +159,6 @@ public class SalesBillPO implements java.io.Serializable{
 		}
 		public void setNote(String note) {
 			this.note = note;
-		}	
+		}
 	}
 }
