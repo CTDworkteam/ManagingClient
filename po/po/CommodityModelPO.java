@@ -1,7 +1,7 @@
 package po;
 
 public class CommodityModelPO implements java.io.Serializable{
-	private String name;
+	private String name;//commodity's name
 	private String model;
 	private int stock;
 	private String storehouse;

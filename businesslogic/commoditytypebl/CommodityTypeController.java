@@ -31,4 +31,7 @@ public class CommodityTypeController implements CommodityTypeBLService{
 	public ArrayList<CommodityVO> getAllCommodity(CommodityTypeVO vo) {
 		return type.getAllCommodity(vo);
 	}
+	public ArrayList<CommodityTypeVO> getAllCommodityType() {
+		return null;
+	}
 }

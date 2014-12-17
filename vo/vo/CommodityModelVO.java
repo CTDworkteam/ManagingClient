@@ -1,7 +1,7 @@
 package vo;
 
 public class CommodityModelVO {
-	private String commodity;
+	private String commodity;//commodity's id
 	private String model;
 	private String storehouse;
 	private int noticeNumber;
