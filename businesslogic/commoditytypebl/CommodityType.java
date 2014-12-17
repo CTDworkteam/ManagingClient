@@ -1,5 +1,6 @@
 package commoditytypebl;
 import java.util.*;
+
 import commoditybl.*;
 import config.RMI;
 import po.*;
@@ -11,7 +12,7 @@ import blservice.*;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
-public class CommodityType implements CommodityTypeBLService{
+public class CommodityType {
 	public CommodityType(){
 	}
 	public ResultMessage addType(CommodityTypeVO vo){

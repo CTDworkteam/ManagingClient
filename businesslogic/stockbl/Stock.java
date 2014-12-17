@@ -5,6 +5,7 @@ import vo.*;
 import java.rmi.Naming;
 import java.util.*;
 
+import blservice.StockBLService;
 import config.RMI;
 import po.*;
 import dataservice.*;
@@ -185,5 +186,25 @@ public class Stock{
 			ex.printStackTrace();
 			return null;
 		}
+	}
+	@Override
+	public ArrayList<GiftBillVO> getAllGiftBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<OverflowBillVO> getAllOverflowBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<UnderflowBillVO> getAllUnderflowBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<NoticeBillVO> getAllNoticeBills() {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 }
