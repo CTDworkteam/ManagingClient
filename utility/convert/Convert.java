@@ -58,22 +58,106 @@ public class Convert {
 		return po;
 	}
 	public static CommodityVO convert(CommodityPO po){
-		
+		CommodityVO vo=new CommodityVO();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		vo.setId(po.getId());
+		vo.setName(po.getName());
+		vo.setTotal(po.getTotal());
+		vo.setType(service.findByID(po.getType()).getName());
+		Iterator<CommodityPO.CommodityModelPO> iterator=po.getList().iterator();
+		ArrayList<CommodityModelVO> list=new ArrayList<CommodityModelVO>();
+		while(iterator.hasNext()){
+			list.add(Convert.convert(po.getId(),iterator.next()));
+		}
+		vo.setList(list);
+		return vo;
 	}
 	public static CommodityPO convert(CommodityVO vo){
-		
+		CommodityPO po=new CommodityPO();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		po.setId(vo.getId());
+		po.setName(vo.getName());
+		po.setTotal(vo.getTotal());
+		po.setType(service.findByName(vo.getType()).getId());
+		Iterator<CommodityModelVO> iterator=vo.getList().iterator();
+		ArrayList<CommodityPO.CommodityModelPO> list=new ArrayList<CommodityPO.CommodityModelPO>();
+		while(iterator.hasNext()){
+			list.add(Convert.convert(iterator.next()));
+		}
+		po.setList(list);
+		return po;
 	}
-	public static CommodityModelVO convert(CommodityPO.CommodityModelPO po){
-		
+	public static CommodityModelVO convert(String commodityID,CommodityPO.CommodityModelPO po){
+		CommodityModelVO vo=new CommodityModelVO();
+		CommodityDataService service=RMI.getCommodityDataService();
+		vo.setCommodity(service.findCommodityInID(commodityID).getName());
+		vo.setModel(po.getName());
+		vo.setNoticeNumber(po.getNoticeNumber());
+		vo.setPurchasePrice(po.getPurchasePrice());
+		vo.setRecentPurchasePrice(po.getRecentPurchasePrice());
+		vo.setRecentRetailPrice(po.getRecentRetailPrice());
+		vo.setRetailPrice(po.getRetailPrice());
+		vo.setStockNumber(po.getStock());
+		vo.setStorehouse(po.getStorehouse());
+		return vo;
 	}
 	public static CommodityPO.CommodityModelPO convert(CommodityModelVO vo){
-		
+		CommodityPO.CommodityModelPO po=new CommodityPO().new CommodityModelPO();
+		po.setName(vo.getModel());
+		po.setNoticeNumber(vo.getNoticeNumber());
+		po.setPurchasePrice(vo.getPurchasePrice());
+		po.setRecentPurchasePrice(vo.getRecentPurchasePrice());
+		po.setRecentRetailPrice(vo.getRecentRetailPrice());
+		po.setRetailPrice(vo.getRetailPrice());
+		po.setStock(vo.getStockNumber());
+		po.setStorehouse(vo.getStorehouse());
+		return po;
 	}
 	public static CommodityTypeVO convert(CommodityTypePO po){
-		
+		CommodityTypeVO vo=new CommodityTypeVO();
+		CommodityTypeDataService service1=RMI.getCommodityTypeDataService();
+		CommodityDataService service2=RMI.getCommodityDataService();
+		vo.setId(po.getId());
+		vo.setName(po.getName());
+		vo.setRootNode(po.isRootNode());
+		vo.setLeafNode(po.isLeafNode());
+		vo.setFather(service1.findByID(po.getFather()).getName());
+		Iterator<String> it1=po.getChilds().iterator();
+		Iterator<String> it2=po.getCommodityList().iterator();
+		ArrayList<String> list1=new ArrayList<String>();
+		ArrayList<String> list2=new ArrayList<String>();
+		while(it1.hasNext()){
+			list1.add(service1.findByID(it1.next()).getName());
+		}
+		while(it2.hasNext()){
+			list2.add(service2.findCommodityInID(it2.next()).getName());
+		}
+		vo.setChild(list1);
+		vo.setCommodityList(list2);
+		return vo;
 	}
 	public static CommodityTypePO convert(CommodityTypeVO vo){
-		
+		CommodityTypePO po=new CommodityTypePO();
+		CommodityTypeDataService service1=RMI.getCommodityTypeDataService();
+		CommodityDataService service2=RMI.getCommodityDataService();
+		po.setId(vo.getId());
+		po.setName(vo.getName());
+		po.setLeafNode(vo.isLeafNode());
+		po.setRootNode(vo.isRootNode());
+		po.setFather(service1.findByName(vo.getFather()).getId());
+		Iterator<String> it1=vo.getChild().iterator();
+		Iterator<String> it2=vo.getCommodityList().iterator();
+		ArrayList<String> list1=new ArrayList<String>();
+		ArrayList<String> list2=new ArrayList<String>();
+		while(it1.hasNext()){
+			list1.add(service1.findByName(it1.next()).getId());
+		}
+		while(it2.hasNext()){
+			list2.add(service2.findCommodityInName(it2.next()).getId());
+		}
+		po.setChilds(list1);
+		po.setCommodityList(list2);
+		return po;
 	}
 	public static CombinationStrategyVO convert(CombinationStrategyPO po){
 		CombinationStrategyVO vo=new CombinationStrategyVO();
