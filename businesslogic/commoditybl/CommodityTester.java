@@ -5,7 +5,7 @@ import vo.CommodityModelVO;
 import vo.CommodityVO;
 
 public class CommodityTester {
-	public void testAddC(CommodityVO vo){
+	/*public void testAddC(CommodityVO vo){
 		MockCommodity commodity=new MockCommodity();
 		if(commodity.addCommodity(vo)==ResultMessage.Success){
 			System.out.println("We have succeeded to add the new commodity");
@@ -83,5 +83,5 @@ public class CommodityTester {
 		else{
 			System.out.println("We have succeeded to find the new commodity model");
 		}
-	}
+	}*/
 }

@@ -4,7 +4,7 @@ import enumType.ResultMessage;
 import enumType.UserJob;
 
 public class LoginTester {
-	public void testVerify(){
+	/*public void testVerify(){
 		MockLogin ml=new MockLogin(10010,"f");
 		if(ml.verify(ml.id,ml.password)==ResultMessage.Failure){
 			System.out.println("we have failed to verify the new login");
@@ -32,5 +32,5 @@ public class LoginTester {
 		else{
 			System.out.println("we have failed to get the password of the new login");
 		}
-	}
+	}*/
 }
