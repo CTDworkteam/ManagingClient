@@ -3,6 +3,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 import expenseui.Expenseui;
 
+/*
+ * 财务管理界面
+ */
 public class Financeui implements ChangeListener{
 	
 	public JPanel panelFinance=new JPanel();

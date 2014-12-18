@@ -3,6 +3,9 @@ import java.awt.Dimension;
 import javax.swing.*;
 import java.awt.event.*;
 
+/*
+ * 制定付款单界面
+ */
 public class Paymentui {
 	
 	public JPanel panel=new JPanel();

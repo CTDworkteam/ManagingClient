@@ -2,16 +2,28 @@ package accountui;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import accountbl.AccountController;
+import vo.*;
+import confirmui.*;
 
+/*
+ * 账户管理界面
+ */
 public class Accountui {
 	
 	public JPanel panelAccount=new JPanel();
 	JTextField fieldNum;
 	JTable table;
+	JTextField fieldName;
+	
+	AccountVO vo=new AccountVO();
+	
 	AccountAddui add=new AccountAddui();
 	AccountLookui look=new AccountLookui();
 	AccountModifyui modify=new AccountModifyui();
 	AccountDeleteui delete=new AccountDeleteui();
+	
+	AccountController controller=new AccountController();
 	
 	public Accountui(){
 		String[] heading={"序号","银行账户名"};
@@ -21,7 +33,7 @@ public class Accountui {
 		fieldNum=new JTextField();
 		setNum();
 		JLabel labelName=new JLabel("银行帐户名");
-		JTextField fieldName=new JTextField();//银行帐户名输入
+		fieldName=new JTextField();//银行帐户名输入
 		JButton buttonAdd=new JButton("增加");//增加账户操作
 		buttonAdd.addActionListener(new addListener());
 		JButton buttonLook=new JButton("查看");//查看账户属性操作按钮
@@ -74,19 +86,40 @@ public class Accountui {
 	
 	class lookListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			look.go();
+			vo=controller.find(fieldName.getText());
+			if(vo==null){
+				Runnable r=new Confirmui();
+				Thread t=new Thread(r);
+				t.start();
+			}else{
+				look.go(vo);
+			}
 		}
 	}
 	
 	class modifyListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			modify.go();
+			vo=controller.find(fieldName.getText());
+			if(vo==null){
+				Runnable r=new Confirmui();
+				Thread t=new Thread(r);
+				t.start();
+			}else{
+				modify.go(vo);
+			}
 		}
 	}
 	
 	class deleteListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			delete.go();
+			vo=controller.find(fieldName.getText());
+			if(vo==null){
+				Runnable r=new Confirmui();
+				Thread t=new Thread(r);
+				t.start();
+			}else{
+				delete.go(vo);
+			}
 		}
 	}
 }

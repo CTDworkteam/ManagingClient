@@ -2,17 +2,18 @@ package confirmui;
 import javax.swing.*;
 
 /*
- * 操作失败提示界面
+ * 操作成功提示界面
  */
-public class ConfirmFailui implements Runnable{
+public class Confirmui implements Runnable{
+	
 	JFrame frame;
 	JLabel label;
 	
-	public ConfirmFailui(){
+	public Confirmui(){
 		
 	}
 	
-	public ConfirmFailui(String result){
+	public Confirmui(String result){
 		frame=new JFrame();
 		frame.setSize(400,200);
 		frame.setLocation(550,250);

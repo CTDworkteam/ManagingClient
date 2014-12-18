@@ -8,7 +8,9 @@ import accountui.Accountui;
 import financecheckui.Financecheckui;
 import recordui.Recordui;
 
-
+/*
+ * 财务人员工作界面
+ */
 public class Financemanagerui implements ChangeListener,ActionListener{
 	
 	JFrame frame;
