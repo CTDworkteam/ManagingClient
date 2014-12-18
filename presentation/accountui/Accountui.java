@@ -2,6 +2,7 @@ package accountui;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import accountbl.AccountController;
 import vo.*;
 import confirmui.*;
@@ -16,6 +17,8 @@ public class Accountui {
 	JTable table;
 	JTextField fieldName;
 	
+	String[][] data;
+	
 	AccountVO vo=new AccountVO();
 	
 	AccountAddui add=new AccountAddui();
@@ -26,8 +29,17 @@ public class Accountui {
 	AccountController controller=new AccountController();
 	
 	public Accountui(){
+		
+		JButton button=new JButton("");
+		button.addActionListener(new newListener());
 		String[] heading={"序号","银行账户名"};
-		String[][] data={{"1","account1"},{"2","account2"}};
+		ArrayList<AccountVO> accounts=new ArrayList<AccountVO>();
+		accounts=controller.getList();
+		int size=accounts.size();
+		for(int i=0;i<size;i++){
+			data[i][0]=Integer.toString(i+1);
+			data[i][1]=accounts.get(i).getName();
+		}
 		table=new JTable(data,heading);
 		JLabel labelNumber=new JLabel("共有            个账户");
 		fieldNum=new JTextField();
@@ -52,7 +64,8 @@ public class Accountui {
 	    table.setRowSelectionAllowed(true);
 		
 		panelAccount.setLayout(null);
-		scroller.setBounds(70,10,250,450);
+		button.setBounds(70,10,65,25);
+		scroller.setBounds(70,50,250,410);
 		labelNumber.setBounds(350,33,130,25);
 		fieldNum.setBounds(380,33,30,25);
 		buttonAdd.setBounds(600,33,65,25);
@@ -62,6 +75,7 @@ public class Accountui {
 	    buttonModify.setBounds(600,200,65,25);
 	    buttonDelete.setBounds(600,250,65,25);
 	    
+	    panelAccount.add(button);
 	    panelAccount.add(scroller);
 	    panelAccount.add(labelNumber);
 	    panelAccount.add(fieldNum);
@@ -76,6 +90,18 @@ public class Accountui {
 	private void setNum(){
 		int n=table.getRowCount();
 		fieldNum.setText(Integer.toString(n));
+	}
+	
+	class newListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			ArrayList<AccountVO> accounts=new ArrayList<AccountVO>();
+			accounts=controller.getList();
+			int size=accounts.size();
+			for(int i=0;i<size;i++){
+				data[i][0]=Integer.toString(i+1);
+				data[i][1]=accounts.get(i).getName();
+			}
+		}
 	}
 	
 	class addListener implements ActionListener{
