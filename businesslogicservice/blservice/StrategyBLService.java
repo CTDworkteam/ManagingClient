@@ -21,4 +21,9 @@ public interface StrategyBLService {
 	public ArrayList<CombinationStrategyVO> getAllCombinations();
 	public ArrayList<GiftStrategyVO> getAllGifts();
 	public ArrayList<GiftBasedOnTotalMoneyVO> getAllGBOTMs();
+	public String getNewVoucherStrategyID(GregorianCalendar date);
+	public String getNewDiscountStrateyID(GregorianCalendar date);
+	public String getNewCombinationStrategyID(GregorianCalendar date);
+	public String getNewGiftStrategyID(GregorianCalendar date);
+	public String getNewGiftBasedOnTotalMoney(GregorianCalendar date);
 }

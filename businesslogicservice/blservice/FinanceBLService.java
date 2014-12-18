@@ -16,4 +16,6 @@ public interface FinanceBLService {
 	public ArrayList<PaymentVO> findPayments(GregorianCalendar before,GregorianCalendar after);
 	public ArrayList<ReciptVO> getAllRecipts();
 	public ArrayList<PaymentVO> getAllPayments();
+	public String getNewReciptID(GregorianCalendar date);
+	public String getNewPaymentID(GregorianCalendar date);
 }

@@ -11,4 +11,5 @@ public interface CommodityTypeBLService {
 	public ArrayList<CommodityTypeVO> getAllSubType(CommodityTypeVO vo);
 	public ArrayList<CommodityVO> getAllCommodity(CommodityTypeVO vo);
 	public ArrayList<CommodityTypeVO> getAllCommodityType();
+	public String getNewID(String fatherID);
 }
