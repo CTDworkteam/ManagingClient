@@ -6,7 +6,7 @@ import userbl.User;
 import commoditybl.Commodity;
 
 public class MockStock extends Stock{
-	private static Commodity[] commodity={new Commodity(),new Commodity()};
+	/*private static Commodity[] commodity={new Commodity(),new Commodity()};
 	public MockStock(){
 	}
 	public MockStock(HashMap<String,GiftBill> listOfGiftBill,HashMap<String,OverflowBill> listOfOverflowBill,HashMap<String,UnderflowBill> listOfUnderflowBill,HashMap<String,NoticeBill> listOfNoticeBill,User operator){
@@ -56,5 +56,5 @@ public class MockStock extends Stock{
 		if(!(bill.getCommodity()==commodity[0].id||bill.getCommodity()==commodity[1].id))
 			System.out.println("error");
 		System.out.println("success");
-	}
+	}*/
 }

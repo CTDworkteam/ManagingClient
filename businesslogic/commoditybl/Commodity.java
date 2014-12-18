@@ -9,6 +9,7 @@ import java.util.*;
 import blservice.*;
 import datafactory.*;
 import config.RMI;
+import convert.Convert;
 import po.*;
 import vo.*;
 import dataservice.*;
@@ -30,7 +31,7 @@ public class Commodity{
 			if(service.containInId(vo.getId())||service.containInName(vo.getName())){
 				return ResultMessage.Failure;
 			}
-			service.insert(exchange(vo));
+			service.insert(Convert.convert(vo));
 			return ResultMessage.Success;
 		}
 	}
@@ -46,7 +47,7 @@ public class Commodity{
 			if(vo.getTotal()!=0){
 				return ResultMessage.Failure;
 			}
-			service.delete(exchange(vo));
+			service.delete(Convert.convert(vo));
 			return ResultMessage.Success;
 		}
 	}
@@ -59,7 +60,7 @@ public class Commodity{
 			if((!service.containInId(vo.getId()))){
 				return ResultMessage.Failure;
 			}
-			service.update(exchange(vo));
+			service.update(Convert.convert(vo));
 			return ResultMessage.Success;
 		}
 	}
@@ -80,7 +81,7 @@ public class Commodity{
 						return ResultMessage.Failure;
 					}
 				}
-				po.getList().add(exchange(vo));
+				po.getList().add(Convert.convert(vo));
 				service.update(po);
 				return ResultMessage.Success;
 			}
@@ -124,7 +125,7 @@ public class Commodity{
 				while(iterator.hasNext()){
 					if(iterator.next().equals(beforeName)){
 						iterator.remove();
-						po.getList().add(exchange(vo));
+						po.getList().add(Convert.convert(vo));
 						service.update(po);
 						return ResultMessage.Success;
 					}
@@ -144,7 +145,7 @@ public class Commodity{
 			}
 			else{
 				CommodityPO po=service.findCommodityInID(id);
-				return exchange(po);
+				return Convert.convert(po);
 			}
 		}
 	}
@@ -158,7 +159,7 @@ public class Commodity{
 				return null;
 			}
 			else{
-				return exchange(service.findCommodityInName(name));
+				return Convert.convert(service.findCommodityInName(name));
 			}
 		}
 	}
@@ -175,7 +176,7 @@ public class Commodity{
 				ArrayList<CommodityVO> list=new ArrayList<CommodityVO>();
 				Iterator<CommodityPO> iterator=service.findCommoditiesInKeyword(key);
 				while(iterator.hasNext()){
-					list.add(exchange(iterator.next()));
+					list.add(Convert.convert(iterator.next()));
 				}
 				return list;
 			}
@@ -196,7 +197,7 @@ public class Commodity{
 				while(iterator.hasNext()){
 					CommodityPO.CommodityModelPO m=iterator.next();
 					if(m.getName().equals(model)){
-						return exchange(po.getId(),m);
+						return Convert.convert(po.getId(),m);
 					}
 				}
 				return null;
@@ -204,62 +205,17 @@ public class Commodity{
 		}
 	}
 	public ArrayList<CommodityVO> getAllCommodity(){
-		return null;
-		
-	}
-	private CommodityModelVO exchange(String commodityID,CommodityPO.CommodityModelPO po) {
-		CommodityModelVO vo=new CommodityModelVO();
-		vo.setCommodity(commodityID);
-		vo.setModel(po.getName());
-		vo.setNoticeNumber(po.getNoticeNumber());
-		vo.setPurchasePrice(po.getPurchasePrice());
-		vo.setRecentPurchasePrice(po.getRecentPurchasePrice());
-		vo.setRecentRetailPrice(po.getRecentRetailPrice());
-		vo.setRetailPrice(po.getRetailPrice());
-		vo.setStockNumber(po.getStock());
-		vo.setStorehouse(po.getStorehouse());
-		return vo;
-	}
-	public CommodityPO exchange(CommodityVO vo) {        //VO转化为PO
-		CommodityPO po=new CommodityPO();
-		po.setId(vo.getId());
-		po.setName(vo.getName());
-		po.setTotal(po.getTotal());
-		po.setType(vo.getType());
-		ArrayList<CommodityPO.CommodityModelPO> list=new ArrayList<CommodityPO.CommodityModelPO>();
-	}
-	
-	public CommodityVO exchange(CommodityPO po){          //PO转化为VO
-		try{
-			CommodityTypeDataService service = (CommodityTypeDataService) Naming.lookup("");
-			ArrayList<CommodityModelPO> list=po.getList();
-			ArrayList<CommodityModelVO> list2=new ArrayList<CommodityModelVO>();
-			for(int i=0;i<list.size();i++){
-				CommodityModelVO a=new CommodityModelVO(list.get(i).getName(),list.get(i).getModel(),
-						list.get(i).getStorehouse(),list.get(i).getNoticeNumber(),list.get(i).getStock(),
-						list.get(i).getPurchasePrice(),list.get(i).getRetailPrice(),
-						list.get(i).getRecentPurchasePrice(),list.get(i).getRecentRetailPrice());
-				list2.add(a);
-			}
-			String type = po.getType().getName();
-			CommodityVO vo=new CommodityVO(po.getId(),po.getName(),type,po.getTotal(),list2);
-			return vo;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
 			return null;
 		}
-	}
-	
-	private CommodityPO.CommodityModelPO exchange(CommodityModelVO vo) {
-		CommodityModelPO po=new CommodityModelPO(vo.getCommodity(),vo.getModel(),
-				vo.getStockNumber(),vo.getStorehouse(),vo.getNoticeNumber(),
-				vo.getPurchasePrice(),vo.getRetailPrice(),
-				vo.getRecentPurchasePrice(),vo.getRecentRetailPrice());
-		return po;
-	}
-	@Override
-	public ArrayList<CommodityVO> getAllCommodity() {
-		// TODO 自动生成的方法存根
-		return null;
+		else{
+			ArrayList<CommodityVO> list=new ArrayList<CommodityVO>();
+			Iterator<CommodityPO> iterator=service.getAllCommodities();
+			while(iterator.hasNext()){
+				list.add(Convert.convert(iterator.next()));
+			}
+			return list;
+		}
 	}
 }

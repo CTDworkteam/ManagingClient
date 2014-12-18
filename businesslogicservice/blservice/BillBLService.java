@@ -1,25 +1,26 @@
 package blservice;
 import vo.*;
 import enumType.*;
+import java.util.*;
 public interface BillBLService {
 	public ResultMessage approveGiftBill(GiftBillVO vo);
-//	public ResultMessage updateGiftBill(GiftBillVO vo);			这些update没必要，界面修改后点击同意，就自动更新。
 	public ResultMessage approveOverflowBill(OverflowBillVO vo);
-//	public ResultMessage updateOverflowBill(OverflowBillVO vo);
 	public ResultMessage approveUnderflowBill(UnderflowBillVO vo);
-//	public ResultMessage updateUnderflowBill(UnderflowBillVO vo);
 	public ResultMessage approvePurchaseBill(PurchaseBillVO vo);
-//	public ResultMessage updatePurchaseBill(PurchaseBillVO vo);
 	public ResultMessage approvePurchaseReturnBill(PurchaseReturnBillVO vo);
-//	public ResultMessage updatePurchaseReturnBill(PurchaseReturnBillVO vo);
 	public ResultMessage approveSalesBill(SalesBillVO vo);
-//	public ResultMessage updateSalesBill(SalesBillVO vo);
 	public ResultMessage approveSalesReturnBill(SalesReturnBillVO vo);
-//	public ResultMessage updateSalesReturnBill(SalesBillVO vo);
 	public ResultMessage approveRecipt(ReciptVO vo);
-//	public ResultMessage updateRecipt(ReciptVO vo);
 	public ResultMessage approvePayment(PaymentVO vo);
-//	public ResultMessage updatePayment(PaymentVO vo);
 	public ResultMessage approveExpense(ExpenseVO vo);
-//	public ResultMessage updateExpense(ExpenseVO vo);
+	public ArrayList<GiftBillVO> listGiftBills();
+	public ArrayList<OverflowBillVO> listOverflowBills();
+	public ArrayList<UnderflowBillVO> listUnderflowBills();
+	public ArrayList<PurchaseBillVO> listPurchaseBills();
+	public ArrayList<PurchaseReturnBillVO> listPurchaseReturnBills();
+	public ArrayList<SalesBillVO> listSalesBills();
+	public ArrayList<SalesReturnBillVO> listSalesReturnBills();
+	public ArrayList<ReciptVO> listRecipts();
+	public ArrayList<PaymentVO> listPayments();
+	public ArrayList<ExpenseVO> listExpenses();
 }

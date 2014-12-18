@@ -11,23 +11,34 @@ public class UserController implements UserBLService{
 	public UserController(){
 		user=new User();
 	}
+	@Override
 	public ResultMessage addUser(UserVO vo) {
-		return user.addUser(vo);
+		// TODO 自动生成的方法存根
+		return null;
 	}
+	@Override
 	public ResultMessage deleteUser(long id) {
-		return user.deleteUser(id);
+		// TODO 自动生成的方法存根
+		return null;
 	}
+	@Override
 	public UserVO findUser(long id) {
-		return user.findUser(id);
+		// TODO 自动生成的方法存根
+		return null;
 	}
+	@Override
 	public ResultMessage updateUser(UserVO user) {
-		return user.updateUser(user);
+		// TODO 自动生成的方法存根
+		return null;
 	}
+	@Override
 	public UserListVO getAll() {
-		return user.getAll();
+		// TODO 自动生成的方法存根
+		return null;
 	}
+	@Override
 	public ResultMessage checkRegister(RegisterInfoVO info) {
-		return UserJob.checkRegister(info);
+		// TODO 自动生成的方法存根
+		return null;
 	}
-	
 }

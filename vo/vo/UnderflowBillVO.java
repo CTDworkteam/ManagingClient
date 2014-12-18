@@ -8,6 +8,20 @@ public class UnderflowBillVO {
 	private String model;
 	private int recordNumber;
 	private int actualNumber;
+	private String note;
+	private String operator;
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+	public String getOperator() {
+		return operator;
+	}
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 	public UnderflowBillVO(String id, String storehouse, String commodity,
 			String model, int recordNumber, int actualNumber) {
 		super();
@@ -18,6 +32,9 @@ public class UnderflowBillVO {
 		this.recordNumber = recordNumber;
 		this.actualNumber = actualNumber;
 		this.isPassed=false;
+	}
+	public UnderflowBillVO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public boolean isPassed() {
 		return isPassed;

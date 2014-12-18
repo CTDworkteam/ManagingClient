@@ -11,6 +11,9 @@ public class DiscountStrategyVO {
 		this.discount = discount;
 		this.clientList = clientList;
 	}
+	public DiscountStrategyVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getId() {
 		return id;
 	}

@@ -7,7 +7,7 @@ import vo.CommodityModelVO;
 import vo.CommodityVO;
 
 public class MockCommodity extends Commodity{
-	ArrayList<CommodityModel> model=new ArrayList<CommodityModel>();
+	/*ArrayList<CommodityModel> model=new ArrayList<CommodityModel>();
 	MockCommodity m=new MockCommodity("123","asd","www",200,model);
 	public MockCommodity(String id, String name, String type, int total,
 			ArrayList<CommodityModel> list) {
@@ -79,7 +79,7 @@ public class MockCommodity extends Commodity{
 		
 	}*/
 	
-	public CommodityModelVO getModel(CommodityVO vo,String model){
+	/*public CommodityModelVO getModel(CommodityVO vo,String model){
 		for(int i=0;i<vo.getList().size();i++){
 			if(vo.getList().get(i).getModel().equals(model)){
 				return new CommodityModelVO(vo.getList().get(i).getCommodity(),
@@ -90,5 +90,5 @@ public class MockCommodity extends Commodity{
 			}
 		}
 		return null;
-	}
+	}*/
 }

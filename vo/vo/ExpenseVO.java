@@ -17,6 +17,9 @@ public class ExpenseVO {
 		this.list = list;
 		this.isPassed=false;
 	}
+	public ExpenseVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public boolean isPassed() {
 		return isPassed;
 	}
@@ -62,6 +65,9 @@ public class ExpenseVO {
 			this.itemName = itemName;
 			this.money = money;
 			this.note = note;
+		}
+		public ExpenseItemVO() {
+			// TODO 自动生成的构造函数存根
 		}
 		public String getItemName() {
 			return itemName;

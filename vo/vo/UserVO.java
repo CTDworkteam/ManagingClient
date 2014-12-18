@@ -14,6 +14,9 @@ public class UserVO {
 		this.password = password;
 		this.role = role;
 	}
+	public UserVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public long getId() {
 		return id;
 	}

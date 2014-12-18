@@ -1,6 +1,7 @@
 package vo;
 import java.util.*;
 public class GiftBasedOnTotalMoneyVO {
+	private String id;
 	private double lower;
 	private double upper;
 	private ArrayList<GBOTMItemVO> list;
@@ -10,6 +11,15 @@ public class GiftBasedOnTotalMoneyVO {
 		this.lower = lower;
 		this.upper = upper;
 		this.list = list;
+	}
+	public GiftBasedOnTotalMoneyVO() {
+		// TODO 自动生成的构造函数存根
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public double getLower() {
 		return lower;
@@ -30,22 +40,17 @@ public class GiftBasedOnTotalMoneyVO {
 		this.list = list;
 	}
 	public class GBOTMItemVO{
-		private String id;
 		private String commodity;
 		private String model;
 		private int number;
-		public GBOTMItemVO(String id, String commodity, String model, int number) {
+		public GBOTMItemVO( String commodity, String model, int number) {
 			super();
-			this.id = id;
 			this.commodity = commodity;
 			this.model = model;
 			this.number = number;
 		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
+		public GBOTMItemVO() {
+			// TODO 自动生成的构造函数存根
 		}
 		public String getCommodity() {
 			return commodity;
