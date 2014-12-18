@@ -8,4 +8,5 @@ public interface AccountBLService {
 	public ResultMessage update(AccountVO vo);
 	public AccountVO find(String name);
 	public ArrayList<AccountVO> getList();
+	public long getNewAccountID();
 }

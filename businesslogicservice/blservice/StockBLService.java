@@ -11,4 +11,8 @@ public interface StockBLService {
 	public ArrayList<OverflowBillVO> getAllOverflowBills();
 	public ArrayList<UnderflowBillVO> getAllUnderflowBills();
 	public ArrayList<NoticeBillVO> getAllNoticeBills();
+	public String getNewGiftBillID(GregorianCalendar date);
+	public String getNewOverflowBillID(GregorianCalendar date);
+	public String getNewUnderflowBillID(GregorianCalendar date);
+	public String getNewNoticeBillID(GregorianCalendar date);
 }

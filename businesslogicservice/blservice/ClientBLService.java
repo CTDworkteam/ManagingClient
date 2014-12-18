@@ -9,4 +9,5 @@ public interface ClientBLService {
     public ClientVO find(String id);
     public ArrayList<ClientVO> finds(String key);
     public ArrayList<ClientVO> getList();
+    public long getNewClientID();
 }

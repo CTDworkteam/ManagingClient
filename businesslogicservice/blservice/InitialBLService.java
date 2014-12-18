@@ -10,4 +10,5 @@ public interface InitialBLService {
 	public ResultMessage addAccount(ArrayList<AccountVO> account);
 	public InitialVO getInitialInfo(String id);
 	public ArrayList<InitialVO> getList();
+	public String getNewID(GregorianCalendar date);
 }

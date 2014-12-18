@@ -14,4 +14,6 @@ public interface PurchaseBLService {
 	public ArrayList<PurchaseReturnBillVO> findReturnBills(GregorianCalendar before,GregorianCalendar after);
 	public ArrayList<PurchaseBillVO> getAllBills();
 	public ArrayList<PurchaseReturnBillVO> getAllReturnBills();
+	public String getNewBillID(GregorianCalendar date);
+	public String getNewReturnBillID(GregorianCalendar date);
 }

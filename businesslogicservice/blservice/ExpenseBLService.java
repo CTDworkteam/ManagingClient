@@ -8,4 +8,5 @@ public interface ExpenseBLService {
 	public ExpenseVO find(String id);
 	public ArrayList<ExpenseVO> findByCalendar(GregorianCalendar before,GregorianCalendar after);
 	public ArrayList<ExpenseVO> getList();
+	public String getNewID(GregorianCalendar date);
 }
