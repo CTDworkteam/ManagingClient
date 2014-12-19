@@ -28,6 +28,9 @@ public interface SalesDataService {
 	    public boolean containsOperator(String name);
 	    public Iterator<SalesBillPO> findOperator(String name);
 	    
+	    public int numberOfBills(GregorianCalendar date);
+	    public int numberOfReturnBills(GregorianCalendar date);
+	    
 	    public void init();
 	    public void save();
 }

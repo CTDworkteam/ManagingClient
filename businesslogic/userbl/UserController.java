@@ -6,7 +6,7 @@ import vo.UserVO;
 import enumType.ResultMessage;
 import enumType.UserJob;
 
-public class UserController implements UserBLService{
+public class UserController implements blservice.UserBLService{
 	public User user;
 	public UserController(){
 		user=new User();
@@ -37,8 +37,8 @@ public class UserController implements UserBLService{
 		return null;
 	}
 	@Override
-	public ResultMessage checkRegister(RegisterInfoVO info) {
+	public long getNewUserID() {
 		// TODO 自动生成的方法存根
-		return null;
+		return 0;
 	}
 }

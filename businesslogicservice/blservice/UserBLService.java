@@ -10,4 +10,5 @@ public interface UserBLService {
 	public UserVO findUser(long id);
 	public ResultMessage updateUser(UserVO user);
 	public UserListVO getAll();
+	public long getNewUserID();
 }

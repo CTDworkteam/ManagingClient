@@ -34,4 +34,9 @@ public class CommodityTypeController implements CommodityTypeBLService{
 	public ArrayList<CommodityTypeVO> getAllCommodityType() {
 		return null;
 	}
+	@Override
+	public String getNewID(String fatherID) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
 }

@@ -1,6 +1,7 @@
 package stockbl;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import vo.*;
 import enumType.ResultMessage;
@@ -48,6 +49,26 @@ public class StockController implements StockBLService{
 	}
 	@Override
 	public ArrayList<NoticeBillVO> getAllNoticeBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewGiftBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewOverflowBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewUnderflowBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewNoticeBillID(GregorianCalendar date) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

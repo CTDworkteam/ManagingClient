@@ -21,6 +21,9 @@ public class UserListVO {
 		this.financemanager = financemanager;
 		this.systemmanager = systemmanager;
 	}
+	public UserListVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public ArrayList<UserVO> getPurchasemanager() {
 		return purchasemanager;
 	}
