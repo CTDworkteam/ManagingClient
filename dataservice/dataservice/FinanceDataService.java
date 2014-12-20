@@ -9,6 +9,7 @@ public interface FinanceDataService {
 	public boolean contains1(GregorianCalendar start,GregorianCalendar end);
 	public ReciptPO find1(String id);
 	public Iterator<ReciptPO> finds1(GregorianCalendar before,GregorianCalendar after);
+	public int numberOfRecipts(GregorianCalendar date);
 	public TreeMap<String,ReciptPO> getList1();
 	public ArrayList<String> getReciptIDs();
 	public boolean hasRecipts();
@@ -20,6 +21,7 @@ public interface FinanceDataService {
 	public boolean contains2(GregorianCalendar start,GregorianCalendar end);
 	public PaymentPO find2(String id);
 	public Iterator<PaymentPO> finds2(GregorianCalendar before,GregorianCalendar after);
+	public int numberOfPayments(GregorianCalendar date);
 	public TreeMap<String,PaymentPO> getList2();
 	public ArrayList<String> getPaymentIDs();
 	public boolean hasPayments();

@@ -3,6 +3,7 @@ import userbl.User;
 import vo.*;
 
 import java.rmi.Naming;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import blservice.StockBLService;
@@ -12,6 +13,7 @@ import po.*;
 import dataservice.*;
 import enumType.ResultMessage;
 public class Stock implements StockBLService{
+	private SimpleDateFormat format=new SimpleDateFormat("yyyymmdd");
 	public Stock(){
 	}
 	public ResultMessage send(GiftBillVO bill){
@@ -134,6 +136,58 @@ public class Stock implements StockBLService{
 				list.add(Convert.convert(treemap.get(ids.get(i))));
 			}
 			return list;
+		}
+	}
+	public String getNewGiftBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "ÍøÂçÁ¬½Ó´íÎó";
+		}
+		else{
+			String ID="ZS";
+			ID+=format.format(date);
+			int number=service.numberOfGiftBills(date)+1;
+			ID+=String.format("%5d",number);
+			return ID;
+		}
+	}
+	public String getNewOverflowBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "ÍøÂçÁ¬½Ó´íÎó";
+		}
+		else{
+			String ID="BY";
+			ID+=format.format(date);
+			int number=service.numberOfOverflowBills(date)+1;
+			ID+=String.format("%5d",number);
+			return ID;
+		}
+	}
+	public String getNewUnderflowBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "ÍøÂçÁ¬½Ó´íÎó";
+		}
+		else{
+			String ID="BS";
+			ID+=format.format(date);
+			int number=service.numberOfUnderflowBills(date)+1;
+			ID+=String.format("%5d",number);
+			return ID;
+		}
+	}
+	public String getNewNoticeBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "ÍøÂçÁ¬½Ó´íÎó";
+		}
+		else{
+			String ID="BJ";
+			ID+=format.format(date);
+			int number=service.numberOfNoticeBills(date)+1;
+			ID+=String.format("%5d",number);
+			return ID;
 		}
 	}
 }

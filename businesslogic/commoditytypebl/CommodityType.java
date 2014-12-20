@@ -29,7 +29,7 @@ public class CommodityType {
 				return ResultMessage.Failure;
 			}
 			else{
-				CommodityTypePO po=service.findByName(vo.getFather());
+				CommodityTypePO po=Convert.convert(vo);
 				if(po.isLeafNode()&&po.getCommodityList().size()!=0){
 					return ResultMessage.Failure;
 				}
@@ -118,12 +118,7 @@ public class CommodityType {
 			return null;
 		}
 		else{
-			ArrayList<CommodityTypeVO> list=new ArrayList<CommodityTypeVO>();
-			Iterator<String> childs=vo.getChild().iterator();
-			while(childs.hasNext()){
-				list.add(Convert.convert(service.findByName(childs.next())));
-			}
-			return list;
+			return vo.getChild();
 		}
 	}
 	
@@ -136,13 +131,7 @@ public class CommodityType {
 			return null;
 		}
 		else{
-			ArrayList<CommodityVO> list=new ArrayList<CommodityVO>();
-			Iterator<String> iterator=vo.getCommodityList().iterator();
-			Commodity commodity=new Commodity();
-			while(iterator.hasNext()){
-				list.add(commodity.findCommodityByName(iterator.next()));
-			}
-			return list;
+			return vo.getCommodityList();
 		}
 	}
 	public ArrayList<CommodityTypeVO> getAllCommodityType() {
@@ -160,6 +149,35 @@ public class CommodityType {
 				list.add(Convert.convert(iterator.next()));
 			}
 			return list;
+		}
+	}
+	public String getNewID(String fatherID) {
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
+			return "网络连接不稳定";
+		}
+		else{
+			if(!service.containInID(fatherID)){
+				return "不存在相关父类";
+			}
+			else{
+				CommodityTypePO po=service.findByID(fatherID);
+				if(po.getCommodityList().size()!=0){
+					return "由于有商品，无法添加";
+				}
+				else{
+					int number=po.getChilds().size()+1;
+					int depthOfFather=Integer.parseInt(fatherID.substring(0,1));
+					int depth=depthOfFather+1;
+					String ID=new Integer(depth).toString();
+					ID+=fatherID.substring(1,2*depthOfFather+1);
+					ID+=String.format("%2d",number);
+					while(ID.length()<11){
+						ID+="0";
+					}
+					return ID;
+				}
+			}
 		}
 	}
 }

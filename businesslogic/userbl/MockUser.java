@@ -5,7 +5,7 @@ import enumType.ResultMessage;
 import vo.*;
 
 public class MockUser extends User{
-	private RegisterInfo r;
+	/*private RegisterInfo r;
 	private User u=new User(12345,r);
 	
 	public MockUser(){	
@@ -66,5 +66,5 @@ public class MockUser extends User{
 		else{
 			return ResultMessage.Failure;
 		}
-	}
+	}*/
 }

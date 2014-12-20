@@ -121,16 +121,16 @@ public class Convert {
 		vo.setName(po.getName());
 		vo.setRootNode(po.isRootNode());
 		vo.setLeafNode(po.isLeafNode());
-		vo.setFather(service1.findByID(po.getFather()).getName());
+		vo.setFather(Convert.convert(service1.findByID(po.getFather())));
 		Iterator<String> it1=po.getChilds().iterator();
 		Iterator<String> it2=po.getCommodityList().iterator();
-		ArrayList<String> list1=new ArrayList<String>();
-		ArrayList<String> list2=new ArrayList<String>();
+		ArrayList<CommodityTypeVO> list1=new ArrayList<CommodityTypeVO>();
+		ArrayList<CommodityVO> list2=new ArrayList<CommodityVO>();
 		while(it1.hasNext()){
-			list1.add(service1.findByID(it1.next()).getName());
+			list1.add(Convert.convert(service1.findByID(it1.next())));
 		}
 		while(it2.hasNext()){
-			list2.add(service2.findCommodityInID(it2.next()).getName());
+			list2.add(Convert.convert(service2.findCommodityInID(it2.next())));
 		}
 		vo.setChild(list1);
 		vo.setCommodityList(list2);
@@ -144,16 +144,16 @@ public class Convert {
 		po.setName(vo.getName());
 		po.setLeafNode(vo.isLeafNode());
 		po.setRootNode(vo.isRootNode());
-		po.setFather(service1.findByName(vo.getFather()).getId());
-		Iterator<String> it1=vo.getChild().iterator();
-		Iterator<String> it2=vo.getCommodityList().iterator();
+		po.setFather(vo.getFather().getId());
+		Iterator<CommodityTypeVO> it1=vo.getChild().iterator();
+		Iterator<CommodityVO> it2=vo.getCommodityList().iterator();
 		ArrayList<String> list1=new ArrayList<String>();
 		ArrayList<String> list2=new ArrayList<String>();
 		while(it1.hasNext()){
-			list1.add(service1.findByName(it1.next()).getId());
+			list1.add(vo.getId());
 		}
 		while(it2.hasNext()){
-			list2.add(service2.findCommodityInName(it2.next()).getId());
+			list2.add(vo.getId());
 		}
 		po.setChilds(list1);
 		po.setCommodityList(list2);

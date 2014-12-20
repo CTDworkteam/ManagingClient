@@ -30,7 +30,7 @@ public class StockCheck{
 	public User operator;
 	public StockCheckListVO check(String storehouse, GregorianCalendar start,
 			GregorianCalendar end){
-		try{
+		/*try{
 			StockDataService service=RMI.getStockDataService();
 			
 			int s=Integer.parseInt(start.toString());
@@ -54,11 +54,11 @@ public class StockCheck{
 		}catch(Exception ex){
 			ex.printStackTrace();
 			return new StockCheckListVO("0","0", 0, 0, 0, 0, 0, 0, 0,0,0,0);
-		}
+		}*/
 	}
 	
 	public StockCommodityListVO lookover(String storehouse){
-		try{
+		/*try{
 			CommodityDataService service=RMI.getCommodityDataService();
 			
 			TreeMap<String,TreeSet<CommodityPO>> list=service.getCommodityList();
@@ -70,113 +70,93 @@ public class StockCheck{
 			}
 		} catch(Exception ex) {
 			ex.printStackTrace();
-		}
+		}*/
 	}
 	
 	private int getGift(GregorianCalendar start, GregorianCalendar end) {
-		try{
-			StockDataService service=RMI.getStockDataService();
-			
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return -1;
+		}
+		else{
 			int giftNumber=0;
-			TreeSet<GiftBillPO> out=service.finds1(start, end);
-			
-			Iterator i=out.iterator();
-			while(i.hasNext()){
-				GiftBillPO temp=(GiftBillPO) i.next();
-				ArrayList<GiftBillItemPO> list=temp.getList();
-				for(int j=0;j<list.size();j++){
-					giftNumber+=list.get(j).getNumber();
+			Iterator<GiftBillPO> iterator=service.finds1(start,end);
+			while(iterator.hasNext()){
+				GiftBillPO temp=(GiftBillPO)iterator.next();
+				Iterator<GiftBillPO.GiftBillItemPO> it=temp.getList().iterator();
+				while(it.hasNext()){
+					giftNumber+=it.next().getNumber();
 				}
 			}
 			return giftNumber;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return 0;
 		}
 	}
 
 	public double[] getPurchase(GregorianCalendar start,
 			GregorianCalendar end){
-		try{
-			PurchaseDataService service2=RMI.getPurchaseDataService();
-			
-			TreeSet<PurchaseBillPO> in=service2.finds1(start,end);
-			TreeSet<PurchaseReturnBillPO> out=service2.finds2(start, end);
-			
+		PurchaseDataService service=RMI.getPurchaseDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			Iterator<PurchaseBillPO> in=service.finds1(start, end);
+			Iterator<PurchaseReturnBillPO> out=service.finds2(start, end);
 			double purchaseMoney=0;
 			double purchaseNumber=0;
-			
-			Iterator i=in.iterator();
-			while(i.hasNext()){
-				PurchaseBillPO m=(PurchaseBillPO) i.next();
-				purchaseMoney+=m.getTotal();
-			
-				ArrayList<PurchaseBillItemPO> temp=m.getList();
-				for(int j=0;j<temp.size();j++){
-					purchaseNumber+=temp.get(j).getNumber();
+			while(in.hasNext()){
+				PurchaseBillPO po=in.next();
+				purchaseMoney+=po.getTotal();
+				Iterator<PurchaseBillPO.PurchaseBillItemPO> item=po.getList().iterator();
+				while(item.hasNext()){
+					purchaseNumber+=item.next().getNumber();
 				}
 			}
-			i=out.iterator();
-			while(i.hasNext()){
-				PurchaseReturnBillPO m=(PurchaseReturnBillPO) i.next();
-				purchaseMoney-=m.getTotal();
-				
-				ArrayList<PurchaseReturnBillItemPO> temp=m.getList();
-				for(int j=0;j<temp.size();j++){
-					purchaseNumber-=temp.get(j).getNumber();
+			while(out.hasNext()){
+				PurchaseReturnBillPO po=out.next();
+				purchaseMoney-=po.getTotal();
+				Iterator<PurchaseReturnBillPO.PurchaseReturnBillItemPO> item=po.getList().iterator();
+				while(item.hasNext()){
+					purchaseNumber-=item.next().getNumber();
 				}
 			}
-			
-			double result[]=new double[2];
+			double[] result=new double[2];
 			result[0]=purchaseMoney;
 			result[1]=purchaseNumber;
 			return result;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
 		}
 	}
 	
 	public double[] getSales(GregorianCalendar start,
 			GregorianCalendar end){
-		try{
-			SalesDataService service3=RMI.getSalesDataService();
-			
-			TreeSet<SalesBillPO> in2=service3.finds1(start, end);
-			TreeSet<SalesReturnBillPO> out2=service3.finds2(start, end);
+		SalesDataService service=RMI.getSalesDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			Iterator<SalesBillPO> in=service.finds1(start, end);
+			Iterator<SalesReturnBillPO> out=service.finds2(start, end);
 			double salesMoney=0;
 			double salesNumber=0;
-			
-			Iterator i=in2.iterator();
-			while(i.hasNext()){
-				SalesBillPO m=(SalesBillPO) i.next();
+			while(in.hasNext()){
+				SalesBillPO m=(SalesBillPO)in.next();
 				salesMoney+=m.getTotal();
-			
-				ArrayList<SalesBillItemPO> temp=m.getList();
-				for(int j=0;j<temp.size();j++){
-					salesNumber+=temp.get(j).getNumber();
+				Iterator<SalesBillPO.SalesBillItemPO> item=m.getList().iterator();
+				while(item.hasNext()){
+					salesNumber+=item.next().getNumber();
 				}
 			}
-			i=out2.iterator();
-			while(i.hasNext()){
-				SalesReturnBillPO m=(SalesReturnBillPO) i.next();
+			while(out.hasNext()){
+				SalesReturnBillPO m=(SalesReturnBillPO)out.next();
 				salesMoney-=m.getTotal();
-			
-				ArrayList<SalesReturnBillItemPO> temp=m.getList();
-				for(int j=0;j<temp.size();j++){
-					salesNumber-=temp.get(j).getNumber();
+				Iterator<SalesReturnBillPO.SalesReturnBillItemPO> item=m.getList().iterator();
+				while(item.hasNext()){
+					salesNumber-=item.next().getNumber();
 				}
 			}
-			
-			double result[]=new double[2];
+			double[] result=new double[2];
 			result[0]=salesMoney;
 			result[1]=salesNumber;
 			return result;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			double a[]={0,0};
-			return a;
 		}
 	}
-	
 }

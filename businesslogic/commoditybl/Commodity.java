@@ -218,4 +218,27 @@ public class Commodity{
 			return list;
 		}
 	}
+	public String getNewID(String typeID) {
+		CommodityTypeDataService service1=RMI.getCommodityTypeDataService();
+		CommodityDataService service2=RMI.getCommodityDataService();
+		if(service1==null||service2==null){
+			return "网络故障";
+		}
+		else{
+			if(!service1.containInID(typeID)){
+				return "不存在相关分类";
+			}
+			else{
+				CommodityTypePO type=service1.findByID(typeID);
+				if(type.getChilds().size()!=0){
+					return "无法添加商品";
+				}
+				else{
+					int number=type.getCommodityList().size()+1;
+					String ID=typeID+String.format("%3d",number);
+					return ID;
+				}
+			}
+		}
+	}
 }

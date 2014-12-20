@@ -157,7 +157,23 @@ class stockTypeui extends JPanel{
 					 }
 					vosFrame.pack();
 					vosFrame.setLocationRelativeTo(null);
-					vosframe.
+					vosFrame.setTitle("搜索结果");
+					vosFrame.setVisible(true);
+					vosFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					
+					jbtEnter.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							CommodityTypeController commodityType=new CommodityTypeController();
+							ArrayList insArray=commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).getCommodityList();
+							if(!commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).isLeafNode())
+							{
+								int rowNum=vosTableModel.getRowCount();
+								for(int i=0;i<rowNum;i++)
+									vosTableModel.removeRow(0);
+								
+							}
+						}
+					});
 					}
 				////实现显示所查询,换种方式如何(前缀与含有)
 		/*		TreePath path=jTree.getNextMatch(nameField.getText(),0, null);
@@ -181,7 +197,16 @@ class stockTypeui extends JPanel{
 		
 		jbtAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				
+				insFrame.pack();
+				insFrame=new JFrame();
+				newName=new JLabel("新分类名称");
+			    newNameField=new JTextField();
+				newID=new JLabel("新分类编号");
+				newIDField=new JTextField();
+				assure=new JButton("确认");
+				cancel=new JButton("取消");
+				top=new JPanel(new GridLayout(2,2));
+				down=new JPanel(new GridLayout(1,2));
 				parent=(DefaultMutableTreeNode)jTree.getLastSelectedPathComponent();
 				
 				if(parent==null){
@@ -189,8 +214,18 @@ class stockTypeui extends JPanel{
 					return;
 				}
 				
-				
-				
+				newNameField.setText("");
+				newIDField.setText("");
+				top.add(newName);
+				top.add(newNameField);
+				top.add(newID);
+				top.add(newIDField);
+				down.add(assure);
+				down.add(cancel);
+				JPanel total=new JPanel(new BorderLayout());
+				total.add(top,BorderLayout.CENTER);
+				total.add(down,BorderLayout.SOUTH);
+				insFrame.add(total);
 				insFrame.setLocationRelativeTo(null);
 				insFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				insFrame.setSize(200,150);

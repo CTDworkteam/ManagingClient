@@ -69,7 +69,6 @@ public class CommodityController implements CommodityBLService{
 	}
 	@Override
 	public String getNewID(String typeID) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
