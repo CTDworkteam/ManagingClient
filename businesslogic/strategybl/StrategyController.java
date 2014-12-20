@@ -1,5 +1,7 @@
 package strategybl;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 import vo.*;
 import enumType.ResultMessage;
 import blservice.*;
@@ -76,5 +78,30 @@ public class StrategyController implements StrategyBLService{
 	
 	public ArrayList<GiftBasedOnTotalMoneyVO> getAllGBOTMs() {
 		return strategy.getAllGBOTMs();
+	}
+	@Override
+	public String getNewVoucherStrategyID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewDiscountStrateyID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewCombinationStrategyID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewGiftStrategyID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewGiftBasedOnTotalMoney(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

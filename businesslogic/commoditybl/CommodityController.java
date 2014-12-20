@@ -67,4 +67,9 @@ public class CommodityController implements CommodityBLService{
 		// TODO 自动生成的方法存根
 		return null;
 	}
+	@Override
+	public String getNewID(String typeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

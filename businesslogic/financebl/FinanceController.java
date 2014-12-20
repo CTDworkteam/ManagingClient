@@ -1,6 +1,7 @@
 package financebl;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
 import vo.PaymentVO;
 import vo.ReciptVO;
 import enumType.ResultMessage;
@@ -31,11 +32,11 @@ public class FinanceController implements FinanceBLService{
 	}
 	
 	public ResultMessage executeBill(ReciptVO bill) {
-		return finance.executeBill(bill);
+		return null;//return finance.executeBill(bill);
 	}
 	
 	public ResultMessage executeReturnBill(PaymentVO bill) {
-		return finance.executeReturnBill(bill);
+		return null;//return finance.executeReturnBill(bill);
 	}
 	
 	public ReciptVO findRecipt(String id) {
@@ -62,6 +63,18 @@ public class FinanceController implements FinanceBLService{
 	
 	public ArrayList<PaymentVO> getAllPayments() {
 		return finance.getAllPayments();
+	}
+
+	@Override
+	public String getNewReciptID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNewPaymentID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,12 +1,13 @@
 package financeui;
 import javax.swing.*;
+import vo.*;
 
 public class ReciptConfirm {
 	
 	JFrame frame;
 	JPanel panel;
 	
-	public void go(){
+	public void go(ReciptVO vo){
 		frame=new JFrame();
 		panel=new JPanel();
 		

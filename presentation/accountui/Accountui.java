@@ -1,8 +1,11 @@
 package accountui;
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import accountbl.AccountController;
 import vo.*;
 import confirmui.*;
@@ -37,7 +40,7 @@ public class Accountui {
 		accounts=controller.getList();
 		int size=accounts.size();
 		for(int i=0;i<size;i++){
-			data[i][0]=Integer.toString(i+1);
+			data[i][0]=Long.toString(accounts.get(i).getId());
 			data[i][1]=accounts.get(i).getName();
 		}
 		table=new JTable(data,heading);
@@ -98,10 +101,45 @@ public class Accountui {
 			accounts=controller.getList();
 			int size=accounts.size();
 			for(int i=0;i<size;i++){
-				data[i][0]=Integer.toString(i+1);
+				data[i][0]=Long.toString(accounts.get(i).getId());
 				data[i][1]=accounts.get(i).getName();
 			}
 		}
+	}
+	
+	class textListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			String name=(String) table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+			fieldName.setText(name);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 	class addListener implements ActionListener{
