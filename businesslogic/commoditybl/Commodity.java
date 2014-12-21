@@ -11,6 +11,7 @@ import datafactory.*;
 import config.RMI;
 import convert.Convert;
 import po.*;
+import utility.Utility;
 import vo.*;
 import dataservice.*;
 import enumType.ResultMessage;
@@ -235,7 +236,7 @@ public class Commodity{
 				}
 				else{
 					int number=type.getCommodityList().size()+1;
-					String ID=typeID+String.format("%3d",number);
+					String ID=typeID+Utility.getIntegerString(number,3);
 					return ID;
 				}
 			}

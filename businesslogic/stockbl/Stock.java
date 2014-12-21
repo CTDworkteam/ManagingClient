@@ -1,5 +1,6 @@
 package stockbl;
 import userbl.User;
+import utility.Utility;
 import vo.*;
 
 import java.rmi.Naming;
@@ -147,7 +148,7 @@ public class Stock implements StockBLService{
 			String ID="ZS";
 			ID+=format.format(date);
 			int number=service.numberOfGiftBills(date)+1;
-			ID+=String.format("%5d",number);
+			ID+=Utility.getIntegerString(number,5);
 			return ID;
 		}
 	}
@@ -160,7 +161,7 @@ public class Stock implements StockBLService{
 			String ID="BY";
 			ID+=format.format(date);
 			int number=service.numberOfOverflowBills(date)+1;
-			ID+=String.format("%5d",number);
+			ID+=Utility.getIntegerString(number, 5);
 			return ID;
 		}
 	}
@@ -173,7 +174,7 @@ public class Stock implements StockBLService{
 			String ID="BS";
 			ID+=format.format(date);
 			int number=service.numberOfUnderflowBills(date)+1;
-			ID+=String.format("%5d",number);
+			ID+=Utility.getIntegerString(number,5);
 			return ID;
 		}
 	}
@@ -186,7 +187,7 @@ public class Stock implements StockBLService{
 			String ID="BJ";
 			ID+=format.format(date);
 			int number=service.numberOfNoticeBills(date)+1;
-			ID+=String.format("%5d",number);
+			ID+=Utility.getIntegerString(number,5);
 			return ID;
 		}
 	}

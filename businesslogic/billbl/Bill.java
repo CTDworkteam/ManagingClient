@@ -1,314 +1,510 @@
 package billbl;
 
-import java.util.ArrayList;
+import java.util.*;
 
+import blservice.*;
 import po.*;
 import vo.*;
 import dataservice.*;
 import enumType.ResultMessage;
 import config.RMI;
-public class Bill{
-	private AccountDataService accountdataservice;
-	private ClientDataService clientdataservice;
-	private CommodityDataService commoditydataservice;
-	private FinanceDataService financedataservice;
-	private PurchaseDataService purchasedataservice;
-	private SalesDataService salesdataservice;
-	private StockDataService stockdataservice;
+import convert.Convert;
+public class Bill implements BillBLService{
 	public Bill(){
-		accountdataservice=RMI.getAccountDataService();
-		clientdataservice=RMI.getClientDataService();
-		commoditydataservice=RMI.getCommodityDataService();
-		financedataservice=RMI.getFinanceDataService();
-		purchasedataservice=RMI.getPurchaseDataService();
-		salesdataservice=RMI.getSalesDataService();
-		stockdataservice=RMI.getStockDataService();
-	}
-	public ResultMessage approveGiftBill(GiftBillVO vo) {   //该方法用于赠送单通过审批后的相关处理
-		try{
-			GiftBillPO po = stockdataservice.find1(vo.getId());
-			ArrayList<GiftBillVO.GiftBillItemVO> list = vo.getList();
-			for(int i = 0;i<list.size();i++) {    //找到对应商品
-				CommodityPO commodity = commoditydataservice.findCommodityInName(list.get(i).getCommodity());
-				ArrayList<CommodityModelPO> list2 = commodity.getList();  
-			
-				for(int j = 0;j<list2.size();j++) {   //找到对应商品的型号
-					if(list2.get(j).getModel().equals(list.get(i).getModel())){
-						list2.get(j).setStock(list2.get(j).getStock()-list.get(i).getNumber());
-						break;
-					}
-				}
-			
-				commodity.setList(list2);
-				commodity.setTotal(commodity.getTotal()-list.get(i).getNumber());   //更新商品数量
-				commoditydataservice.updateCommodity(commodity);  //更新商品
-			}
-			po.setPassed(true);
-			stockdataservice.update(po);
-			return ResultMessage.Success;
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}
-	
-	/*public ResultMessage updateGiftBill(GiftBillVO vo){
-		try{
-			GiftBillPO temp=exchange(vo);
-			GiftBillPO po=stockdataservice.find1(vo.getId());
-			for(int i=0;i<po.getList().size();i++){
-				po.getList().get(i).setCommodity(temp.getList().get(i).getCommodity());
-				po.getList().get(i).setModel(temp.getList().get(i).getModel());
-				po.getList().get(i).setNumber(temp.getList().get(i).getNumber());
-			}
-			stockdataservice.update(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}*/
-	public ResultMessage approveOverflowBill(OverflowBillVO vo) {   //该方法用于审批库存报溢单
-		try {
-			OverflowBillPO po = stockdataservice.find(vo.getId());
-			CommodityPO commodity = commoditydataservice.findCommodityInName(vo.getCommodity());
-			commodity.setTotal(vo.getActualNumber());   //将商品数量同步
-			commoditydataservice.updateCommodity(commodity);
-			po.setPassed(true);
-			stockdataservice.update(po);      //更新库存报溢单
-			return ResultMessage.Success;
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}
-	
-/*	public ResultMessage updateOverflowBill(OverflowBillVO vo){
-		try{
-			OverflowBillPO temp=exchange(vo);
-			OverflowBillPO po=stockdataservice.find(vo.getId());
-			po.setCommodity(temp.getCommodity());
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}*/
-	
-	public ResultMessage approveUnderflowBill(UnderflowBillVO vo) {    //该方法用于审批库存报溢单
-		try {
-			UnderflowBillPO po = stockdataservice.find2(vo.getId());
-			CommodityPO commodity = commoditydataservice.findCommodityInName(vo.getCommodity());
-			commodity.setTotal(vo.getActualNumber());   //将商品数量同步
-			commoditydataservice.updateCommodity(commodity);
-			po.setPassed(true);     //更新库存报损单
-			stockdataservice.update(po);
-			return ResultMessage.Success;
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}
-	
-/*	public ResultMessage updateUnderflowBill(UnderflowBillVO vo){
- * 
- */
-	
-	public ResultMessage approvePurchaseBill(PurchaseBillVO vo) {    //该方法用于审批进货单
-		try{
-			PurchaseBillPO po = purchasedataservice.find1(vo.getId());
-			ClientPO client = clientdataservice.find(vo.getSupplier());       //更新客户的应收入金额
-			client.setMoneyReserved(client.getMoneyReserved()+vo.getTotal());
-			clientdataservice.update(client);
-			
-			ArrayList<PurchaseBillVO.PurchaseBillItemVO> list = vo.getList();
-			for(int i = 0;i<list.size();i++) {        //更新对应商品型号的库存数量
-				CommodityPO commodity = commoditydataservice.findCommodityInName(list.get(i).getCommodity());
-				ArrayList<CommodityModelPO> list2 = commodity.getList();
-			
-				for(int j = 0;j<list2.size();j++) {
-					if(list.get(i).getModel().equals(list2.get(j).getModel())){
-						list2.get(j).setStock(list2.get(j).getStock()+list.get(i).getNumber());
-						list2.get(j).setRecentPurchasePrice(list.get(i).getPrice());
-						break;
-					}
-				}
-				
-				commodity.setList(list2);
-				commodity.setTotal(commodity.getTotal() + list.get(i).getNumber());  //更新该商品的总数量
-				commoditydataservice.updateCommodity(commodity);
-			}
-			
-			po.setPassed(true);
-			purchasedataservice.update(po);
-			return ResultMessage.Success;
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}
-	
-/*	public ResultMessage updatePurchaseBill(PurchaseBillVO vo){
 		
 	}
-	*/
-	
-	public ResultMessage approvePurchaseReturnBill(PurchaseReturnBillVO vo) {   //该方法用于审批进货退货单
-		try {
-			PurchaseBillPO po = purchasedataservice.find1(vo.getId());
-			ClientPO client = clientdataservice.find(vo.getSupplier());      //更新客户的应收入金额
-			client.setMoneyToPay(client.getMoneyReserved() + vo.getTotal());
-			clientdataservice.update(client);
-			
-			ArrayList<PurchaseReturnBillVO.PurchaseReturnBillItemVO> list = vo.getList();
-			for(int i = 0;i<list.size();i++){       //更新对应商品型号的库存数量
-				CommodityPO commodity = commoditydataservice.findCommodityInName(list.get(i).getCommodity());
-				ArrayList<CommodityModelPO> list2 = commodity.getList();
-				
-				for(int j = 0;j<list2.size();j++){
-					if(list.get(i).getModel().equals(list2.get(j).getModel())){
-						list2.get(j).setStock(list2.get(j).getStock() - list.get(i).getNumber());
-						break;
-					}
-				}
-				commodity.setList(list2);
-				commodity.setTotal(commodity.getTotal()-list.get(i).getNumber());   //更新商品总数量
-				commoditydataservice.updateCommodity(commodity);
-			}
-			
-			po.setPassed(true);
-			purchasedataservice.update(po);
-			return ResultMessage.Success;
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
+	public ResultMessage approveGiftBill(GiftBillVO vo) {
+		StockDataService service1 = RMI.getStockDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		if(service1 == null || service2 == null){
 			return ResultMessage.Failure;
 		}
-	}
-	
-	public ResultMessage approveSalesBill(SalesBillVO vo) {      //该方法用于审批销售单
-		try {
-			SalesBillPO po = salesdataservice.find1(vo.getId());
-			ClientPO client = commoditydataservice.find(vo.getClient());
-			client.setMoneyToPay(client.getMoneyToPay() + vo.getTotal());   //更新客户应付金额
-			clientdataservice.update(client);
-			
-			ArrayList<SalesBillVO.SalesBillItemVO> list = vo.getList();
-			for(int i = 0;i < list.size(); i++) {    //更新对应商品型号的数量
-				CommodityPO commodity = commoditydataservice.findCommodityInName(list.get(i).getCommodity());
-				ArrayList<CommodityModelPO> list2 = commodity.getList();
-		
-				for(int j = 0;j < list2.size(); j++) {
-					if(list.get(i).getModel().equals(list2.get(j).getModel())) {
-						list2.get(j).setStock(list2.get(j).getStock()-list.get(i).getNumber());
-						list2.get(j).setRecentRetailPrice(list.get(i).getPrice());
-						break;
+		else{
+			if(!service1.contain1(vo.getId())) {
+				return ResultMessage.No_Exist;
+			}
+			else {
+				GiftBillPO po = service1.find1(vo.getId());
+				po.setPassed(true);
+				service1.update(po);
+				ArrayList<GiftBillPO.GiftBillItemPO> list=new ArrayList<GiftBillPO.GiftBillItemPO>();
+				for(int i=0;i<=list.size()-1;i++){
+					CommodityPO commodity = service2.findCommodityInID(list.get(i).getCommodityID());
+					for(int j=0;j<=commodity.getList().size()-1;j++){
+						if(commodity.getList().get(j).getName().equals(list.get(i).getModel())){
+							CommodityPO.CommodityModelPO modelPO=commodity.getList().get(j);
+							commodity.getList().remove(j);
+							modelPO.setStock(modelPO.getStock()-list.get(i).getNumber());
+							commodity.getList().add(modelPO);
+						}
 					}
+					service2.update(commodity);
 				}
+				return ResultMessage.Success;
+			}
+		}
+	}
 
-				commodity.setList(list2);          //更新相应商品的总数量
-				commodity.setTotal(commodity.getTotal()-list.get(i).getNumber());
-				commoditydataservice.updateCommodity(commodity);
-			}
-		
-			po.setPassed(true);
-			salesdataservice.update(po);
-			return ResultMessage.Success;
-		}catch(Exception ex) {
-			ex.printStackTrace();
+	public ResultMessage approveOverflowBill(OverflowBillVO vo) {
+		StockDataService service1 = RMI.getStockDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		if(service1 == null ||service2 == null){
 			return ResultMessage.Failure;
 		}
-	}
-	
-	public ResultMessage approveSalesReturnBill(SalesReturnBillVO vo) {
-		try {
-			SalesReturnBillPO po = salesdataservice.find2(vo.getId());
-			ClientPO client = clientdataservice.find(vo.getClient());
-			client.setMoneyReserved(client.getMoneyToPay() + vo.getTotal());     //更新客户应收入金额
-			clientdataservice.update(client);
-			
-			ArrayList<SalesReturnBillVO.SalesReturnBillItemVO> list = vo.getList();
-			for(int i = 0;i < list.size(); i++) {     //更新对应商品型号的数量
-				CommodityPO commodity = commoditydataservice.findCommodityInName(list.get(i).getCommodity());
-				ArrayList<CommodityModelPO> list2 = commodity.getList();
-				for(int j = 0;j < list2.size();j++) {
-					if(list.get(i).getModel().equals(list2.get(j).getModel())) {
-						list2.get(j).setStock(list2.get(j).getStock()+list.get(i).getNumber());
+		else{
+			if(!service1.contain2(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				OverflowBillPO po = service1.find(vo.getId());
+				po.setPassed(true);
+				service1.update(po);
+				CommodityPO commodity = service2.findCommodityInID(po.getId());
+				commodity.setTotal(commodity.getTotal()+po.getActualNumber()-po.getRecordNumber());
+				ArrayList<CommodityPO.CommodityModelPO> list = commodity.getList();
+				for(int i = 0;i <= list.size()-1;i++){
+					if(list.get(i).getName().equals(po.getModel())){
+						list.get(i).setStock(po.getActualNumber());
 						break;
 					}
 				}
-			
-				commodity.setList(list2);              //更新商品总数量
-				commodity.setTotal(commodity.getTotal()-list.get(i).getNumber());
-				commoditydataservice.updateCommodity(commodity);
+				commodity.setList(list);
+				return ResultMessage.Success;
 			}
-			
-			po.setPassed(true);
-			salesdataservice.update(po);
-			return ResultMessage.Success;
-		}catch(Exception ex) {
-			ex.printStackTrace();
+		}
+	}
+
+	public ResultMessage approveUnderflowBill(UnderflowBillVO vo) {
+		StockDataService service1 = RMI.getStockDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		if(service1 == null ||service2 == null){
 			return ResultMessage.Failure;
+		}
+		else{
+			if(!service1.contain2(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				UnderflowBillPO po = service1.find2(vo.getId());
+				po.setPassed(true);
+				service1.update(po);
+				CommodityPO commodity = service2.findCommodityInID(po.getId());
+				commodity.setTotal(commodity.getTotal()+po.getActualNumber()-po.getRecordNumber());
+				ArrayList<CommodityPO.CommodityModelPO> list = commodity.getList();
+				for(int i = 0;i <= list.size()-1;i++){
+					if(list.get(i).getName().equals(po.getModel())){
+						list.get(i).setStock(po.getActualNumber());
+						break;
+					}
+				}
+				commodity.setList(list);
+				return ResultMessage.Success;
+			}
+		}
+	}
+
+	public ResultMessage approvePurchaseBill(PurchaseBillVO vo) {
+		PurchaseDataService service1 = RMI.getPurchaseDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		ClientDataService service3 = RMI.getClientDataService();
+		if(service1 == null||service2 == null||service3 == null){
+			return ResultMessage.Failure;
+		}
+		else{
+			if(!service1.contain(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				PurchaseBillPO bill = service1.find1(vo.getId());
+				bill.setPassed(true);
+				service1.update(bill);
+				ClientPO client = service3.find(bill.getSupplier());
+				client.setMoneyToPay(client.getMoneyToPay()+bill.getTotal());
+				service3.update(client);
+				Iterator<PurchaseBillPO.PurchaseBillItemPO> iterator = bill.getList().iterator();
+				while(iterator.hasNext()){
+					PurchaseBillPO.PurchaseBillItemPO item = iterator.next();
+					CommodityPO  po = service2.findCommodityInID(item.getCommodityID());
+					ArrayList<CommodityPO.CommodityModelPO> list = po.getList();
+					for(int i=0;i<=list.size()-1;i++){
+						if(list.get(i).getName().equals(item.getModel())){
+							list.get(i).setRecentPurchasePrice(item.getPrice());
+							list.get(i).setStock(list.get(i).getStock()+item.getNumber());
+							po.setTotal(po.getTotal()+item.getNumber());
+							break;
+						}
+					}
+					po.setList(list);
+					service2.update(po);
+				}
+				return ResultMessage.Success;
+			}
+		}
+	}
+
+	public ResultMessage approvePurchaseReturnBill(PurchaseReturnBillVO vo) {
+		PurchaseDataService service1 = RMI.getPurchaseDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		ClientDataService service3 = RMI.getClientDataService();
+		if(service1==null||service2==null||service3==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			if(service1.contain(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				PurchaseReturnBillPO returnBill = service1.find2(vo.getId());
+				returnBill.setPassed(true);
+				service1.update(returnBill);
+				ClientPO client = service3.find(returnBill.getSupplier());
+				client.setMoneyToPay(client.getMoneyToPay()-returnBill.getTotal());
+				service3.update(client);
+				Iterator<PurchaseReturnBillPO.PurchaseReturnBillItemPO> iterator=
+						returnBill.getList().iterator();
+				while(iterator.hasNext()){
+					PurchaseReturnBillPO.PurchaseReturnBillItemPO item = iterator.next();
+					CommodityPO commodity = service2.findCommodityInID(item.getCommodityID());
+					ArrayList<CommodityPO.CommodityModelPO> list = commodity.getList();
+					for(int i=0;i<=list.size()-1;i++){
+						if(list.get(i).getName().equals(item.getModel())){
+							list.get(i).setStock(list.get(i).getStock()-item.getNumber());
+							commodity.setTotal(commodity.getTotal()-item.getNumber());
+							break;
+						}
+					}
+					commodity.setList(list);
+					service2.update(commodity);
+				}
+				return ResultMessage.Success;
+			}
 		}
 	}
 	
-	public ResultMessage approveRecipt(ReciptVO vo) {     //该方法用于审批收款单
-		try{
-			ClientPO client = financedataservice.findClient1(vo.getClient());
-			client.setMoneyToPay(client.getMoneyToPay() - vo.getTotal());  //更新客户应付金额
-			
-			ArrayList<FinanceItemVO> temp = vo.getList();
-			for(int i = 0;i < temp.size();i++) {       //查看账户，更改账户的金额
-				AccountPO account = financedataservice.findAccount1(temp.get(i).getAccount());
-				account.setMoney(account.getMoney() + temp.get(i).getMoney());
-				accountdataservice.update(account);
-			}
-			ReciptPO po = financedataservice.find1(vo.getId());
-			po.setPassed(true);      //审批通过收款单
-			financedataservice.update(po);
-			return ResultMessage.Success;
-		}catch(Exception ex) {
-			ex.printStackTrace();
+	public ResultMessage approveSalesBill(SalesBillVO vo) {
+		SalesDataService service1 = RMI.getSalesDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		ClientDataService service3 = RMI.getClientDataService();
+		if(service1==null||service2==null||service3==null){
 			return ResultMessage.Failure;
+		}
+		else{
+			if(!service1.contain(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				SalesBillPO bill=service1.find1(vo.getId());
+				bill.setPassed(true);
+				service1.update(bill);
+				ClientPO client=service3.find(bill.getClientID());
+				client.setMoneyReserved(client.getMoneyReserved()+bill.getTotal());
+				service3.update(client);
+				Iterator<SalesBillPO.SalesBillItemPO> iterator = bill.getList().iterator();
+				while(iterator.hasNext()){
+					SalesBillPO.SalesBillItemPO item = iterator.next();
+					CommodityPO commodity = service2.findCommodityInID(item.getCommodityID());
+					ArrayList<CommodityPO.CommodityModelPO> list=commodity.getList();
+					for(int i=0;i<=list.size()-1;i++){
+						if(list.get(i).getName().equals(item.getModel())){
+							list.get(i).setRecentRetailPrice(item.getPrice());
+							list.get(i).setStock(list.get(i).getStock()-item.getNumber());
+							break;
+						}
+					}
+					commodity.setList(list);
+					service2.update(commodity);
+				}
+				return ResultMessage.Success;
+			}
 		}
 	}
-	
-	public ResultMessage approvePayment(PaymentVO vo) {      //该方法用于审批付款单
-		try{
-			ClientPO client =financedataservice.findClient1(vo.getClient());
-			client.setMoneyReserved(client.getMoneyReserved() - vo.getTotal());    //更新客户应收金额
-			
-			ArrayList<FinanceItemVO> temp = vo.getList();
-			for(int i = 0;i < temp.size();i++) {     //更新账户信息
-				AccountPO account = financedataservice.findAccount1(temp.get(i).getAccount());
-				account.setMoney(account.getMoney() - temp.get(i).getMoney());
-				accountdataservice.update(account);
-			}
-		
-			PaymentPO po = financedataservice.find2(vo.getId());
-			po.setPassed(true);
-			financedataservice.update(po);          //更新付款单
-			return ResultMessage.Success;
-		}catch(Exception ex) {
-			ex.printStackTrace();
+
+	public ResultMessage approveSalesReturnBill(SalesReturnBillVO vo) {
+		SalesDataService service1 = RMI.getSalesDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		ClientDataService service3 = RMI.getClientDataService();
+		if(service1==null||service2==null||service3==null){
 			return ResultMessage.Failure;
 		}
-	}	
-	
-	public ResultMessage approveExpense(ExpenseVO vo) {    //该方法用于审批现金费用单
-		try {
-			AccountPO account = accountdataservice.find(vo.getAccount());
-			account.setMoney(account.getMoney()-vo.getTotal());   //修改对应账户的信息
-			accountdataservice.update(account);
-			
-			return ResultMessage.Success;
-		}catch(Exception ex) {
-			ex.printStackTrace();
+		else{
+			if(!service1.contain(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				SalesReturnBillPO bill=service1.find2(vo.getId());
+				bill.setPassed(true);
+				service1.update(bill);
+				ClientPO client=service3.find(bill.getClientID());
+				client.setMoneyReserved(client.getMoneyReserved()-bill.getTotal());
+				service3.update(client);
+				Iterator<SalesReturnBillPO.SalesReturnBillItemPO> iterator = bill.getList().iterator();
+				while(iterator.hasNext()){
+					SalesReturnBillPO.SalesReturnBillItemPO item = iterator.next();
+					CommodityPO commodity = service2.findCommodityInID(item.getCommodityID());
+					ArrayList<CommodityPO.CommodityModelPO> list=commodity.getList();
+					for(int i=0;i<=list.size()-1;i++){
+						if(list.get(i).getName().equals(item.getModel())){
+							list.get(i).setStock(list.get(i).getStock()+item.getNumber());
+							break;
+						}
+					}
+					commodity.setList(list);
+					service2.update(commodity);
+				}
+				return ResultMessage.Success;
+			}
+		}
+	}
+
+	public ResultMessage approveRecipt(ReciptVO vo) {
+		FinanceDataService service1 = RMI.getFinanceDataService();
+		AccountDataService service2 = RMI.getAccountDataService();
+		ClientDataService service3 = RMI.getClientDataService();
+		if(service1==null||service2==null||service3==null){
 			return ResultMessage.Failure;
+		}
+		else{
+			if(service1.contain1(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				ReciptPO recipt = service1.find1(vo.getId());
+				recipt.setPassed(true);
+				service1.update(recipt);
+				ClientPO client = service3.find(recipt.getClientID());
+				client.setMoneyReserved(client.getMoneyReserved()-recipt.getTotal());
+				service3.update(client);
+				Iterator<ReciptPO.ReciptItemPO> iterator=recipt.getList().iterator();
+				while(iterator.hasNext()){
+					ReciptPO.ReciptItemPO item = iterator.next();
+					AccountPO account=service2.find(item.getAccount());
+					account.setMoney(account.getMoney()+item.getMoney());
+					service2.update(account);
+				}
+				return ResultMessage.Success;
+			}
+		}
+	}
+
+	public ResultMessage approvePayment(PaymentVO vo) {
+		FinanceDataService service1 = RMI.getFinanceDataService();
+		AccountDataService service2 = RMI.getAccountDataService();
+		ClientDataService service3 = RMI.getClientDataService();
+		if(service1==null||service2==null||service3==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			if(service1.contain1(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				PaymentPO payment = service1.find2(vo.getId());
+				payment.setPassed(true);
+				service1.update(payment);
+				ClientPO client = service3.find(payment.getClientID());
+				client.setMoneyToPay(client.getMoneyToPay()-payment.getTotal());
+				service3.update(client);
+				Iterator<PaymentPO.PaymentItemPO> iterator=payment.getList().iterator();
+				while(iterator.hasNext()){
+					PaymentPO.PaymentItemPO item=iterator.next();
+					AccountPO account=service2.find(item.getAccount());
+					account.setMoney(account.getMoney()-item.getMoney());
+					service2.update(account);
+				}
+				return ResultMessage.Success;
+			}
+		}
+	}
+
+	public ResultMessage approveExpense(ExpenseVO vo) {
+		ExpenseDataService service1=RMI.getExpenseDataService();
+		AccountDataService service2=RMI.getAccountDataService();
+		if(service1==null||service2==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			if(!service1.contain(vo.getId())){
+				return ResultMessage.No_Exist;
+			}
+			else{
+				ExpensePO expense=service1.find(vo.getId());
+				expense.setPassed(true);
+				service1.update(expense);
+				AccountPO account=service2.find(expense.getAccountname());
+				account.setMoney(account.getMoney()-expense.getTotal());
+				service2.update(account);
+				return ResultMessage.Success;
+			}
+		}
+	}
+
+	public ArrayList<GiftBillVO> listGiftBills() {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<GiftBillVO> list=new ArrayList<GiftBillVO>();
+			ArrayList<String> IDs=service.getGiftBillIDs();
+			TreeMap<String,GiftBillPO> map=service.getGiftBillList();
+			for(int i=0;i<=IDs.size()-1;i++){
+				if(map.get(IDs.get(i)).isPassed()==false){
+					list.add(Convert.convert(map.get(IDs.get(i))));
+				}
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<OverflowBillVO> listOverflowBills() {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<OverflowBillVO> list=new ArrayList<OverflowBillVO>();
+			ArrayList<String> IDs=service.getOverflowBillIDs();
+			TreeMap<String,OverflowBillPO> map=service.getOverflowBillList();
+			for(int i=0;i<=IDs.size()-1;i++){
+				if(map.get(IDs.get(i)).isPassed()==false){
+					list.add(Convert.convert(map.get(IDs.get(i))));
+				}
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<UnderflowBillVO> listUnderflowBills() {
+		StockDataService service = RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<UnderflowBillVO> list=new ArrayList<UnderflowBillVO>();
+			ArrayList<String> IDs=service.getOverflowBillIDs();
+			TreeMap<String,UnderflowBillPO> map=service.getUnderflowBillList();
+			for(int i=0;i<=IDs.size()-1;i++){
+				if(map.get(IDs.get(i)).isPassed()==false){
+					list.add(Convert.convert(map.get(IDs.get(i))));
+				}
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<PurchaseBillVO> listPurchaseBills() {
+		PurchaseDataService service=RMI.getPurchaseDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<PurchaseBillVO> list=new ArrayList<PurchaseBillVO>();
+			ArrayList<String> IDs=service.getIDs1();
+			TreeMap<String,PurchaseBillPO> map=service.getList1();
+			for(int i=0;i<=IDs.size()-1;i++){
+				if(map.get(IDs.get(i)).isPassed()==false){
+					list.add(Convert.convert(map.get(IDs.get(i))));
+				}
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<PurchaseReturnBillVO> listPurchaseReturnBills() {
+		PurchaseDataService service=RMI.getPurchaseDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<PurchaseReturnBillVO> list=new ArrayList<PurchaseReturnBillVO>();
+			ArrayList<String> IDs=service.getIDs2();
+			TreeMap<String,PurchaseReturnBillPO> map=service.getList2();
+			for(int i=0;i<=IDs.size()-1;i++){
+				if(map.get(IDs.get(i)).isPassed()==false){
+					list.add(Convert.convert(map.get(IDs.get(i))));
+				}
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<SalesBillVO> listSalesBills() {
+		SalesDataService service=RMI.getSalesDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<SalesBillVO> list=new ArrayList<SalesBillVO>();
+			ArrayList<String> IDs=service.getIDs1();
+			TreeMap<String,SalesBillPO> map=service.getList1();
+			for(int i=0;i<=IDs.size()-1;i++){
+				list.add(Convert.convert(map.get(IDs.get(i))));
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<SalesReturnBillVO> listSalesReturnBills() {
+		SalesDataService service=RMI.getSalesDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<SalesReturnBillVO> list=new ArrayList<SalesReturnBillVO>();
+			ArrayList<String> IDs=service.getIDs1();
+			TreeMap<String,SalesReturnBillPO> map=service.getList2();
+			for(int i=0;i<=IDs.size()-1;i++){
+				list.add(Convert.convert(map.get(IDs.get(i))));
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<ReciptVO> listRecipts() {
+		FinanceDataService service=RMI.getFinanceDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<ReciptVO> list=new ArrayList<ReciptVO>();
+			ArrayList<String> IDs=service.getReciptIDs();
+			TreeMap<String,ReciptPO> map=service.getList1();
+			for(int i=0;i<=IDs.size()-1;i++){
+				list.add(Convert.convert(map.get(IDs.get(i))));
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<PaymentVO> listPayments() {
+		FinanceDataService service=RMI.getFinanceDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<PaymentVO> list=new ArrayList<PaymentVO>();
+			ArrayList<String> IDs=service.getPaymentIDs();
+			TreeMap<String,PaymentPO> map=service.getList2();
+			for(int i=0;i<=IDs.size()-1;i++){
+				list.add(Convert.convert(map.get(IDs.get(i))));
+			}
+			return list;
+		}
+	}
+
+	public ArrayList<ExpenseVO> listExpenses() {
+		ExpenseDataService service=RMI.getExpenseDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<ExpenseVO> list=new ArrayList<ExpenseVO>();
+			ArrayList<String> IDs=service.getIDs();
+			TreeMap<String,ExpensePO> map=service.getDataList();
+			for(int i=0;i<=IDs.size()-1;i++){
+				list.add(Convert.convert(map.get(IDs.get(i))));
+			}
+			return list;
 		}
 	}
 }

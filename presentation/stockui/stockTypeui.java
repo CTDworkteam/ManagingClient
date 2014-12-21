@@ -150,11 +150,11 @@ class stockTypeui extends JPanel{
 						JOptionPane.showMessageDialog(null, "н╢ур╣╫д©╠Й");
 					else
 					{
-					for(int i=0;i<resultNum;i++)
-					 {
-					   String[] resultRow={returnvos.get(i).getName(),returnvos.get(i).getId()};
-					   vosTableModel.addRow(resultRow);
-					 }
+					   for(int i=0;i<resultNum;i++)
+					   {
+					      String[] resultRow={returnvos.get(i).getName(),returnvos.get(i).getId()};
+					      vosTableModel.addRow(resultRow);
+					   }
 					vosFrame.pack();
 					vosFrame.setLocationRelativeTo(null);
 					vosframe.

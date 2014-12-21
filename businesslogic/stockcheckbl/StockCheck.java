@@ -1,63 +1,53 @@
 package stockcheckbl;
 import java.rmi.Naming;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 import config.RMI;
-import po.CommodityPO;
-import po.GiftBillPO;
-import po.PurchaseBillPO;
-import po.PurchaseReturnBillPO;
-import po.SalesBillPO;
-import po.SalesReturnBillPO;
-import po.GiftBillPO.GiftBillItemPO;
-import po.PurchaseBillPO.PurchaseBillItemPO;
-import po.PurchaseReturnBillPO.PurchaseReturnBillItemPO;
-import po.SalesBillPO.SalesBillItemPO;
-import po.SalesReturnBillPO.SalesReturnBillItemPO;
-import dataservice.CommodityDataService;
-import dataservice.PurchaseDataService;
-import dataservice.SalesDataService;
-import dataservice.StockDataService;
+import po.*;
+import dataservice.*;
 import userbl.*;
-import vo.StockCheckListVO;
-import vo.StockCommodityListVO;
+import vo.*;
 import blservice.*;
 public class StockCheck{
 	public User operator;
 	public StockCheckListVO check(String storehouse, GregorianCalendar start,
 			GregorianCalendar end){
-		/*try{
-			StockDataService service=RMI.getStockDataService();
-			
-			int s=Integer.parseInt(start.toString());
-			int e=Integer.parseInt(end.toString());
-			if(s>e){
-				return new StockCheckListVO("0","0", 0, 0, 0, 0, 0, 0, 0,0,0,0);
+		StockDataService service = RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			if(start.after(end)){
+				return new StockCheckListVO("0","0",0,0,0,0,0,0,0,0,0,0);
 			}
-			
-			double purchase[]=getPurchase(start,end);
-			double sales[]=getSales(start,end);	
+			double[] purchase=getPurchase(start,end);
+			double[] sales=getSales(start,end);
 			int gift=getGift(start,end);
-			
-			int inNumber=(int) purchase[1];
-			int outNumber=gift+(int) sales[1];
+			int inNumber=(int)purchase[1];
+			int outNumber=(int)gift+(int)sales[1];
 			int total=inNumber-outNumber;
-			int salesNumber=(int) sales[1];
-			
-			return new StockCheckListVO(start.toString(),end.toString(),inNumber,
-					outNumber,purchase[0],sales[0],inNumber,salesNumber,
-					purchase[0],sales[0],total,purchase[0]-sales[0]);
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return new StockCheckListVO("0","0", 0, 0, 0, 0, 0, 0, 0,0,0,0);
-		}*/
+			int salesNumber=(int)sales[1];
+			return new StockCheckListVO(start.toString(),end.toString(),
+					inNumber,outNumber,purchase[0],sales[0],inNumber,
+					salesNumber,purchase[0],sales[0],total,purchase[0]-sales[0]);
+		}
 	}
 	
 	public StockCommodityListVO lookover(String storehouse){
+		CommodityDataService service=RMI.getCommodityDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			Iterator<CommodityPO> iterator=service.getAllCommodities();
+			ArrayList<StockCommodityInfoVO> list=new ArrayList<StockCommodityInfoVO>();
+			while(iterator.hasNext()){
+				CommodityPO po=iterator.next();
+				StockCommodityInfoVO item=new StockCommodityInfoVO();
+				
+			}
+			return null;//////
+		}
 		/*try{
 			CommodityDataService service=RMI.getCommodityDataService();
 			
