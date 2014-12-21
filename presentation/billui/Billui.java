@@ -1,6 +1,9 @@
 package billui;
 import javax.swing.*;
 
+/*
+ * 审批单据界面
+ */
 public class Billui {
 	
 	public JPanel panelBill=new JPanel();

@@ -2,7 +2,12 @@ package mainui;
 import javax.swing.*;
 import financemanagerui.Financemanagerui;
 import managerui.Managerui;
+import enumType.UserJob;
+import vo.*;
 
+/*
+ * 各工作人员工作界面跳转
+ */
 public class Mainui {
 	
 	JFrame frame;
@@ -11,21 +16,23 @@ public class Mainui {
 	Financemanagerui finance=new Financemanagerui();
 	Managerui manager=new Managerui();
 	
-	public void go(String work){
-		if(work=="财务人员"){
-			finance.go();
+	public void go(UserVO vo){
+		
+		UserJob job=vo.getRole();
+		if(job==UserJob.FinanceManager){
+			finance.go(vo.getName());
 		}
-		if(work=="进货人员"){
+		if(job==UserJob.PurchaseManager){
 			
 		}
-		if(work=="库存管理员"){
+		if(job==UserJob.StockManager){
 			
 		}
-		if(work=="销售人员"){
+		if(job==UserJob.SalesManager){
 			
 		}
-		if(work=="总经理"){
-			manager.go();
+		if(job==UserJob.Manager){
+			manager.go(vo.getName());
 		}
 	}
 
