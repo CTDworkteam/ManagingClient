@@ -1,19 +1,14 @@
 package initialbl;
 
-import java.rmi.Naming;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import object.TypeTree;
 import blservice.InitialBLService;
-import po.AccountPO;
-import po.ClientPO;
-import po.CommodityModelPO;
-import po.CommodityPO;
-import po.CommodityTypePO;
 import po.InitialPO;
 import vo.AccountVO;
 import vo.ClientVO;
-import vo.CommodityModelVO;
 import vo.CommodityTypeVO;
 import vo.CommodityVO;
 import vo.InitialVO;
@@ -22,6 +17,7 @@ import accountbl.Account;
 import commoditybl.Commodity;
 import commoditytypebl.CommodityType;
 import config.RMI;
+import convert.Convert;
 import dataservice.AccountDataService;
 import dataservice.ClientDataService;
 import dataservice.CommodityDataService;
@@ -29,202 +25,185 @@ import dataservice.CommodityTypeDataService;
 import dataservice.InitialDataService;
 import enumType.ResultMessage;
 
-public class Initial{
-	public ArrayList<Commodity> commodity=new ArrayList<Commodity>();
-	public ArrayList<CommodityType> type=new ArrayList<CommodityType>();
-	public ArrayList<Client> client=new ArrayList<Client>();
-	public ArrayList<Account> account=new ArrayList<Account>();
-	
-	public Initial(ArrayList<Commodity> c,ArrayList<CommodityType> ct,ArrayList<Client> cl,ArrayList<Account> a){
-		this.commodity=c;
-		this.type=ct;
-		this.client=cl;
-		this.account=a;
-	}
-	
+public class Initial implements InitialBLService{
 	public Initial(){
 	}
-	/*	public ResultMessage addCommodityType(TypeTree<CommodityTypeVO> tree){
-	try{
-		CommodityTypeDataService service=(CommodityTypeDataService) Naming.lookup("");
+	
+	public ResultMessage addCommodityType(TypeTree<CommodityTypeVO> tree){
+		CommodityTypeDataService service2 = RMI.getCommodityTypeDataService();
+		InitialDataService service = RMI.getInitialDataService();
 		
+		if(service == null || service2 == null){
+			return ResultMessage.Failure;
+		}
 		
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return ResultMessage.Failure;
+		else{
+			CommodityType type = new CommodityType();
+		}
 	}
-}*/
 
-public ResultMessage addCommodity(ArrayList<CommodityVO> list){
-	try{
-		InitialDataService service=RMI.getInitialDataService();
-		CommodityDataService service2=RMI.getCommodityDataService();
-		Commodity impl=new Commodity();
+	public ResultMessage addCommodity(ArrayList<CommodityVO> list){
+		InitialDataService service = RMI.getInitialDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
 		
-		ArrayList<CommodityPO> po=new ArrayList<CommodityPO>();
-		for(int i=0;i<list.size();i++){
-			CommodityPO temp=exchange(list.get(i));
-			po.add(temp);
-			if(impl.addCommodity(list.get(i)).equals(ResultMessage.Failure)){
-				return ResultMessage.Failure;
+		if(service == null || service2 == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			Commodity commodity = new Commodity();
+			ArrayList<String> po = new ArrayList<String>();
+			
+			for(int i = 0; i<list.size(); i++){
+				po.add(list.get(i).getName());
+				
+				if(commodity.addCommodity(list.get(i)).equals(ResultMessage.Failure)){
+					return ResultMessage.Failure;
+				}
 			}
+			
+			service.insert(new InitialPO("1",po,null,null,null));
+			return ResultMessage.Success;
 		}
-		service.insert(new InitialPO(po,null,null,null));
-		return ResultMessage.Success;
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return ResultMessage.Failure;
 	}
-}
-public ResultMessage addClient(ArrayList<ClientVO> client){
-	try{
-		InitialDataService service=RMI.getInitialDataService();
-		Client impl=new Client();
+
+	public ResultMessage addClient(ArrayList<ClientVO> client){
+		InitialDataService service = RMI.getInitialDataService();
 		
-		ArrayList<ClientPO> po=new ArrayList<ClientPO>();
-		for(int i=0;i<client.size();i++){
-			ClientPO temp=exchange(client.get(i));
-			po.add(temp);
-			if(impl.add(client.get(i)).equals(ResultMessage.Failure)){
-				return ResultMessage.Failure;
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			Client c = new Client();
+			ArrayList<String> po=new ArrayList<String>();
+	
+			for(int i = 0; i<client.size(); i++){
+				po.add(client.get(i).getName());
+		
+				if(c.add(client.get(i)).equals(ResultMessage.Failure)){
+					return ResultMessage.Failure;
+				}
 			}
+			service.insert(new InitialPO("1",null, null, po, null));
+			return ResultMessage.Success;
 		}
-		service.insert(new InitialPO(null, null, po, null));
-		return ResultMessage.Success;
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return ResultMessage.Failure;
 	}
-}
 
-public ResultMessage addAccount(ArrayList<AccountVO> account){
-	try{
-		InitialDataService service=RMI.getInitialDataService();
-		Account impl=new Account();
+	public ResultMessage addAccount(ArrayList<AccountVO> account){
+		InitialDataService service = RMI.getInitialDataService();
 		
-		ArrayList<AccountPO> po=new ArrayList<AccountPO>();
-		for(int i=0;i<account.size();i++){
-			AccountPO temp=exchange(account.get(i));
-			po.add(temp);
-			if(impl.add(account.get(i)).equals(ResultMessage.Failure)){
-				return ResultMessage.Failure;
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			Account a = new Account();
+			ArrayList<String> po = new ArrayList<String>();
+		
+			for(int i = 0; i<account.size(); i++){
+				po.add(account.get(i).getName());
+			
+				if(a.add(account.get(i)).equals(ResultMessage.Failure)){
+					return ResultMessage.Failure;
+				}
 			}
+			service.insert(new InitialPO("1",null, null, null, po));
+			return ResultMessage.Success;
 		}
-		service.insert(new InitialPO(null, null, null, po));
-		return ResultMessage.Success;
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return ResultMessage.Failure;
 	}
-}
 
-public InitialVO getInitialInfo(String id){
-	try{
-		InitialDataService service=RMI.getInitialDataService();
-		InitialPO po=service.find(id);
+	public InitialVO getInitialInfo(String id){
+		InitialDataService service = RMI.getInitialDataService();
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		CommodityTypeDataService service3 = RMI.getCommodityTypeDataService();
+		ClientDataService service4 = RMI.getClientDataService();
+		AccountDataService service5 = RMI.getAccountDataService();
 		
-		ArrayList<CommodityVO> vo=new ArrayList<CommodityVO>();
-		ArrayList<ClientVO> vo2=new ArrayList<ClientVO>();
-		ArrayList<AccountVO> vo3=new ArrayList<AccountVO>();
+		if(service == null || service2 == null || service3 == null
+				|| service4 == null || service5 == null){
+			return null;
+		}
 		
-		ArrayList<CommodityPO> po1=po.getCommodityList();
-		ArrayList<ClientPO> po2=po.getClientList();
-		ArrayList<AccountPO> po3=po.getAccountList();
+		else{
+			InitialPO po = service.find(id);
 		
-		for(int i=0;i<po1.size();i++){
-			vo.add(exchange(po1.get(i)));
+			if(po == null)
+				return null;
+			
+			else
+				return exchange(po);
 		}
-		for(int i=0;i<po1.size();i++){
-			vo2.add(exchange(po2.get(i)));
-		}
-		for(int i=0;i<po1.size();i++){
-			vo3.add(exchange(po3.get(i)));
-		}
-		return new InitialVO(vo, null, vo2, vo3);
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return null;
 	}
-}
 
-public CommodityPO exchange(CommodityVO vo) {        //VO转化为PO
-	try{
-		CommodityTypeDataService service = RMI.getCommodityTypeDataService();
-		ArrayList<CommodityModelPO> list=new ArrayList<CommodityModelPO>();
-		ArrayList<CommodityModelVO> list2=vo.getList();
-		for(int i=0;i<list2.size();i++){
-			CommodityModelPO a=new CommodityModelPO(list2.get(i).getCommodity(),list2.get(i).getModel(),list2.get(i).getStockNumber(),
-					list2.get(i).getStorehouse(),list2.get(i).getNoticeNumber(),
-					list2.get(i).getPurchasePrice(),list2.get(i).getRetailPrice(),
-					list2.get(i).getRecentPurchasePrice(),list2.get(i).getRecentRetailPrice());
-			list.add(a);
+	public ArrayList<InitialVO> getList() {
+		InitialDataService service = RMI.getInitialDataService();
+		
+		if(service == null){
+			return null;
 		}
-		CommodityTypePO type=service.findCommodityTypeInName(vo.getType());
-		CommodityPO po=new CommodityPO(vo.getId(),vo.getName(),type,vo.getTotal(),list);
-		return po;
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return null;
-	}
-}
-
-public CommodityVO exchange(CommodityPO po){          //PO转化为VO
-	try{
-		ArrayList<CommodityModelPO> list=po.getList();
-		ArrayList<CommodityModelVO> list2=new ArrayList<CommodityModelVO>();
-		for(int i=0;i<list.size();i++){
-			CommodityModelVO a=new CommodityModelVO(list.get(i).getName(),list.get(i).getModel(),
-					list.get(i).getStorehouse(),list.get(i).getNoticeNumber(),list.get(i).getStock(),
-					list.get(i).getPurchasePrice(),list.get(i).getRetailPrice(),
-					list.get(i).getRecentPurchasePrice(),list.get(i).getRecentRetailPrice());
-			list2.add(a);
+		
+		else{
+			ArrayList<InitialVO> result = new ArrayList<InitialVO>();
+			Iterator<InitialPO> i = service.getAllInitials();
+			
+			while(i.hasNext()){
+				result.add(exchange(i.next()));
+			}
+			return result;
 		}
-		String type = po.getType().getName();
-		CommodityVO vo=new CommodityVO(po.getId(),po.getName(),type,po.getTotal(),list2);
-		return vo;
-	}catch(Exception ex){
-		ex.printStackTrace();
-		return null;
 	}
-}
 
-private ClientPO exchange(ClientVO vo) {   //VO对象转化为PO对象
-	ClientPO po = new ClientPO(vo.getId(),vo.getName(),vo.getType(),
-			vo.getRank(),vo.getTelephone(),vo.getAddress(),vo.getPostcode(),
-			vo.getEmail(),vo.getAmountReserved(),vo.getMoneyReserved(),
-			vo.getMoneyToPay(),vo.getCourterman(),vo.getDiscount(),
-			vo.getVoucher());
-	return po;
-}
+	private InitialVO exchange(InitialPO po) {
+		CommodityDataService service2 = RMI.getCommodityDataService();
+		CommodityTypeDataService service3 = RMI.getCommodityTypeDataService();
+		ClientDataService service4 = RMI.getClientDataService();
+		AccountDataService service5 = RMI.getAccountDataService();
+		
+		if(service2 == null || service3 == null || service4 == null
+				|| service5 == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<CommodityVO> commodity = new ArrayList<CommodityVO>();
+			ArrayList<CommodityTypeVO> type = new ArrayList<CommodityTypeVO>();
+			ArrayList<ClientVO> client = new ArrayList<ClientVO>();
+			ArrayList<AccountVO> account = new ArrayList<AccountVO>();
+		
+			ArrayList<String> c = po.getCommodity();
+			ArrayList<String> cl = po.getClient();
+			ArrayList<String> a = po.getAccount();
+			ArrayList<String> t = po.getType();
+		
+			for(int i = 0; i<c.size(); i++){
+				commodity.add(Convert.convert(service2.findCommodityInName(c.get(i))));
+			}	
+			
+			for(int i = 0; i<cl.size(); i++){
+				client.add(Convert.convert(service4.find(cl.get(i))));
+			}
+		
+			for(int i = 0; i<a.size(); i++){
+				account.add(Convert.convert(service5.find(a.get(i))));
+			}
+			
+			for(int i = 0; i<t.size(); i++){
+				type.add(Convert.convert(service3.findByName(t.get(i))));
+			}
+			return new InitialVO(commodity,type,client,account);
+		}
+	}
 
-private ClientVO exchange(ClientPO po) {    //PO对象转化为VO对象
-	ClientVO vo = new ClientVO(po.getId(),po.getName(),po.getType(),
-			po.getRank(),po.getTelephone(),po.getAddress(),po.getPostcode(),
-			po.getEmail(),po.getAmountReserved(),po.getMoneyReserved(),
-			po.getMoneyToPay(),po.getCourterman(),po.getDiscount(),
-			po.getVoucher());
-	return vo;
-}
-
-public AccountPO exchange(AccountVO vo) {   //该方法用于将VO对象转化为PO对象
-	AccountPO po = new AccountPO(vo.getId(),vo.getName(),vo.getMoney());
-	return po;
-}
-
-public AccountVO exchange(AccountPO po){   //该方法用于将PO对象转化为VO对象
-	AccountVO vo = new AccountVO(po.getId(),po.getName(),po.getMoney());
-	return vo;
-}
-
-@Override
-public ResultMessage addCommodityType(TypeTree<CommodityTypeVO> tree) {
-	// TODO 自动生成的方法存根
-	return null;
-}
-
-@Override
-public ArrayList<InitialVO> getList() {
-	// TODO 自动生成的方法存根
-	return null;
-}
+	public String getNewID(GregorianCalendar date) {
+		InitialDataService service = RMI.getInitialDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			
+		}
+	}
 }

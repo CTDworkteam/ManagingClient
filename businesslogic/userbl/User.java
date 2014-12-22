@@ -1,6 +1,5 @@
 package userbl;
 
-import java.rmi.Naming;
 import java.util.*;
 
 import config.RMI;

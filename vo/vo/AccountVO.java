@@ -32,11 +32,8 @@ public class AccountVO {
 		this.money = money;
 	}
 	public void update(Account account){
-		this.id=account.id;
-		this.money=account.money;
-		this.name=account.name;
 	}
 	public Account makeAccount(){
-		return new Account(this.id,this.name,this.money);
+		return null;
 	}
 }

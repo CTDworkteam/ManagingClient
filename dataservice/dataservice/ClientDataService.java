@@ -1,5 +1,6 @@
 package dataservice;
 import po.*;
+
 import java.util.*;
 public interface ClientDataService {
 	public void insert(ClientPO po);
@@ -13,4 +14,5 @@ public interface ClientDataService {
     public int number();
     public void init();
     public void save();
+	public ArrayList<ClientPO> findInKeyword(String key);
 }

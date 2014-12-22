@@ -138,8 +138,6 @@ public class Convert {
 	}
 	public static CommodityTypePO convert(CommodityTypeVO vo){
 		CommodityTypePO po=new CommodityTypePO();
-		CommodityTypeDataService service1=RMI.getCommodityTypeDataService();
-		CommodityDataService service2=RMI.getCommodityDataService();
 		po.setId(vo.getId());
 		po.setName(vo.getName());
 		po.setLeafNode(vo.isLeafNode());

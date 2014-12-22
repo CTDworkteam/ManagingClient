@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.rmi.Naming;
 import java.util.*;
 
+import blservice.FinanceBLService;
 import config.RMI;
+import convert.Convert;
 import po.AccountPO;
 import po.ClientPO;
 import po.PaymentPO;
@@ -24,43 +26,39 @@ import dataservice.FinanceDataService;
 import dataservice.UserDataService;
 import enumType.ResultMessage;
 
-public class Finance {
-	public User operator;
-	public ArrayList<Payment> list1;
-	public ArrayList<Recipt> list2;
+public class Finance implements FinanceBLService{
 	public Finance(){
-		
 	}
-	public Finance(User operator,ArrayList<Payment> list1,ArrayList<Recipt> list2){
-		this.operator=operator;
-		this.list1=list1;
-		this.list2=list2;
-	}
+	
 	public ResultMessage sendRecipt(ArrayList<ReciptVO> bills){
-		try{
-			FinanceDataService service = RMI.getFinanceDataService();
-			for(int i = 0;i<bills.size();i++){
-				ReciptPO po = exchange(bills.get(i));
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			for(int i = 0; i<bills.size(); i++){
+				ReciptPO po = Convert.convert(bills.get(i));
 				service.insert(po);
 			}
 			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 	
 	public ResultMessage sendPayment(ArrayList<PaymentVO> bills){
-		try{
-			FinanceDataService service = RMI.getFinanceDataService();
-			for(int i = 0;i<bills.size();i++){
-				PaymentPO po = exchange(bills.get(i));
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			for(int i = 0; i<bills.size(); i++){
+				PaymentPO po = Convert.convert(bills.get(i));
 				service.insert(po);
 			}
 			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 	
@@ -81,6 +79,8 @@ public class Finance {
 				list.get(i).getMoney()+","+list.get(i).getNote()+":");
 				}
 			}
+			bf.close();
+			fr.close();
 			return ResultMessage.Success;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -105,6 +105,9 @@ public class Finance {
 				list.get(i).getMoney()+","+list.get(i).getNote()+":");
 				}
 			}
+			
+			bf.close();
+			fr.close();
 			return ResultMessage.Success;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -155,68 +158,90 @@ public class Finance {
 			return ResultMessage.Failure;
 		}
 	}*/
+	
 	public ReciptVO findRecipt(String id){
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ReciptPO po = service.find1(id);
+			return Convert.convert(po);
+		}
 	}
+	
 	public PaymentVO findPayment(String id){
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			PaymentPO po = service.find2(id);
+			return Convert.convert(po);
+		}
 	}
+	
 	public ArrayList<ReciptVO> findRecipts(GregorianCalendar before,GregorianCalendar after){
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<ReciptVO> vo = new ArrayList<ReciptVO>();
+			Iterator<ReciptPO> i = service.finds1(before, after);
+			
+			while(i.hasNext()){
+				vo.add(Convert.convert(i.next()));
+			}
+			return vo;
+		}
 	}
+	
 	public ArrayList<PaymentVO> findPayments(GregorianCalendar before,GregorianCalendar after){
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<PaymentVO> vo = new ArrayList<PaymentVO>();
+			Iterator<PaymentPO> i = service.finds2(before, after);
+			
+			while(i.hasNext()){
+				vo.add(Convert.convert(i.next()));
+			}
+			return vo;
+		}
 	}
 	public ArrayList<ReciptVO> getAllRecipts(){
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			
+		}
 	}
 	public ArrayList<PaymentVO> getAllPayments(){
 		return null;
 	}
-	private PaymentPO exchange(PaymentVO vo){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			ClientDataService service2=RMI.getClientDataService();
-			AccountDataService service3=RMI.getAccountDataService();
-			String operator=vo.getOperator();
-			UserPO userpo=service.find(operator);
-			ClientPO clientpo=service2.find(vo.getClient());
-			ArrayList<PaymentItemPO> list=new ArrayList<PaymentItemPO>();
-			PaymentPO po=new PaymentPO(vo.getId(), userpo, clientpo, null,vo.getTotal() );
-			
-			for(int i=0;i<vo.getList().size();i++){
-				AccountPO accountpo=service3.find(vo.getList().get(i).getAccount());
-				PaymentPO.PaymentItemPO temp=po.new PaymentItemPO(accountpo,vo.getList().get(i).getMoney(),
-						vo.getList().get(i).getNote());
-			}
-			po.setList(list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
 	
-	private ReciptPO exchange(ReciptVO vo){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			ClientDataService service2=RMI.getClientDataService();
-			AccountDataService service3=RMI.getAccountDataService();
-			String operator=vo.getOperator();
-			UserPO userpo=service.find(operator);
-			ClientPO clientpo=service2.find(vo.getClient());
-			ArrayList<ReciptItemPO> list=new ArrayList<ReciptItemPO>();
-			ReciptPO po=new ReciptPO(vo.getId(),clientpo,userpo,null,vo.getTotal());
-			for(int i=0;i<vo.getList().size();i++){
-				AccountPO accountpo=service3.find(vo.getList().get(i).getAccount());
-				ReciptPO.ReciptItemPO temp=po.new ReciptItemPO(accountpo,vo.getList().get(i).getMoney(),
-						vo.getList().get(i).getNote());
-			}
-			po.setList(list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
+	public String getNewReciptID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewPaymentID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 }
