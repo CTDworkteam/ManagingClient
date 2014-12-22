@@ -2,17 +2,26 @@ package loginui;
 import javax.swing.*;
 import java.awt.event.*;
 import mainui.Mainui;
+import loginbl.Login;
+import userbl.UserController;
+import vo.*;
+import enumType.ResultMessage;
+import confirmui.*;
 
 public class Loginui {
 	
 	JFrame frame;
 	JPanel panel;
-	JComboBox<String> box;
+	JTextField fieldID;
+	JPasswordField fieldPassword;
 	
 	Registerui register=new Registerui();
 	FindPasswordui find=new FindPasswordui();
 	
 	Mainui mainui=new Mainui();
+	
+	Login login=new Login();
+	UserController userController=new UserController();
 	
 	public void go(){
 		frame=new JFrame();
@@ -24,17 +33,10 @@ public class Loginui {
 		frame.setTitle("欢迎登陆进销存系统");
 		
 		JLabel labelWork=new JLabel("职务",JLabel.RIGHT);
-		box=new JComboBox<String>();
-		box.setEditable(true);
-		box.addItem("财务人员");
-		box.addItem("进货人员");
-		box.addItem("库存管理员");
-		box.addItem("销售人员");
-		box.addItem("总经理");
 		JLabel labelName=new JLabel("用户名",JLabel.RIGHT);
 		JLabel labelPassword=new JLabel("密码",JLabel.RIGHT);
-		JTextField fieldName=new JTextField();
-		JTextField fieldPassword=new JTextField();
+		fieldID=new JTextField();
+		fieldPassword=new JPasswordField();
 		JButton buttonSure=new JButton("登陆");
 		buttonSure.addActionListener(new loginListener());
 		JButton buttonRegister=new JButton("注册");
@@ -47,9 +49,8 @@ public class Loginui {
 		
 		panel.setLayout(null);
 		labelWork.setBounds(300,220,50,25);
-		box.setBounds(360,220,150,25);
 		labelName.setBounds(300,270,50,25);
-		fieldName.setBounds(360,270,150,25);
+		fieldID.setBounds(360,270,150,25);
 		labelPassword.setBounds(300,320,50,25);
 		fieldPassword.setBounds(360,320,150,25);
 		buttonSure.setBounds(400,370,65,25);
@@ -57,11 +58,10 @@ public class Loginui {
 		buttonFind.setBounds(550,320,90,25);
 		
 		panel.add(labelWork);
-		panel.add(box);
 		panel.add(labelName);
 		panel.add(labelPassword);
 		panel.add(fieldPassword);
-		panel.add(fieldName);
+		panel.add(fieldID);
 		panel.add(buttonFind);
 		panel.add(buttonRegister);
 		panel.add(buttonSure);
@@ -72,9 +72,18 @@ public class Loginui {
 	
 	class loginListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			String work=(String) box.getSelectedItem();
-			mainui.go(work);
-			frame.dispose();
+			long id=Long.parseLong(fieldID.getText());
+			String password=fieldPassword.getPassword().toString();
+			ResultMessage result=login.verify(id, password);
+			if(result==ResultMessage.Failure){
+				Runnable r=new Confirmui("");
+				Thread t=new Thread(r);
+				t.start();
+			}else{
+				UserVO user=userController.findUser(id);
+				mainui.go(user);
+				frame.dispose();
+			}
 		}
 	}
 	

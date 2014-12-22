@@ -3,37 +3,23 @@ import java.util.*;
 
 import commoditybl.*;
 import config.RMI;
+import convert.Convert;
 import po.*;
 import dataservice.*;
 import datafactory.*;
+import utility.Utility;
 import vo.*;
 import enumType.ResultMessage;
 import blservice.*;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
-public class CommodityType implements CommodityTypeBLService{
+public class CommodityType {
 	public CommodityType(){
 	}
 	public ResultMessage addType(CommodityTypeVO vo){
-		DataFactoryService factory=null;
-		try {
-			factory = (DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service = factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
 		if(service.containInKey(vo.getName())){
@@ -44,7 +30,7 @@ public class CommodityType implements CommodityTypeBLService{
 				return ResultMessage.Failure;
 			}
 			else{
-				CommodityTypePO po=service.findByName(vo.getFather());
+				CommodityTypePO po=Convert.convert(vo);
 				if(po.isLeafNode()&&po.getCommodityList().size()!=0){
 					return ResultMessage.Failure;
 				}
@@ -53,7 +39,7 @@ public class CommodityType implements CommodityTypeBLService{
 						return ResultMessage.Failure;
 					}
 					else{
-						CommodityTypePO output=exchange(vo);
+						CommodityTypePO output=Convert.convert(vo);
 						service.insert(output);
 						return ResultMessage.Success;
 					}
@@ -63,86 +49,38 @@ public class CommodityType implements CommodityTypeBLService{
 	}
 
 	public ResultMessage deleteType(CommodityTypeVO vo){
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
 		if(vo.getChild()!=null||vo.getCommodityList()!=null){
 			return ResultMessage.Failure;
 		}
 		else{
-			CommodityTypePO po=exchange(vo);
+			CommodityTypePO po=Convert.convert(vo);
 			service.delete(po);
 			return ResultMessage.Success;
 		}
 	}
 	
 	public ResultMessage updateType(CommodityTypeVO vo){
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return ResultMessage.Failure;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
 		if(!service.containInID(vo.getId())){
 			return ResultMessage.Failure;
 		}
 		else{
-			CommodityTypePO po=exchange(vo);
+			CommodityTypePO po=Convert.convert(vo);
 			service.update(po);
 			return ResultMessage.Success;
 		}
 	}
 	
 	public CommodityTypeVO findInID(String id){
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return null;
 		}
 		if(!service.containInID(id)){
@@ -150,29 +88,13 @@ public class CommodityType implements CommodityTypeBLService{
 		}
 		else{
 			CommodityTypePO po=service.findByID(id);
-			return exchange(po);
+			return Convert.convert(po);
 		}
 	}
 	
 	public ArrayList<CommodityTypeVO> findInKeyword(String key){
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return null;
 		}
 		if(service.containInKey(key)){
@@ -182,122 +104,40 @@ public class CommodityType implements CommodityTypeBLService{
 			Iterator<CommodityTypePO> iterator=service.findByKeyword(key);
 			ArrayList<CommodityTypeVO> list=new ArrayList<CommodityTypeVO>();
 			while(iterator.hasNext()){
-				list.add(exchange(iterator.next()));
+				list.add(Convert.convert(iterator.next()));
 			}
 			return list;
 		}
 	}
 	
 	public ArrayList<CommodityTypeVO> getAllSubType(CommodityTypeVO vo){
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service = RMI.getCommodityTypeDataService();
+		if(service==null){
 			return null;
 		}
 		if(vo.getChild().size()==0){
 			return null;
 		}
 		else{
-			ArrayList<CommodityTypeVO> list=new ArrayList<CommodityTypeVO>();
-			Iterator<String> childs=vo.getChild().iterator();
-			while(childs.hasNext()){
-				list.add(exchange(service.findByName(childs.next())));
-			}
-			return list;
+			return vo.getChild();
 		}
 	}
 	
 	public ArrayList<CommodityVO> getAllCommodity(CommodityTypeVO vo){
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return null;
 		}
 		if(!service.hasCommodityType()){
 			return null;
 		}
 		else{
-			ArrayList<CommodityVO> list=new ArrayList<CommodityVO>();
-			Iterator<String> iterator=vo.getCommodityList().iterator();
-			Commodity commodity=new Commodity();
-			while(iterator.hasNext()){
-				list.add(commodity.findCommodityByName(iterator.next()));
-			}
-			return list;
-		}
-	}
-	private CommodityTypeVO exchange(CommodityTypePO po) {
-		CommodityTypeVO vo=null;
-		try{
-			vo=new CommodityTypeVO(po.getId(),po.getName(),po.isRootNode(),po.isLeafNode(),
-					po.getCommodityList(),po.getFather(),po.getChilds());
-			return vo;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
-
-	private CommodityTypePO exchange(CommodityTypeVO vo) {
-		CommodityTypePO po=null;
-		try{
-			po=new CommodityTypePO(vo.getId(),vo.getName(),vo.isRootNode(),vo.isLeafNode(),
-					vo.getCommodityList(),vo.getFather(),vo.getChild());
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+			return vo.getCommodityList();
 		}
 	}
 	public ArrayList<CommodityTypeVO> getAllCommodityType() {
-		DataFactoryService factory=null;
-		try {
-			factory=(DataFactoryService)Naming.lookup(RMI.URL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return null;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return null;
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-		CommodityTypeDataService service=null;
-		try {
-			service=factory.getCommodityTypeDataService();
-		} catch (RemoteException e) {
-			e.printStackTrace();
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
 			return null;
 		}
 		if(!service.hasCommodityType()){
@@ -307,9 +147,38 @@ public class CommodityType implements CommodityTypeBLService{
 			ArrayList<CommodityTypeVO> list=new ArrayList<CommodityTypeVO>();
 			Iterator<CommodityTypePO> iterator=service.getAllCommodityTypes();
 			while(iterator.hasNext()){
-				list.add(exchange(iterator.next()));
+				list.add(Convert.convert(iterator.next()));
 			}
 			return list;
+		}
+	}
+	public String getNewID(String fatherID) {
+		CommodityTypeDataService service=RMI.getCommodityTypeDataService();
+		if(service==null){
+			return "网络连接不稳定";
+		}
+		else{
+			if(!service.containInID(fatherID)){
+				return "不存在相关父类";
+			}
+			else{
+				CommodityTypePO po=service.findByID(fatherID);
+				if(po.getCommodityList().size()!=0){
+					return "由于有商品，无法添加";
+				}
+				else{
+					int number=po.getChilds().size()+1;
+					int depthOfFather=Integer.parseInt(fatherID.substring(0,1));
+					int depth=depthOfFather+1;
+					String ID=new Integer(depth).toString();
+					ID+=fatherID.substring(1,2*depthOfFather+1);
+					ID+=Utility.getIntegerString(number,3);
+					while(ID.length()<11){
+						ID+="0";
+					}
+					return ID;
+				}
+			}
 		}
 	}
 }

@@ -4,157 +4,138 @@ import java.rmi.Naming;
 import java.util.*;
 
 import config.RMI;
+import convert.Convert;
 import po.UserPO;
 import vo.*;
 import dataservice.UserDataService;
 import enumType.ResultMessage;
+import enumType.UserJob;
 
-public class User{
-	long id;
-	RegisterInfo register;
+public class User implements blservice.UserBLService{
 	public User(){
 	}
-	public User(long i,RegisterInfo r){
-		this.id=i;
-		this.register=r;
-	}
-	public ResultMessage addUser(UserVO vo){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			boolean result=service.isMax(vo.getRole());
-			if(!result){
-				UserPO po=exchange(vo);
-				service.insert(po);
-				return ResultMessage.Success;
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
+	public ResultMessage addUser(UserVO vo) {
+		UserDataService service=RMI.getUserDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
-	}
-
-	public ResultMessage deleteUser(long id){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			boolean result=service.contain(id);
-			if(result){
-				UserPO po=service.find(id);
-				service.delete(po);
+		else{
+			service.insert(Convert.convert(vo));
+			if(service.find(vo.getId())==null){
+				return ResultMessage.Failure;
+			}
+			else{
 				return ResultMessage.Success;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
-			return ResultMessage.Failure;
 		}
 	}
-	
-	public UserVO findUser(long id){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			boolean result=service.contain(id);
-			if(result){
-				UserPO po=service.find(id);
-				UserVO vo=exchange(po);
-				return vo;
+	public ResultMessage deleteUser(long id) {
+		UserDataService service=RMI.getUserDataService();
+		if(service==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			if(service.find(id)==null){
+				return ResultMessage.No_Exist;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}finally{
+			else{
+				service.delete(service.find(id));
+				if(service.find(id)!=null){
+					return ResultMessage.Failure;
+				}
+				else{
+					return ResultMessage.Success;
+				}
+			}
+		}
+	}
+	public UserVO findUser(long id) {
+		UserDataService service=RMI.getUserDataService();
+		if(service==null){
 			return null;
 		}
-	}
-	
-	public ResultMessage updateUser(UserVO user){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			boolean result=service.contain(user.getId());
-			if(result){
-				UserPO po=exchange(user);
-				service.update(po);
-				return ResultMessage.Success;
+		else{
+			if(service.find(id)==null){
+				return null;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
+			else{
+				return Convert.convert(service.find(id));
+			}
+		}
+	}
+	public ResultMessage updateUser(UserVO user) {
+		UserDataService service=RMI.getUserDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
-	}
-	
-	public UserListVO getAll(){
-		try{
-			UserDataService service=RMI.getUserDataService();
-			boolean result=service.isEmpty();
-			if(!result){
-				TreeSet<UserPO> list=service.getList();
-				UserListVO vo=add(list.iterator());
-				return vo;
+		else{
+			if(service.find(user.getId())==null){
+				return ResultMessage.No_Exist;
 			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			return null;
+			else{
+				service.update(Convert.convert(user));
+				UserPO po=service.find(user.getId());
+				if(po.getId()==user.getId()&&po.getName().equals(user.getName())
+						&&po.getPassword().equals(user.getPassword())&&user.getRole()==user.getRole()){
+					return ResultMessage.Success;
+				}
+				else{
+					return ResultMessage.Failure;
+				}
+			}
 		}
 	}
-	
-/*	public ResultMessage checkRegister (RegisterInfoVO info){
+	public UserListVO getAll() {
+		UserDataService service=RMI.getUserDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			if(!service.getList().hasNext()){
+				return null;
+			}
+			else{
+				UserListVO vo=new UserListVO();
+				Iterator<UserPO> iterator=service.getList();
+				ArrayList<UserVO> listSystem=new ArrayList<UserVO>();
+				ArrayList<UserVO> listStock=new ArrayList<UserVO>();
+				ArrayList<UserVO> listSales=new ArrayList<UserVO>();
+				ArrayList<UserVO> listPurchase=new ArrayList<UserVO>();
+				ArrayList<UserVO> listManager=new ArrayList<UserVO>();
+				ArrayList<UserVO> listFinance=new ArrayList<UserVO>();
+				while(iterator.hasNext()){
+					UserVO user=Convert.convert(iterator.next());
+					if(user.getRole()==UserJob.FinanceManager){
+						listFinance.add(user);
+					}
+					else if(user.getRole()==UserJob.SalesManager){
+						listSales.add(user);
+					}
+					else if(user.getRole()==UserJob.Manager){
+						listManager.add(user);
+					}
+					else if(user.getRole()==UserJob.PurchaseManager){
+						listPurchase.add(user);
+					}
+					else if(user.getRole()==UserJob.StockManager){
+						listStock.add(user);
+					}
+					else if(user.getRole()==UserJob.SystemManager){
+						listSystem.add(user);
+					}
+				}
+				return vo;
+			}
+		}
 		
-	}*/
-	
-	private UserListVO add(Iterator<UserPO> i) {
-		ArrayList<UserVO> purchasemanager=new ArrayList<UserVO>();
-		ArrayList<UserVO> salesmanager=new ArrayList<UserVO>();
-		ArrayList<UserVO> manager=new ArrayList<UserVO>();
-		ArrayList<UserVO> stockmanager=new ArrayList<UserVO>();
-		ArrayList<UserVO> financemanager=new ArrayList<UserVO>();
-		ArrayList<UserVO> systemmanager=new ArrayList<UserVO>();
-		while(i.hasNext()){
-			UserVO vo=exchange(i.next());
-			switch(vo.getRole()){
-			case SystemManager:{
-				systemmanager.add(vo);
-				break;
-			}
-			case PurchaseManager:{
-				purchasemanager.add(vo);
-				break;
-			}
-			case SalesManager:{
-				salesmanager.add(vo);
-				break;
-			}
-			case StockManager:{
-				stockmanager.add(vo);
-				break;
-			}
-			case FinanceManager:{
-				financemanager.add(vo);
-			}
-			case Manager:{
-				manager.add(vo);
-			}
-			}
+	}
+	public long getNewUserID() {
+		UserDataService service=RMI.getUserDataService();
+		if(service==null){
+			return -1;
 		}
-		UserListVO list=new UserListVO(purchasemanager,salesmanager,
-				manager,stockmanager,financemanager,systemmanager);
-		return list;
-	}
-
-	private UserPO exchange(UserVO vo) {
-		UserPO po=new UserPO(vo.getId(),vo.getName(),vo.getPassword(),
-				vo.getRole());
-		return po;
-	}
-
-	private UserVO exchange(UserPO po){
-		UserVO vo=new UserVO(po.getId(),po.getName(),po.getPassword(),
-				po.getRole());
-		return vo;
-	}
-	@Override
-	public ResultMessage checkRegister(RegisterInfoVO info) {
-		// TODO 自动生成的方法存根
-		return null;
+		else{
+			return service.size()+1;
+		}
 	}
 }

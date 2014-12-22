@@ -14,4 +14,5 @@ public interface CommodityBLService {
 	public ArrayList<CommodityVO> findCommodityInKeyword(String key);
 	public CommodityModelVO getModel(String commodityID,String model);
 	public ArrayList<CommodityVO> getAllCommodity();
+	public String getNewID(String typeID);
 }

@@ -4,7 +4,7 @@ import vo.CommodityTypeVO;
 import vo.CommodityVO;
 import enumType.ResultMessage;
 public class MockCommodityType extends CommodityType{
-	private ArrayList<CommodityTypeVO> list=new ArrayList<CommodityTypeVO>();
+	/*private ArrayList<CommodityTypeVO> list=new ArrayList<CommodityTypeVO>();
 	@Override
 	public ResultMessage addType(CommodityTypeVO vo) {
 		for(int i=0;i<=list.size()-1;i++){
@@ -64,6 +64,6 @@ public class MockCommodityType extends CommodityType{
 	@Override
 	public ArrayList<CommodityVO> getAllCommodity(CommodityTypeVO vo) {
 		return null;
-	}
+	}*/
 
 }

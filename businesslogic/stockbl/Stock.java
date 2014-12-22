@@ -1,210 +1,194 @@
 package stockbl;
 import userbl.User;
+import utility.Utility;
 import vo.*;
 
 import java.rmi.Naming;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import blservice.StockBLService;
 import config.RMI;
+import convert.Convert;
 import po.*;
 import dataservice.*;
 import enumType.ResultMessage;
-public class Stock{
-	HashMap<String,GiftBill> listOfGiftBill;
-	HashMap<String,OverflowBill> listOfOverflowBill;
-	HashMap<String,UnderflowBill> listOfUnderflowBill;
-	HashMap<String,NoticeBill> listOfNoticeBill;
-	User operator;
+public class Stock implements StockBLService{
+	private SimpleDateFormat format=new SimpleDateFormat("yyyymmdd");
 	public Stock(){
 	}
-	public Stock(HashMap<String,GiftBill> listOfGiftBill,HashMap<String,OverflowBill> listOfOverflowBill,HashMap<String,UnderflowBill> listOfUnderflowBill,HashMap<String,NoticeBill> listOfNoticeBill,User operator){
-		this.listOfGiftBill=listOfGiftBill;
-		this.listOfOverflowBill=listOfOverflowBill;
-		this.listOfUnderflowBill=listOfUnderflowBill;
-		this.listOfNoticeBill=listOfNoticeBill;
-		this.operator=operator;
-	}
 	public ResultMessage send(GiftBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			GiftBillPO po=exchange(bill);
-			service.insert(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
 			return ResultMessage.Failure;
+		}
+		else{
+			service.insert(Convert.convert(bill));
+			if(!service.contain1(bill.getId())){
+				return ResultMessage.Failure;
+			}
+			else{
+				return ResultMessage.Success;
+			}
 		}
 	}
 	
 	public ResultMessage send(NoticeBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			NoticeBillPO po=exchange(bill);
-			service.insert(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
 			return ResultMessage.Failure;
+		}
+		else{
+			service.insert(Convert.convert(bill));
+			return ResultMessage.Success;
 		}
 	}
 
 	public ResultMessage send(OverflowBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			OverflowBillPO po=exchange(bill);
-			service.insert(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
 			return ResultMessage.Failure;
+		}
+		else{
+			service.insert(Convert.convert(bill));
+			if(service.contain2(bill.getId())){
+				return ResultMessage.Success;
+			}
+			else{
+				return ResultMessage.Failure;
+			}
 		}
 	}
 	
 	public ResultMessage send(UnderflowBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			UnderflowBillPO po=exchange(bill);
-			service.insert(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
 			return ResultMessage.Failure;
 		}
-	}
-	
-	
-
-	public ResultMessage execute(GiftBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			
-			if(service.contain1(bill.getId())){
-				GiftBillPO po=service.find1(bill.getId());
-				if(po.isPassed())
-					return ResultMessage.Success;
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		return ResultMessage.Failure;
-	}
-	
-	public ResultMessage execute(OverflowBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			
+		else{
+			service.insert(Convert.convert(bill));
 			if(service.contain2(bill.getId())){
-				OverflowBillPO po=service.find(bill.getId());
-				if(po.isPassed())
-					return ResultMessage.Success;
+				return ResultMessage.Success;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		return ResultMessage.Failure;
-	}
-	
-	public ResultMessage execute(UnderflowBillVO bill){
-		try{
-			StockDataService service=RMI.getStockDataService();
-			
-			if(service.contain3(bill.getId())){
-				UnderflowBillPO po=service.find2(bill.getId());
-				if(po.isPassed())
-					return ResultMessage.Success;
+			else{
+				return ResultMessage.Failure;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		return ResultMessage.Failure;
-	}
-	
-	private UnderflowBillPO exchange(UnderflowBillVO bill) {
-		try{
-			CommodityDataService service=RMI.getCommodityDataService();
-			CommodityPO commodity=service.findCommodityInName(bill.getCommodity());
-			
-			UnderflowBillPO po=new UnderflowBillPO(bill.getId(),bill.getStorehouse(),
-					commodity,bill.getModel(),bill.getRecordNumber(),
-					bill.getActualNumber());
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
 		}
 	}
 	
-	private OverflowBillPO exchange(OverflowBillVO bill) {
-		try{
-			CommodityDataService service=RMI.getCommodityDataService();
-			CommodityPO commodity=service.findCommodityInName(bill.getCommodity());
-			
-			OverflowBillPO po=new OverflowBillPO(bill.getId(),bill.getStorehouse(),
-					commodity,bill.getModel(),bill.getRecordNumber(),
-					bill.getActualNumber());
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
-
-	private NoticeBillPO exchange(NoticeBillVO bill) {
-		try{
-			CommodityDataService service=RMI.getCommodityDataService();
-			CommodityPO commodity=service.findCommodityInName(bill.getCommodity());
-			
-			NoticeBillPO po=new NoticeBillPO(bill.getId(),bill.getStorehouse(),
-					commodity,bill.getModel(),bill.getNoticeNumber(),
-					bill.getActualNumber());
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
-
-	private GiftBillPO exchange(GiftBillVO bill) {
-		try{
-			ClientDataService service=(ClientDataService) Naming.lookup("");
-			UserDataService service2=(UserDataService) Naming.lookup("");
-			CommodityDataService service3=(CommodityDataService) Naming.lookup("");
-			
-			ArrayList<GiftBillPO.GiftBillItemPO> list=new ArrayList<GiftBillPO.GiftBillItemPO>();
-			ClientPO client=service.find(bill.getClient());
-			UserPO user=service2.find(bill.getOperator());
-			GiftBillPO po=new GiftBillPO(bill.getId(),client,bill.getStorehouse(),
-					user,null);
-			
-			for(int i=0;i<bill.getList().size();i++){
-				CommodityPO commodity=service3.findCommodityInName(bill.getList().get(i).getCommodity());
-			}
-			po.setList(list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
-	@Override
 	public ArrayList<GiftBillVO> getAllGiftBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<GiftBillVO> list=new ArrayList<GiftBillVO>();
+			TreeMap<String,GiftBillPO> treemap=service.getGiftBillList();
+			ArrayList<String> ids=service.getGiftBillIDs();
+			for(int i=0;i<=ids.size()-1;i++){
+				list.add(Convert.convert(treemap.get(ids.get(i))));
+			}
+			return list;
+		}
 	}
-	@Override
+	
 	public ArrayList<OverflowBillVO> getAllOverflowBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<OverflowBillVO> list=new ArrayList<OverflowBillVO>();
+			TreeMap<String,OverflowBillPO> treemap=service.getOverflowBillList();
+			ArrayList<String> ids=service.getOverflowBillIDs();
+			for(int i=0;i<=ids.size()-1;i++){
+				list.add(Convert.convert(treemap.get(ids.get(i))));
+			}
+			return list;
+		}
 	}
-	@Override
+	
 	public ArrayList<UnderflowBillVO> getAllUnderflowBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<UnderflowBillVO> list=new ArrayList<UnderflowBillVO>();
+			TreeMap<String,UnderflowBillPO> treemap=service.getUnderflowBillList();
+			ArrayList<String> ids=service.getUnderflowBillIDs();
+			for(int i=0;i<=ids.size()-1;i++){
+				list.add(Convert.convert(treemap.get(ids.get(i))));
+			}
+			return list;
+		}
 	}
-	@Override
+	
 	public ArrayList<NoticeBillVO> getAllNoticeBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return null;
+		}
+		else{
+			ArrayList<NoticeBillVO> list=new ArrayList<NoticeBillVO>();
+			TreeMap<String,NoticeBillPO> treemap=service.getNoticeBillList();
+			ArrayList<String> ids=service.getNoticeBillIDs();
+			for(int i=0;i<=ids.size()-1;i++){
+				list.add(Convert.convert(treemap.get(ids.get(i))));
+			}
+			return list;
+		}
+	}
+	public String getNewGiftBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "网络连接错误";
+		}
+		else{
+			String ID="ZS";
+			ID+=format.format(date);
+			int number=service.numberOfGiftBills(date)+1;
+			ID+=Utility.getIntegerString(number,5);
+			return ID;
+		}
+	}
+	public String getNewOverflowBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "网络连接错误";
+		}
+		else{
+			String ID="BY";
+			ID+=format.format(date);
+			int number=service.numberOfOverflowBills(date)+1;
+			ID+=Utility.getIntegerString(number, 5);
+			return ID;
+		}
+	}
+	public String getNewUnderflowBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "网络连接错误";
+		}
+		else{
+			String ID="BS";
+			ID+=format.format(date);
+			int number=service.numberOfUnderflowBills(date)+1;
+			ID+=Utility.getIntegerString(number,5);
+			return ID;
+		}
+	}
+	public String getNewNoticeBillID(GregorianCalendar date) {
+		StockDataService service=RMI.getStockDataService();
+		if(service==null){
+			return "网络连接错误";
+		}
+		else{
+			String ID="BJ";
+			ID+=format.format(date);
+			int number=service.numberOfNoticeBills(date)+1;
+			ID+=Utility.getIntegerString(number,5);
+			return ID;
+		}
 	}
 }

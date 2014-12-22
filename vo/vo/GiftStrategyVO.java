@@ -13,6 +13,9 @@ public class GiftStrategyVO {
 			this.model = model;
 			this.number = number;
 		}
+		public GiftItemVO() {
+			// TODO 自动生成的构造函数存根
+		}
 		public String getCommodity() {
 			return commodity;
 		}
@@ -43,6 +46,9 @@ public class GiftStrategyVO {
 		this.clientList = clientList;
 		this.operator = operator;
 		this.list = list;
+	}
+	public GiftStrategyVO() {
+		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;

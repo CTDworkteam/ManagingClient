@@ -19,6 +19,9 @@ public class GiftBillVO {
 		this.list = list;
 		this.isPassed=false;
 	}
+	public GiftBillVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public boolean isPassed() {
 		return isPassed;
 	}
@@ -64,6 +67,9 @@ public class GiftBillVO {
 			this.commodity = commodity;
 			this.model = model;
 			this.number = number;
+		}
+		public GiftBillItemVO() {
+			// TODO 自动生成的构造函数存根
 		}
 		public String getCommodity() {
 			return commodity;

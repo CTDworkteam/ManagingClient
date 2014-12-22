@@ -8,6 +8,7 @@ public interface ExpenseDataService {
 	public void update(ExpensePO po);
 	public ExpensePO find(String id);
 	public Iterator<ExpensePO> finds(GregorianCalendar before,GregorianCalendar after);
+	public int numberOfExpenses(GregorianCalendar date);
 	public ArrayList<String> getIDs();
 	public TreeMap<String,ExpensePO> getDataList();
 	public boolean hasExpenses();

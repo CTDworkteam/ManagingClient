@@ -12,6 +12,9 @@ public class RegisterInfoVO {
 		this.password = password;
 		this.job = job;
 	}
+	public RegisterInfoVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getName() {
 		return name;
 	}

@@ -13,6 +13,9 @@ public class VoucherStrategyVO {
 		this.voucher = voucher;
 		this.clientList = clientList;
 	}
+	public VoucherStrategyVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getId() {
 		return id;
 	}

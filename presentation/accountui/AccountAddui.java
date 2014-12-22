@@ -1,11 +1,22 @@
 package accountui;
 import javax.swing.*;
 import java.awt.event.*;
+import accountbl.AccountController;
+import enumType.ResultMessage;
+import vo.*;
+import confirmui.*;
 
+/*
+ * 添加账户界面
+ */
 public class AccountAddui {
 	
 	JFrame frame;
 	JPanel panel;
+	JTextField fieldName;
+	JTextField fieldMoney;
+	
+	AccountController controller=new AccountController();
 	
 	public void go(){
 		frame=new JFrame();
@@ -17,9 +28,9 @@ public class AccountAddui {
 		int high=frame.getToolkit().getScreenSize().height;
 		
 		JLabel labelName=new JLabel("账户名",JLabel.RIGHT);
-		JTextField fieldName=new JTextField();
+		fieldName=new JTextField();
 		JLabel labelMoney=new JLabel("初始金额",JLabel.RIGHT);
-		JTextField fieldMoney=new JTextField();
+		fieldMoney=new JTextField();
 		JButton buttonAdd=new JButton("增加");
 		buttonAdd.addActionListener(new addListener());
 		JButton buttonCancel=new JButton("取消");
@@ -49,7 +60,27 @@ public class AccountAddui {
 	
 	class addListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			frame.dispose();
+			String name=fieldName.getText();
+			String money=fieldMoney.getText();
+			if(controller.JudgeMoney(money)==ResultMessage.Success){
+				AccountVO vo=new AccountVO();
+				vo.setName(name);
+				vo.setMoney(Double.parseDouble(money));
+				if(controller.add(vo)==ResultMessage.Success){
+					Runnable r=new Confirmui("成功增加账户");
+					Thread t=new Thread(r);
+					t.start();
+					frame.dispose();
+				}else{
+					Runnable r=new Confirmui("账户名重复，增加账户失败");
+					Thread t=new Thread(r);
+					t.start();
+				}
+			}else{
+				Runnable r=new Confirmui("账户初始金额格式错误");
+				Thread t=new Thread(r);
+				t.start();
+			}
 		}
 	}
 	

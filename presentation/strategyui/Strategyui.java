@@ -4,6 +4,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
+/*
+ * 制定促销策略界面
+ */
 public class Strategyui {
 	
 	public JPanel panelStrategy=new JPanel();

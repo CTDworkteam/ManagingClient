@@ -4,7 +4,7 @@ import enumType.ResultMessage;
 import vo.*;
 
 public class UserTester {
-	public void testAdd(UserVO vo){
+	/*public void testAdd(UserVO vo){
 		MockUser u=new MockUser();
 		if(u.addUser(vo)==ResultMessage.Success){
 			System.out.println("We have succeeded to add the new user");
@@ -46,5 +46,5 @@ public class UserTester {
 		else{
 			System.out.println("We have failed to find the new user");
 		}
-	}
+	}*/
 }

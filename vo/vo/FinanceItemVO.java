@@ -10,6 +10,9 @@ public class FinanceItemVO {
 		this.money = money;
 		this.note = note;
 	}
+	public FinanceItemVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getAccount() {
 		return account;
 	}

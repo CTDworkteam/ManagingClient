@@ -1,18 +1,20 @@
 package vo;
 import java.util.ArrayList;
+
 import commoditytypebl.*;
 public class CommodityTypeVO {
 	private String id;
 	private String name;
 	private boolean isRootNode;
 	private boolean isLeafNode;
-	private ArrayList<String> commodityList;
-	private String father;
-    private ArrayList<String> child;
+	private ArrayList<CommodityVO> commodityList;
+	private CommodityTypeVO father;
+    private ArrayList<CommodityTypeVO> child;
+	public CommodityTypeVO(){
+	}
 	public CommodityTypeVO(String id, String name, boolean isRootNode,
-			boolean isLeafNode, ArrayList<String> commodityList, String father,
-			ArrayList<String> child) {
-		super();
+			boolean isLeafNode, ArrayList<CommodityVO> commodityList,
+			CommodityTypeVO father, ArrayList<CommodityTypeVO> child) {
 		this.id = id;
 		this.name = name;
 		this.isRootNode = isRootNode;
@@ -45,28 +47,22 @@ public class CommodityTypeVO {
 	public void setLeafNode(boolean isLeafNode) {
 		this.isLeafNode = isLeafNode;
 	}
-	public ArrayList<String> getCommodityList() {
+	public ArrayList<CommodityVO> getCommodityList() {
 		return commodityList;
 	}
-	public void setCommodityList(ArrayList<String> commodityList) {
+	public void setCommodityList(ArrayList<CommodityVO> commodityList) {
 		this.commodityList = commodityList;
 	}
-	public String getFather() {
+	public CommodityTypeVO getFather() {
 		return father;
 	}
-	public void setFather(String father) {
+	public void setFather(CommodityTypeVO father) {
 		this.father = father;
 	}
-	public ArrayList<String> getChild() {
+	public ArrayList<CommodityTypeVO> getChild() {
 		return child;
 	}
-	public void setChild(ArrayList<String> child) {
+	public void setChild(ArrayList<CommodityTypeVO> child) {
 		this.child = child;
-	}
-	public void update(CommodityType type){
-		
-	}
-	public CommodityType makeCommodityType(){
-		return null;
 	}
 }

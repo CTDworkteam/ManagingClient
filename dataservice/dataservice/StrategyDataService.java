@@ -8,6 +8,7 @@ public interface StrategyDataService {
 	public boolean contain1(String id);
 	public DiscountStrategyPO find1(String id);
 	public Iterator<DiscountStrategyPO> getDiscountStrategyList();
+	public int numberOfDiscounts(GregorianCalendar date);
 	public boolean hasDiscountStrategy();
 	
 	public void insert(VoucherStrategyPO po);
@@ -16,6 +17,7 @@ public interface StrategyDataService {
 	public boolean contain2(String id);
 	public VoucherStrategyPO find2(String id);
 	public Iterator<VoucherStrategyPO> getVoucherStrategyList();
+	public int numberOfVouchers(GregorianCalendar date);
 	public boolean hasVoucherStrategy();
 	
 	public void insert(CombinationStrategyPO po);
@@ -24,6 +26,7 @@ public interface StrategyDataService {
 	public boolean contain3(String id);
 	public CombinationStrategyPO find3(String id);
 	public Iterator<CombinationStrategyPO> getCombinationStrategyList();
+	public int numberOfCombinations(GregorianCalendar date);
 	public boolean hasCombinationStrategy();
 	
 	public void insert(GiftStrategyPO po);
@@ -32,6 +35,7 @@ public interface StrategyDataService {
 	public boolean contain4(String id);
 	public GiftStrategyPO find4(String id);
 	public Iterator<GiftStrategyPO> getGiftStrategyList();
+	public int numberOfGifts(GregorianCalendar date);
 	public boolean hasGiftStrategy();
 	
 	public void insert(GiftBasedOnTotalMoneyPO po);
@@ -40,6 +44,7 @@ public interface StrategyDataService {
 	public boolean contain5(String id);
 	public GiftBasedOnTotalMoneyPO find5(String id);
 	public Iterator<GiftBasedOnTotalMoneyPO> getGBOTMList();
+	public int numberOfGBOTMs(GregorianCalendar date);
 	public boolean hasGBOTM();
 	
 	public void init();

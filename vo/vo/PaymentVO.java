@@ -19,6 +19,9 @@ public class PaymentVO {
 		this.total = total;
 		this.isPassed=false;
 	}
+	public PaymentVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public boolean isPassed() {
 		return isPassed;
 	}

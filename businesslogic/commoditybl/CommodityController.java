@@ -33,7 +33,7 @@ public class CommodityController implements CommodityBLService{
 		return null;
 	}
 	@Override
-	public ResultMessage deleteModel(CommodityVO commodity, String modelName) {
+	public ResultMessage deleteModel(String commodityID, String modelName) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
@@ -58,9 +58,17 @@ public class CommodityController implements CommodityBLService{
 		return null;
 	}
 	@Override
-	public CommodityModelVO getModel(CommodityVO vo, String model) {
+	public CommodityModelVO getModel(String commodityID, String model) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
-	
+	@Override
+	public ArrayList<CommodityVO> getAllCommodity() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewID(String typeID) {
+		return null;
+	}
 }

@@ -3,6 +3,7 @@ package vo;
 import java.util.ArrayList;
 
 public class InitialVO {
+	private String id;
 	private ArrayList<CommodityVO> commodity=new ArrayList<CommodityVO>();
 	private ArrayList<CommodityTypeVO> type=new ArrayList<CommodityTypeVO>();
 	private ArrayList<ClientVO> client=new ArrayList<ClientVO>();
@@ -16,6 +17,10 @@ public class InitialVO {
 		this.account=a;
 	}
 	
+	public InitialVO() {
+		// TODO 自动生成的构造函数存根
+	}
+
 	public ArrayList<CommodityVO> getCommodityList(){
 		return commodity;
 	}
@@ -46,5 +51,45 @@ public class InitialVO {
 	
 	public void setAccountList(ArrayList<AccountVO> a){
 		this.account=a;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public ArrayList<CommodityVO> getCommodity() {
+		return commodity;
+	}
+
+	public void setCommodity(ArrayList<CommodityVO> commodity) {
+		this.commodity = commodity;
+	}
+
+	public ArrayList<CommodityTypeVO> getType() {
+		return type;
+	}
+
+	public void setType(ArrayList<CommodityTypeVO> type) {
+		this.type = type;
+	}
+
+	public ArrayList<ClientVO> getClient() {
+		return client;
+	}
+
+	public void setClient(ArrayList<ClientVO> client) {
+		this.client = client;
+	}
+
+	public ArrayList<AccountVO> getAccount() {
+		return account;
+	}
+
+	public void setAccount(ArrayList<AccountVO> account) {
+		this.account = account;
 	}
 }

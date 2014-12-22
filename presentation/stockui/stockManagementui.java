@@ -281,7 +281,7 @@ class stockManagementui extends JPanel{
 				checkFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				checkFrame.setTitle("库存查看");
 				checkFrame.setVisible(true);
-		//未实现		
+		//balalaXX/XX		
 				jbtAssure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 					//	String start=startTimeField.getText();
@@ -329,7 +329,8 @@ class stockManagementui extends JPanel{
 				
 			}
 		});
-		
+		//截至这里！！！！
+	
 		jbtSnapshot.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				shotListTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -414,8 +415,8 @@ class stockManagementui extends JPanel{
 				jbtPresentSelect.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						subPresentFrame=new JFrame();
-						String[] presentColumn={"编号","名称","型号","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
-						Object[][] presentRowData={{"00001","淫迪","1号",1,4,4,4,4,4}};
+						String[] presentColumn={"编号","名称","型号","库存数量"};
+						Object[][] presentRowData={{"00001","淫迪","1号",1}};
 						presentListTableModel=new DefaultTableModel(presentRowData,presentColumn);
 						presentListTable=new JTable(presentListTableModel);
 						presentJScrollPane=new JScrollPane(presentListTable);

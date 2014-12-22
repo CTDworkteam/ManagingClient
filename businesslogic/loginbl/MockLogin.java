@@ -3,7 +3,7 @@ package loginbl;
 import enumType.*;
 
 public class MockLogin extends Login{
-	private static Login l=new Login(10010,"f");
+	/*private static Login l=new Login(10010,"f");
 	private UserJob s=UserJob.SalesManager;
 	String name="123";
 	
@@ -42,5 +42,5 @@ public class MockLogin extends Login{
 		else{
 			return "–≈œ¢–ÈºŸ£¨’“ªÿ ß∞‹£°";
 		}
-	}
+	}*/
 }

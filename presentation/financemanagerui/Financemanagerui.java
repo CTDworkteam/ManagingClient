@@ -8,7 +8,9 @@ import accountui.Accountui;
 import financecheckui.Financecheckui;
 import recordui.Recordui;
 
-
+/*
+ * 财务人员工作界面
+ */
 public class Financemanagerui implements ChangeListener,ActionListener{
 	
 	JFrame frame;
@@ -21,7 +23,7 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 	Financecheckui financecheck=new Financecheckui();
 	Recordui record=new Recordui();
 	
-	public void go(){
+	public void go(String name){
 		frame=new JFrame();
 		panel=new JPanel();
 		
@@ -33,7 +35,7 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 		
 		JPanel panelFace=new JPanel();
 		tab=new JTabbedPane();
-		JLabel labelName=new JLabel("姓名");
+		JLabel labelName=new JLabel("姓名 "+name);
 		JLabel labelWork=new JLabel("职务 财务人员");
 		JButton button=new JButton("退出");
 		button.addActionListener(this);

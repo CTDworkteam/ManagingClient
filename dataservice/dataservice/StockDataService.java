@@ -7,6 +7,7 @@ public interface StockDataService {
 	public boolean contains1(GregorianCalendar start,GregorianCalendar end);
 	public GiftBillPO find1(String id);
 	public Iterator<GiftBillPO> finds1(GregorianCalendar before,GregorianCalendar after);
+	public int numberOfGiftBills(GregorianCalendar date);
 	public void delete(GiftBillPO po);
 	public void update(GiftBillPO po);
 	public TreeMap<String,GiftBillPO> getGiftBillList();
@@ -18,6 +19,7 @@ public interface StockDataService {
 	public boolean contains2(GregorianCalendar start,GregorianCalendar end);
 	public OverflowBillPO find(String id);
 	public Iterator<OverflowBillPO> finds(GregorianCalendar before,GregorianCalendar after);
+	public int numberOfOverflowBills(GregorianCalendar date);
 	public void delete(OverflowBillPO po);
 	public void update(OverflowBillPO po);
 	public TreeMap<String,OverflowBillPO> getOverflowBillList();
@@ -29,6 +31,7 @@ public interface StockDataService {
 	public boolean contains3(GregorianCalendar start,GregorianCalendar end);
 	public UnderflowBillPO find2(String id);
 	public Iterator<UnderflowBillPO> finds2(GregorianCalendar before,GregorianCalendar after);
+	public int numberOfUnderflowBills(GregorianCalendar date);
 	public void delete(UnderflowBillPO po);
 	public void update(UnderflowBillPO po);
 	public TreeMap<String,UnderflowBillPO> getUnderflowBillList();
@@ -38,6 +41,7 @@ public interface StockDataService {
 	public void insert(NoticeBillPO po);
 	public boolean contain(GregorianCalendar start,GregorianCalendar end);
 	public Iterator<NoticeBillPO> find(GregorianCalendar start,GregorianCalendar end);
+	public int numberOfNoticeBills(GregorianCalendar date);
 	public TreeMap<String,NoticeBillPO> getNoticeBillList();
 	public ArrayList<String> getNoticeBillIDs();
 	public boolean hasNoticeBills();

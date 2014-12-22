@@ -23,6 +23,9 @@ public interface PurchaseDataService {
     public boolean hasBills();
     public boolean hasReturnBills();
     
+    public int numberOfBills(GregorianCalendar date);
+    public int numberOfReturnBills(GregorianCalendar date);
+    
     public void init();
     public void save();
 }
