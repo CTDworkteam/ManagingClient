@@ -4,6 +4,7 @@ public class DataAddDelRecordPO {
 	private String id;
 	private String operator;
 	private Operation operation;
+	private ActionType action;
 	private String objectID;
 	private String objectName;
 	public DataAddDelRecordPO(){
@@ -16,6 +17,12 @@ public class DataAddDelRecordPO {
 		this.operation = operation;
 		this.objectID = objectID;
 		this.objectName = objectName;
+	}
+	public ActionType getAction() {
+		return action;
+	}
+	public void setAction(ActionType action) {
+		this.action = action;
 	}
 	public String getId() {
 		return id;

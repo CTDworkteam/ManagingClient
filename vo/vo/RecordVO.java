@@ -6,14 +6,27 @@ public class RecordVO {
 	private Operation operation;
 	private ActionType action;
 	private String note;
-	
-	public RecordVO(Operation o,String n,ActionType a){
-		super();
-		this.operation=o;
-		this.note=n;
-		this.action=a;
+	private String operator;
+	public RecordVO(){
 	}
 	
+	public RecordVO(Operation operation, ActionType action, String note,
+			String operator) {
+		super();
+		this.operation = operation;
+		this.action = action;
+		this.note = note;
+		this.operator = operator;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
 	public void setOperation(Operation o){
 		this.operation=o;
 	}
