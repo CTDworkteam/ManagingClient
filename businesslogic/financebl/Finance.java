@@ -234,17 +234,7 @@ public class Finance implements FinanceBLService{
 	public ArrayList<PaymentVO> getAllPayments(){
 		return null;
 	}
-	@Override
-	public ResultMessage executeBill(ReciptVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-	@Override
-	public ResultMessage executeReturnBill(PaymentVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-	@Override
+	
 	public String getNewReciptID(GregorianCalendar date) {
 		// TODO 自动生成的方法存根
 		return null;
