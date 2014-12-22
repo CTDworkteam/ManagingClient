@@ -138,7 +138,14 @@ public class Client implements ClientBLService{
 		}
 	}
 	public long getNewClientID() {
-		// TODO 自动生成的方法存根
-		return 0;
+		ClientDataService service = RMI.getClientDataService();
+		
+		if(service == null){
+			return -1;
+		}
+		
+		else{
+			return service.number()+1;
+		}
 	}
 }

@@ -10,12 +10,7 @@ public class MockFinance extends Finance{
 	public MockFinance(){
 		
 	}
-	public MockFinance(User operator,ArrayList<Payment> list1,ArrayList<Recipt> list2){
-		this.operator=operator;
-		this.list1=list1;
-		this.list2=list2;
-	}
-	private static Account[] account={new Account(1,"A",1000),new Account(2,"B",2000)};
+	/*private static Account[] account={new Account(1,"A",1000),new Account(2,"B",2000)};
 	private static Client[] client={new Client(),new Client()};
 	private static Payment[] payment={new Payment("FKD2014111500001",new Client(),new User(),new ArrayList<FinanceItem>(),100),new Payment("FKD2014111500002",new Client(),new User(),new ArrayList<FinanceItem>(),100)};
 	private static Recipt[] recipt={new Recipt("SKD2014111500001",new Client(),new User(),new ArrayList<FinanceItem>(),100),new Recipt("SKD2014111500002",new Client(),new User(),new ArrayList<FinanceItem>(),100)};
@@ -88,5 +83,5 @@ public class MockFinance extends Finance{
 			}
 		}
 		return ResultMessage.Failure;
-	}
+	}*/
 }

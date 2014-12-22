@@ -235,10 +235,33 @@ public class Purchase{
 		else{
 			ArrayList<PurchaseBillVO> vo = new ArrayList<PurchaseBillVO>();
 			TreeMap<String,PurchaseBillPO> po = service.getList1();
+			Iterator<PurchaseBillPO> i = po.values().iterator();
+			
+			while(i.hasNext()){
+				PurchaseBillVO temp = Convert.convert(i.next());
+				vo.add(temp);
+			}
+			return vo;
 		}
 	}
 
 	public ArrayList<PurchaseReturnBillVO> getAllReturnBills() {
-	
+		PurchaseDataService service=RMI.getPurchaseDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<PurchaseReturnBillVO> vo = new ArrayList<PurchaseReturnBillVO>();
+			TreeMap<String,PurchaseReturnBillPO> po = service.getList2();
+			Iterator<PurchaseReturnBillPO> i = po.values().iterator();
+			
+			while(i.hasNext()){
+				PurchaseReturnBillVO temp = Convert.convert(i.next());
+				vo.add(temp);
+			}
+			return vo;
+		}
 	}
 }

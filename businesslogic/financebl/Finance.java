@@ -1,5 +1,5 @@
 package financebl;
-import userbl.*;
+import utility.Utility;
 import vo.FinanceItemVO;
 import vo.PaymentVO;
 import vo.ReciptVO;
@@ -7,23 +7,14 @@ import vo.ReciptVO;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.rmi.Naming;
 import java.util.*;
 
 import blservice.FinanceBLService;
 import config.RMI;
 import convert.Convert;
-import po.AccountPO;
-import po.ClientPO;
 import po.PaymentPO;
 import po.ReciptPO;
-import po.UserPO;
-import po.PaymentPO.PaymentItemPO;
-import po.ReciptPO.ReciptItemPO;
-import dataservice.AccountDataService;
-import dataservice.ClientDataService;
 import dataservice.FinanceDataService;
-import dataservice.UserDataService;
 import enumType.ResultMessage;
 
 public class Finance implements FinanceBLService{
@@ -115,50 +106,6 @@ public class Finance implements FinanceBLService{
 		}
 	}
 	
-	/*public ResultMessage executeBill(ReciptVO bill){
-		try{
-			FinanceDataService service = RMI.getFinanceDataService();
-			AccountDataService account = RMI.getAccountDataService();
-		
-			ReciptPO po=service.find1(bill.getId());
-			if(po.isPassed()){
-				ArrayList<ReciptItemPO> temp=po.getList();
-				for(int i=0;i<temp.size();i++){
-					AccountPO a=temp.get(i).getAccount();
-					a.setMoney(a.getMoney()+temp.get(i).getMoney());
-					account.update(a);
-				}			
-				return ResultMessage.Success;
-			}
-			return ResultMessage.Failure;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}*/
-	
-	/*public ResultMessage executeReturnBill(PaymentVO bill){
-		try{
-			FinanceDataService service = RMI.getFinanceDataService();
-			AccountDataService account = RMI.getAccountDataService();
-		
-			PaymentPO po=service.find2(bill.getId());
-			if(po.isPassed()){
-				ArrayList<PaymentItemPO> temp=po.getList();
-				for(int i=0;i<temp.size();i++){
-					AccountPO a=temp.get(i).getAccount();
-					a.setMoney(a.getMoney()-temp.get(i).getMoney());
-					account.update(a);
-				}			
-				return ResultMessage.Success;
-			}
-			return ResultMessage.Failure;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
-		}
-	}*/
-	
 	public ReciptVO findRecipt(String id){
 		FinanceDataService service = RMI.getFinanceDataService();
 		
@@ -228,20 +175,66 @@ public class Finance implements FinanceBLService{
 		}
 		
 		else{
+			ArrayList<ReciptVO> list = new ArrayList<ReciptVO>();
+			TreeMap<String,ReciptPO> list2 = service.getList1();
+			Iterator<ReciptPO> i = list2.values().iterator();
 			
+			while(i.hasNext()){
+				ReciptVO temp = Convert.convert(i.next());
+				list.add(temp);
+			}
+			return list;
 		}
 	}
 	public ArrayList<PaymentVO> getAllPayments(){
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<PaymentVO> list = new ArrayList<PaymentVO>();
+			TreeMap<String,PaymentPO> list2 = service.getList2();
+			Iterator<PaymentPO> i = list2.values().iterator();
+			
+			while(i.hasNext()){
+				PaymentVO temp = Convert.convert(i.next());
+				list.add(temp);
+			}
+			return list;
+		}
 	}
 	
 	public String getNewReciptID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id = "SKD";
+			id+=Utility.getDate();
+			int number = service.numberOfRecipts(date);
+			id+=Utility.getIntegerString(number,5);
+			return id;
+		}
 	}
-	@Override
+
 	public String getNewPaymentID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		FinanceDataService service = RMI.getFinanceDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id = "FKD";
+			id+=Utility.getDate();
+			int number = service.numberOfPayments(date);
+			id+=Utility.getIntegerString(number,5);
+			return id;
+		}
 	}
 }

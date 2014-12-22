@@ -1,5 +1,6 @@
 package expensebl;
 import userbl.User;
+import utility.Utility;
 import vo.ExpenseVO;
 import vo.ExpenseVO.ExpenseItemVO;
 
@@ -126,7 +127,14 @@ public class Expense implements ExpenseBLService{
 		}
 		
 		else{
-			Iterator<ExpensePO> i = service
+			ArrayList<ExpenseVO> list = new ArrayList<ExpenseVO>();
+			TreeMap<String,ExpensePO> list2 = service.getDataList();
+			Iterator<ExpensePO> i = list2.values().iterator();
+			
+			while(i.hasNext()){
+				list.add(Convert.convert(i.next()));
+			}
+			return list;
 		}
 	}
 
@@ -138,7 +146,11 @@ public class Expense implements ExpenseBLService{
 		}
 		
 		else{
-			
+			String id="XJXFD";
+			id+=Utility.getDate();
+			int number = service.numberOfExpenses(date);
+			id+=Utility.getIntegerString(number,5);
+			return id;
 		}
 	}
 }

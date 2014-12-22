@@ -12,11 +12,6 @@ public class MockPurchase extends Purchase
 	public MockPurchase(){
 		
 	}
-	public MockPurchase(String operator){
-		this.operator=operator;
-		list1=new ArrayList<PurchaseBill>();
-		list2=new ArrayList<PurchaseReturnBill>();
-	}
 	public ResultMessage addBill(PurchaseBillVO vo) {
 		if(vo.getId().equals("0001"))
 			return ResultMessage.Success;

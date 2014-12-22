@@ -1,5 +1,7 @@
 package salesbl;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 import vo.*;
 import enumType.ResultMessage;
 import blservice.SalesBLService;
@@ -20,10 +22,36 @@ public class SalesController implements SalesBLService{
 	public ResultMessage save(SalesReturnBillVO vo) {
 		return sales.save(vo);
 	}
-	public ResultMessage executeBill(SalesBillVO bill) {
-		return sales.executeBill(bill);
+	@Override
+	public ArrayList<SalesBillVO> findBills(GregorianCalendar before,
+			GregorianCalendar after) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
-	public ResultMessage executeReturnBill(SalesReturnBillVO bill) {
-		return sales.executeReturnBill(bill);
+	@Override
+	public ArrayList<SalesReturnBillVO> findReturnBills(
+			GregorianCalendar before, GregorianCalendar after) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<SalesBillVO> getAllBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<SalesReturnBillVO> getAllReturnBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewReturnBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
 	}	
 }

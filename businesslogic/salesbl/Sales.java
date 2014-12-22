@@ -6,6 +6,7 @@ import java.rmi.Naming;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 import blservice.SalesBLService;
 import config.RMI;
@@ -234,22 +235,72 @@ public class Sales implements SalesBLService{
 	}
 
 	public ArrayList<SalesBillVO> getAllBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<SalesBillVO> vo = new ArrayList<SalesBillVO>();
+			TreeMap<String,SalesBillPO> po = service.getList1();
+			Iterator<SalesBillPO> i = po.values().iterator();
+			
+			while(i.hasNext()){
+				SalesBillVO temp = Convert.convert(i.next());
+				vo.add(temp);
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public ArrayList<SalesReturnBillVO> getAllReturnBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<SalesReturnBillVO> vo = new ArrayList<SalesReturnBillVO>();
+			TreeMap<String,SalesReturnBillPO> po = service.getList2();
+			Iterator<SalesReturnBillPO> i = po.values().iterator();
+			
+			while(i.hasNext()){
+				SalesReturnBillVO temp = Convert.convert(i.next());
+				vo.add(temp);
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public String getNewBillID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id = "XSD";
+			id+=date;
+			id+=Utility.getIntegerString(service.numberOfBills(date),5);
+			return id;
+		}
 	}
-	@Override
+
 	public String getNewReturnBillID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id = "XSTHD";
+			id+=date;
+			id+=Utility.getIntegerString(service.numberOfBills(date),5);
+			return id;
+		}
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import object.TypeTree;
 import blservice.InitialBLService;
 import po.InitialPO;
+import utility.Utility;
 import vo.AccountVO;
 import vo.ClientVO;
 import vo.CommodityTypeVO;
@@ -22,6 +23,7 @@ import dataservice.AccountDataService;
 import dataservice.ClientDataService;
 import dataservice.CommodityDataService;
 import dataservice.CommodityTypeDataService;
+import dataservice.FinanceDataService;
 import dataservice.InitialDataService;
 import enumType.ResultMessage;
 
@@ -132,7 +134,7 @@ public class Initial implements InitialBLService{
 				return null;
 			
 			else
-				return exchange(po);
+				return Convert.convert(po);
 		}
 	}
 
@@ -148,50 +150,9 @@ public class Initial implements InitialBLService{
 			Iterator<InitialPO> i = service.getAllInitials();
 			
 			while(i.hasNext()){
-				result.add(exchange(i.next()));
+				result.add(Convert.convert(i.next()));
 			}
 			return result;
-		}
-	}
-
-	private InitialVO exchange(InitialPO po) {
-		CommodityDataService service2 = RMI.getCommodityDataService();
-		CommodityTypeDataService service3 = RMI.getCommodityTypeDataService();
-		ClientDataService service4 = RMI.getClientDataService();
-		AccountDataService service5 = RMI.getAccountDataService();
-		
-		if(service2 == null || service3 == null || service4 == null
-				|| service5 == null){
-			return null;
-		}
-		
-		else{
-			ArrayList<CommodityVO> commodity = new ArrayList<CommodityVO>();
-			ArrayList<CommodityTypeVO> type = new ArrayList<CommodityTypeVO>();
-			ArrayList<ClientVO> client = new ArrayList<ClientVO>();
-			ArrayList<AccountVO> account = new ArrayList<AccountVO>();
-		
-			ArrayList<String> c = po.getCommodity();
-			ArrayList<String> cl = po.getClient();
-			ArrayList<String> a = po.getAccount();
-			ArrayList<String> t = po.getType();
-		
-			for(int i = 0; i<c.size(); i++){
-				commodity.add(Convert.convert(service2.findCommodityInName(c.get(i))));
-			}	
-			
-			for(int i = 0; i<cl.size(); i++){
-				client.add(Convert.convert(service4.find(cl.get(i))));
-			}
-		
-			for(int i = 0; i<a.size(); i++){
-				account.add(Convert.convert(service5.find(a.get(i))));
-			}
-			
-			for(int i = 0; i<t.size(); i++){
-				type.add(Convert.convert(service3.findByName(t.get(i))));
-			}
-			return new InitialVO(commodity,type,client,account);
 		}
 	}
 
@@ -203,7 +164,9 @@ public class Initial implements InitialBLService{
 		}
 		
 		else{
-			
+			String id = "CSH";
+			id+=date;
+			return id;
 		}
 	}
 }
