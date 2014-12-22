@@ -200,12 +200,12 @@ public class Convert {
 		DiscountStrategyVO vo=new DiscountStrategyVO();
 		vo.setId(po.getId());
 		vo.setDiscount(po.getDiscount());
-		vo.setClientList(po.getClientList());
+		vo.setRank(po.getRank());
 		return vo;
 	}
 	public static DiscountStrategyPO convert(DiscountStrategyVO vo){
 		DiscountStrategyPO po=new DiscountStrategyPO();
-		po.setClientList(vo.getClientList());
+		po.setRank(vo.getRank());
 		po.setDiscount(vo.getDiscount());
 		po.setId(vo.getId());
 		return po;
@@ -347,7 +347,7 @@ public class Convert {
 	}
 	public static GiftStrategyVO convert(GiftStrategyPO po){
 		GiftStrategyVO vo=new GiftStrategyVO();
-		vo.setClientList(po.getClientList());
+		vo.setRank(po.getRank());
 		vo.setId(po.getId());
 		vo.setOperator(po.getOperator());
 		Iterator<GiftStrategyPO.GiftItemPO> iterator=po.getItemlist().iterator();
@@ -360,7 +360,7 @@ public class Convert {
 	}
 	public static GiftStrategyPO convert(GiftStrategyVO vo){
 		GiftStrategyPO po=new GiftStrategyPO();
-		po.setClientList(vo.getClientList());
+		po.setRank(vo.getRank());
 		po.setId(vo.getId());
 		po.setOperator(vo.getOperator());
 		Iterator<GiftStrategyVO.GiftItemVO> iterator=vo.getList().iterator();
@@ -388,6 +388,22 @@ public class Convert {
 		po.setModel(vo.getModel());
 		po.setNumber(vo.getNumber());
 		return po;
+	}
+	public static VoucherBasedOnTotalMoneyPO convert(VoucherBasedOnTotalMoneyVO vo){
+		VoucherBasedOnTotalMoneyPO po=new VoucherBasedOnTotalMoneyPO();
+		po.setId(vo.getId());
+		po.setLower(vo.getLower());
+		po.setUpper(vo.getUpper());
+		po.setMoney(vo.getMoney());
+		return po;
+	}
+	public static VoucherBasedOnTotalMoneyVO convert(VoucherBasedOnTotalMoneyPO po){
+		VoucherBasedOnTotalMoneyVO vo=new VoucherBasedOnTotalMoneyVO();
+		vo.setId(po.getId());
+		vo.setLower(po.getLower());
+		vo.setMoney(po.getMoney());
+		vo.setUpper(po.getUpper());
+		return vo;
 	}
 	public static InitialVO convert(InitialPO po){
 		InitialVO vo=new InitialVO();
@@ -897,7 +913,7 @@ public class Convert {
 	}
 	public static VoucherStrategyVO convert(VoucherStrategyPO po){
 		VoucherStrategyVO vo=new VoucherStrategyVO();
-		vo.setClientList(po.getClientList());
+		vo.setRank(po.getRank());
 		vo.setId(po.getId());
 		vo.setVoucher(po.getVoucher());
 		return vo;
@@ -905,8 +921,50 @@ public class Convert {
 	public static VoucherStrategyPO convert(VoucherStrategyVO vo){
 		VoucherStrategyPO po=new VoucherStrategyPO();
 		po.setId(vo.getId());
-		po.setClientList(vo.getClientList());
+		po.setRank(vo.getRank());
 		po.setVoucher(vo.getVoucher());
 		return po;
+	}
+	public static RecordVO convert(DataAddDelRecordPO po){
+		RecordVO vo=new RecordVO();
+		vo.setOperator(po.getOperator());
+		vo.setOperation(po.getOperation());
+		vo.setAction(po.getAction());
+		String note=null;
+		switch(po.getOperation()){
+		case Account:note="银行账户 ";break;
+		case Client:note="客户 ";break;
+		case Commodity:note="商品 ";break;
+		case CommodityType:note="商品分类 ";break;
+		case Expense:note="现金消费单 ";break;
+		case Payment:note="付款单 ";break;
+		case PurchaseBill:note="进货单 ";break;
+		case PurchaseReturnBill:note="进货退货单 ";break;
+		case SalesBill:note="销售单 ";break;
+		case SalesReturnBill:note="销售退货单 ";break;
+		case Receive:note="收款单 ";break;
+		case Stock:
+			if(po.getObjectID().substring(0,2).equals("BY")){
+				note="库存报溢单 ";
+			}
+			else if(po.getObjectID().substring(0,2).equals("BS")){
+				note="库存报损单 ";
+			}
+			else if(po.getObjectID().substring(0,2).equals("ZS")){
+				note="库存赠送单 ";
+			}
+			break;
+		}
+		note+=po.getObjectID();
+		note+=po.getObjectName();
+		vo.setNote(note);
+		return vo;
+	}
+	public static RecordVO convert(DataModifyRecordPO po){
+		RecordVO vo=new RecordVO();
+		
+	}
+	public static RecordVO convert(BillRecordPO po){
+		RecordVO vo=new RecordVO();
 	}
 }

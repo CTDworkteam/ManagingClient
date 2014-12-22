@@ -12,6 +12,9 @@ public class VoucherBasedOnTotalMoneyVO {
 		this.upper = upper;
 		this.lower = lower;
 	}
+	public VoucherBasedOnTotalMoneyVO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getId() {
 		return id;
 	}
