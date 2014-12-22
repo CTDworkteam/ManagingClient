@@ -28,4 +28,9 @@ public class ClientController implements ClientBLService{
 	public ArrayList<ClientVO> getList() {
 		return client.getList();
 	}
+	@Override
+	public long getNewClientID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
