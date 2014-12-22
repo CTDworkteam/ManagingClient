@@ -150,11 +150,11 @@ class stockTypeui extends JPanel{
 						JOptionPane.showMessageDialog(null, "未找到目标");
 					else
 					{
-					for(int i=0;i<resultNum;i++)
-					 {
-					   String[] resultRow={returnvos.get(i).getName(),returnvos.get(i).getId()};
-					   vosTableModel.addRow(resultRow);
-					 }
+					   for(int i=0;i<resultNum;i++)
+					   {
+					      String[] resultRow={returnvos.get(i).getName(),returnvos.get(i).getId()};
+					      vosTableModel.addRow(resultRow);
+					   }
 					vosFrame.pack();
 					vosFrame.setLocationRelativeTo(null);
 					vosFrame.setTitle("搜索结果");

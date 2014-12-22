@@ -7,6 +7,7 @@ import convert.Convert;
 import po.*;
 import dataservice.*;
 import datafactory.*;
+import utility.Utility;
 import vo.*;
 import enumType.ResultMessage;
 import blservice.*;
@@ -171,7 +172,7 @@ public class CommodityType {
 					int depth=depthOfFather+1;
 					String ID=new Integer(depth).toString();
 					ID+=fatherID.substring(1,2*depthOfFather+1);
-					ID+=String.format("%2d",number);
+					ID+=Utility.getIntegerString(number,3);
 					while(ID.length()<11){
 						ID+="0";
 					}
