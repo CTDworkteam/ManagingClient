@@ -1,5 +1,4 @@
 package dataservice;
-import enumType.*;
 import po.*;
 import java.util.*;
 public interface UserDataService {
