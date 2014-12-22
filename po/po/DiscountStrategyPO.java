@@ -3,14 +3,14 @@ import java.util.ArrayList;
 public class DiscountStrategyPO implements java.io.Serializable{
 	private String id;
 	private double discount;
-	private ArrayList<String> clientList;
+	private int rank;
 	public DiscountStrategyPO(){
 	}
-	public DiscountStrategyPO(String id, double discount,
-			ArrayList<String> clientList) {
+	public DiscountStrategyPO(String id, double discount, int rank) {
+		super();
 		this.id = id;
 		this.discount = discount;
-		this.clientList = clientList;
+		this.rank = rank;
 	}
 	public String getId() {
 		return id;
@@ -24,10 +24,10 @@ public class DiscountStrategyPO implements java.io.Serializable{
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
-	public ArrayList<String> getClientList() {
-		return clientList;
+	public int getRank() {
+		return rank;
 	}
-	public void setClientList(ArrayList<String> clientList) {
-		this.clientList = clientList;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 }
