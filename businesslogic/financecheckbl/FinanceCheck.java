@@ -2,11 +2,16 @@ package financecheckbl;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+
 import config.RMI;
 import convert.Convert;
+import po.OverflowBillPO;
 import po.SalesBillPO;
 import po.SalesBillPO.SalesBillItemPO;
+import po.SalesReturnBillPO;
+import dataservice.CommodityDataService;
 import dataservice.SalesDataService;
+import dataservice.StockDataService;
 import enumType.*;
 import vo.*;
 import vo.DetailListVO.DetailListItemVO;
@@ -162,7 +167,7 @@ public class FinanceCheck implements FinanceCheckBLService{
 		}
 	}
 
-	@Override
+
 	public ProcessListVO getProcessList(GregorianCalendar start,
 			GregorianCalendar end) {
 		// TODO 自动生成的方法存根
@@ -196,8 +201,53 @@ public class FinanceCheck implements FinanceCheckBLService{
 	@Override
 	public ConditionListVO getConditionList(GregorianCalendar start,
 			GregorianCalendar end) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService s = RMI.getSalesDataService();
+		CommodityDataService c = RMI.getCommodityDataService();
+		StockDataService st = RMI.getStockDataService();
+		
+		ConditionListVO result = new ConditionListVO(start.toString(),
+				end.toString(),null,null,0);
+		InVO in = calculate(start,end);
+		OutVO out = calculate2(start,end);
+		
+		Iterator<SalesBillPO> i = s.finds1(start, end);
+		Iterator<SalesReturnBillPO> j = s.finds2(start, end);
+		double total = 0;
+		while(i.hasNext()){
+			total+=i.next().getTotal();
+		}
+		while(j.hasNext()){
+			total-=j.next().getTotal();
+		}
+	}
+
+	private OutVO calculate2(GregorianCalendar start, GregorianCalendar end) {
+		
+	}
+
+	private InVO calculate(GregorianCalendar start, GregorianCalendar end) {
+		SalesDataService s = RMI.getSalesDataService();
+		StockDataService st = RMI.getStockDataService();
+		
+		if(s == null || st == null){
+			return null;
+		}
+		
+		else{
+			InVO in = new InVO(0, 0, 0, 0, 0, 0, 0);
+			Iterator<SalesBillPO> i = s.finds1(start, end);
+			Iterator<SalesReturnBillPO> j = s.finds2(start, end);
+			double total = 0;
+			while(i.hasNext()){
+				total+=i.next().getTotal();
+			}
+			while(j.hasNext()){
+				total-=j.next().getTotal();
+			}
+			in.setSalesIn(total);
+			
+			Iterator<OverflowBillPO> over = st.finds(start, end);
+		}
 	}
 
 	@Override

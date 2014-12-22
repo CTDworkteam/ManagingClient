@@ -15,4 +15,5 @@ public interface ClientDataService {
     public void init();
     public void save();
 	public ArrayList<ClientPO> findInKeyword(String key);
+	public Iterator<ClientPO> findByRank(int rank);
 }

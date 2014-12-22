@@ -1,5 +1,4 @@
 package vo;
-import java.util.ArrayList;
 public class DiscountStrategyVO {
 	private String id;
 	private double discount;
