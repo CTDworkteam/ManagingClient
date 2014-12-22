@@ -1,20 +1,16 @@
 package vo;
 
-import java.util.ArrayList;
-
 public class VoucherStrategyVO {
 	private String id;
 	private double voucher;
-	private ArrayList<String> clientList;
-	public VoucherStrategyVO(String id, double voucher,
-			ArrayList<String> clientList) {
+	private int rank;
+	public VoucherStrategyVO(){
+	}
+	public VoucherStrategyVO(String id, double voucher, int rank) {
 		super();
 		this.id = id;
 		this.voucher = voucher;
-		this.clientList = clientList;
-	}
-	public VoucherStrategyVO() {
-		// TODO 自动生成的构造函数存根
+		this.rank = rank;
 	}
 	public String getId() {
 		return id;
@@ -28,10 +24,10 @@ public class VoucherStrategyVO {
 	public void setVoucher(double voucher) {
 		this.voucher = voucher;
 	}
-	public ArrayList<String> getClientList() {
-		return clientList;
+	public int getRank() {
+		return rank;
 	}
-	public void setClientList(ArrayList<String> clientList) {
-		this.clientList = clientList;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 }

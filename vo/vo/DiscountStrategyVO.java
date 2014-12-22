@@ -3,16 +3,14 @@ import java.util.ArrayList;
 public class DiscountStrategyVO {
 	private String id;
 	private double discount;
-	private ArrayList<String> clientList;
-	public DiscountStrategyVO(String id, double discount,
-			ArrayList<String> clientList) {
+	private int rank;
+	public DiscountStrategyVO(){
+	}
+	public DiscountStrategyVO(String id, double discount, int rank) {
 		super();
 		this.id = id;
 		this.discount = discount;
-		this.clientList = clientList;
-	}
-	public DiscountStrategyVO() {
-		// TODO 自动生成的构造函数存根
+		this.rank = rank;
 	}
 	public String getId() {
 		return id;
@@ -26,10 +24,10 @@ public class DiscountStrategyVO {
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
-	public ArrayList<String> getClientList() {
-		return clientList;
+	public int getRank() {
+		return rank;
 	}
-	public void setClientList(ArrayList<String> clientList) {
-		this.clientList = clientList;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 }
