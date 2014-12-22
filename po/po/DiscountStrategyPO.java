@@ -1,5 +1,4 @@
 package po;
-import java.util.ArrayList;
 public class DiscountStrategyPO implements java.io.Serializable{
 	private String id;
 	private double discount;

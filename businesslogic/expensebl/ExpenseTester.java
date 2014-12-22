@@ -3,7 +3,7 @@ import vo.*;
 import enumType.*;
 
 public class ExpenseTester {
-	public void testAdd(ExpenseVO vo){
+	/*public void testAdd(ExpenseVO vo){
 		MockExpense expense=new MockExpense();
 		if(expense.add(vo)==ResultMessage.Failure)
 			System.out.println("We have failed to add an expense");
@@ -16,19 +16,12 @@ public class ExpenseTester {
 			System.out.println("We have failed to delete an expense");
 		else
 			System.out.println("We have succeeded to delete an expense");
-	}
+	}*/
 	public void testSend(ExpenseVO vo){
 		MockExpense expense=new MockExpense();
 		if(expense.send(vo)==ResultMessage.Failure)
 			System.out.println("We have failed to send an expense");
 		else
 			System.out.println("We have succeeded to send an expense");
-	}
-	public void testExecute(ExpenseVO vo){
-		MockExpense expense=new MockExpense();
-		if(expense.execute(vo)==ResultMessage.Failure)
-			System.out.println("We have failed to execute an expense");
-		else
-			System.out.println("We have succeeded to execute an expense");
 	}
 }

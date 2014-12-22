@@ -4,7 +4,7 @@ import enumType.*;
 import java.util.*;
 
 public class FinanceTester {
-	public void testAddRecipt(ReciptVO vo){
+	/*public void testAddRecipt(ReciptVO vo){
 		MockFinance finance=new MockFinance();
 		if(finance.addRecipt(vo)==ResultMessage.Failure)
 			System.out.println("We have failed to add a recipt");
@@ -59,5 +59,5 @@ public class FinanceTester {
 			System.out.println("We have failed to execute the payment");
 		else
 			System.out.println("We have succeed to execute the payment");
-	}
+	}*/
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import enumType.*;
 import vo.*;
 public class MockAccount extends Account{
-	private static Account[] account={new Account(1,"A",1000),new Account(2,"B",0)};
+	/*private static Account[] account={new Account(1,"A",1000),new Account(2,"B",0)};
 	public MockAccount(long id,String name,double money){
 		this.id=id;
 		this.name=name;
@@ -66,3 +66,4 @@ public class MockAccount extends Account{
 		return list;
 	}
 }
+*/}
