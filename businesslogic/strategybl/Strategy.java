@@ -163,8 +163,8 @@ public class Strategy implements StrategyBLService{
 		}
 		
 		else{
-			if(service.contain1(vo.getId())){
-				DiscountStrategyPO temp = service.find1(vo.getId());
+			if(service.containDiscountStrategy(vo.getId())){
+				DiscountStrategyPO temp = service.findDiscountStrategy(vo.getId());
 				service.delete(temp);
 				return ResultMessage.Success;
 			}
@@ -180,8 +180,8 @@ public class Strategy implements StrategyBLService{
 		}
 		
 		else{
-			if(service.contain1(vo.getId())){
-				DiscountStrategyPO temp = service.find1(vo.getId());
+			if(service.containCombinationStrategy(vo.getId())){
+				CombinationStrategyPO temp = service.findCombinationStrategy(vo.getId());
 				service.delete(temp);
 				return ResultMessage.Success;
 			}
@@ -189,68 +189,240 @@ public class Strategy implements StrategyBLService{
 		}
 	}
 
-	@Override
 	public ResultMessage deleteGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containGBOTM(vo.getId())){
+				GiftBasedOnTotalMoneyPO temp = service.findGBOTM(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
 
-	@Override
 	public ArrayList<DiscountStrategyVO> getAllDiscounts() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<DiscountStrategyPO> i = service.getDiscountStrategyList();
+			ArrayList<DiscountStrategyVO> vo = new ArrayList<DiscountStrategyVO>();
+			
+			while(i.hasNext()){
+				DiscountStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
 
-	@Override
 	public ArrayList<VoucherStrategyVO> getAllVouchers() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<VoucherStrategyPO> i = service.getVoucherStrategyList();
+			ArrayList<VoucherStrategyVO> vo = new ArrayList<VoucherStrategyVO>();
+			
+			while(i.hasNext()){
+				VoucherStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
 
-	@Override
 	public ArrayList<CombinationStrategyVO> getAllCombinations() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<CombinationStrategyPO> i = service.getCombinationStrategyList();
+			ArrayList<CombinationStrategyVO> vo = new ArrayList<CombinationStrategyVO>();
+			
+			while(i.hasNext()){
+				CombinationStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
 
-	@Override
 	public ArrayList<GiftStrategyVO> getAllGifts() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<GiftStrategyPO> i = service.getGiftStrategyList();
+			ArrayList<GiftStrategyVO> vo = new ArrayList<GiftStrategyVO>();
+			
+			while(i.hasNext()){
+				GiftStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
 
-	@Override
 	public ArrayList<GiftBasedOnTotalMoneyVO> getAllGBOTMs() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<GiftBasedOnTotalMoneyPO> i = service.getGBOTMList();
+			ArrayList<GiftBasedOnTotalMoneyVO> vo = new ArrayList<GiftBasedOnTotalMoneyVO>();
+			
+			while(i.hasNext()){
+				GiftBasedOnTotalMoneyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
 
-	@Override
 	public String getNewVoucherStrategyID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="DJQ";
+			id+=date;
+			id+=service.numberOfVouchers(date);
+			return id;
+		}
 	}
 
-	@Override
 	public String getNewDiscountStrateyID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="DZ";
+			id+=date;
+			id+=service.numberOfDiscounts(date);
+			return id;
+		}
 	}
 
-	@Override
 	public String getNewCombinationStrategyID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="ZH";
+			id+=date;
+			id+=service.numberOfCombinations(date);
+			return id;
+		}
 	}
 
-	@Override
 	public String getNewGiftStrategyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="ZS";
+			id+=date;
+			id+=service.numberOfGifts(date);
+			return id;
+		}
+	}
+
+	public String getNewGiftBasedOnTotalMoney(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="ZJ";
+			id+=date;
+			id+=service.numberOfGBOTMs(date);
+			return id;
+		}
+	}
+
+	public ResultMessage setVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			VoucherBasedOnTotalMoneyPO po = Convert.convert(vo);
+			service.insert(po);
+			return ResultMessage.Success;
+		}
+	}
+
+	public ResultMessage executeVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		
+	}
+
+	public ResultMessage deleteVoucher(VoucherStrategyVO vo) {
+		
+	}
+
+	public ResultMessage deleteGift(GiftStrategyVO vo) {
+		
+	}
+
+	public ResultMessage deleteVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		
+	}
+
+	@Override
+	public ArrayList<VoucherBasedOnTotalMoneyVO> getAllVBOTMs() {
 		// TODO 自动生成的方法存根
 		return null;
 	}
 
 	@Override
-	public String getNewGiftBasedOnTotalMoney(GregorianCalendar date) {
+	public String getNewGiftBasedOnTotalMoneyID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+
+	@Override
+	public String getNewVoucherBasedOnTotalMoneyID(GregorianCalendar date) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
