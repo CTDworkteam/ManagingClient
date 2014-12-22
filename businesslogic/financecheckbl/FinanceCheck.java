@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import config.RMI;
+import convert.Convert;
 import po.ClientPO;
 import po.SalesBillPO;
 import po.UserPO;
@@ -15,31 +17,30 @@ import userbl.*;
 import vo.*;
 import vo.DetailListVO.DetailListItemVO;
 import blservice.*;
-public class FinanceCheck{
-	public User operator;
-	public FinanceCheck(User operator){
-		this.operator=operator;
-	}
+public class FinanceCheck implements FinanceCheckBLService{
 	public FinanceCheck(){
-		
 	}
+	
 	public DetailListVO getDetailList(GregorianCalendar start,
 			GregorianCalendar end){
-		try{
-			SalesDataService service=(SalesDataService) Naming.lookup("");
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
 			if(service.contains1(start, end)){
-				TreeSet<SalesBillPO> temp=service.finds1(start, end);
-				ArrayList<DetailListItemVO> vo=new ArrayList<DetailListItemVO>();
-				Iterator i=temp.iterator();
+				Iterator<SalesBillPO> i = service.finds1(start, end);
+			
 				while(i.hasNext()){
-					SalesBillPO sales=(SalesBillPO) i.next();
-					String date=sales.getId().substring(3,11);
+					SalesBillPO sales = i.next();
 					ArrayList<SalesBillItemPO> list=sales.getList();
 					for(int j=0;j<list.size();j++){
-						vo.add(exchange(date,list.get(j)));
+						vo.add(Convert.convert());
 					}
 				}
-				DetailListVO result=new DetailListVO(start.toString(),end.toString(),
+				DetailListVO result=new DetailListVO(start,end,
 						null,null,null,null,vo);
 				return result;
 			}
@@ -125,111 +126,111 @@ public class FinanceCheck{
 			return null;
 		}
 	}
-	
-	public DetailListVO getDetailListInStorehouse(String storehouse){
-		
+
+	@Override
+	public DetailListVO getDetailListInStorehouse(String storehouse) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
-	
-	private ClientPO exchange(ClientVO vo) {  //VO对象转化为PO对象
-		ClientPO po = new ClientPO(vo.getId(),vo.getName(),vo.getType(),
-				vo.getRank(),vo.getTelephone(),vo.getAddress(),vo.getPostcode(),
-				vo.getEmail(),vo.getAmountReserved(),vo.getMoneyReserved(),
-				vo.getMoneyToPay(),vo.getCourterman(),vo.getDiscount(),
-				vo.getVoucher());
-		return po;
-	}
-	private DetailListItemVO exchange(String date, SalesBillItemPO sales) {
-		DetailListVO.DetailListItemVO v=new DetailListVO().new DetailListItemVO(date,sales.getCommodity().getName(),
-				sales.getModel(),sales.getNumber(),sales.getPrice(),sales.getTotal());
-		return v;
-	}
-	private UserPO exchange(UserVO vo) {
-		UserPO po=new UserPO(vo.getId(),vo.getName(),vo.getPassword(),
-				vo.getRole());
-		return po;
-	}
+
 	@Override
 	public ProcessListVO getProcessList(GregorianCalendar start,
 			GregorianCalendar end) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ProcessListVO getProcessList(BillType type) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ProcessListVO getProcessList(UserVO operator) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ProcessListVO getProcessList(ClientVO client) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ProcessListVO getProcessList(String storehouse) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ConditionListVO getConditionList(GregorianCalendar start,
 			GregorianCalendar end) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage export(ProcessListVO list, String dest) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage export(ConditionListVO list, String dest) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage export(DetailListVO list, String dest) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(SalesBillVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(SalesReturnBillVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(PurchaseBillVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(PurchaseReturnBillVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(ReciptVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(PaymentVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(ExpenseVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage deficitInvoice(GiftBillVO vo) {
 		// TODO 自动生成的方法存根
