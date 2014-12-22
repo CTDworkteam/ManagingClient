@@ -1,19 +1,13 @@
 package financecheckbl;
-import java.rmi.Naming;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import java.util.TreeSet;
-
 import config.RMI;
 import convert.Convert;
-import po.ClientPO;
 import po.SalesBillPO;
-import po.UserPO;
 import po.SalesBillPO.SalesBillItemPO;
 import dataservice.SalesDataService;
 import enumType.*;
-import userbl.*;
 import vo.*;
 import vo.DetailListVO.DetailListItemVO;
 import blservice.*;
@@ -32,61 +26,73 @@ public class FinanceCheck implements FinanceCheckBLService{
 		else{
 			if(service.contains1(start, end)){
 				Iterator<SalesBillPO> i = service.finds1(start, end);
-			
+				ArrayList<DetailListItemVO> list2 = new ArrayList<DetailListItemVO>();
+				
 				while(i.hasNext()){
 					SalesBillPO sales = i.next();
-					ArrayList<SalesBillItemPO> list=sales.getList();
-					for(int j=0;j<list.size();j++){
-						vo.add(Convert.convert());
+					ArrayList<SalesBillItemPO> list = sales.getList();
+					String date = sales.getId().substring(3,11);
+					
+					for(int j = 0; j<list.size(); j++){
+						list2.add(Convert.convert(date,list.get(j)));
 					}
 				}
-				DetailListVO result=new DetailListVO(start,end,
-						null,null,null,null,vo);
+				DetailListVO result=new DetailListVO(start.toString(),end.toString(),
+						null,null,null,null,list2);
 				return result;
 			}
-			return null;
-		}catch(Exception ex){
-			ex.printStackTrace();
 			return null;
 		}
 	}
 	
 	public DetailListVO getDetailList(String commodity){
-		try{
-			SalesDataService service=(SalesDataService) Naming.lookup("");
-			if(service.containCommodity(commodity)){
-				ArrayList<SalesBillItemPO> sales=service.findCommodity1(commodity);
-				ArrayList<DetailListItemVO> vo=new ArrayList<DetailListItemVO>();
+		SalesDataService service = RMI.getSalesDataService();
 		
-				for(int i=0;i<sales.size();i++){
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			if(service.containCommodity(commodity)){
+				Iterator<SalesBillPO> i = service.findCommodity1(commodity);
+				ArrayList<DetailListItemVO> vo = new ArrayList<DetailListItemVO>();
+		
+				while(i.hasNext()){
+					SalesBillPO sales = i.next();
+					ArrayList<SalesBillItemPO> list = sales.getList();
+					String date = sales.getId().substring(3,11);
 					
-					vo.add(exchange(date,sales.get(i)));
+					for(int j = 0; j<list.size();j++){
+						vo.add(Convert.convert(date,list.get(j)));
+					}
 				}
 				DetailListVO result=new DetailListVO(null,null,commodity,
 						null,null,null,vo);
 				return result;
 			}
 			return null;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
 		}
 	}
 	
 	public DetailListVO getDetailList(ClientVO client){
-		try{
-			SalesDataService service=(SalesDataService) Naming.lookup("");
-			ClientPO po=exchange(client);
-			if(service.containsClient(po)){
-				ArrayList<SalesBillPO> temp=service.findClient1(po);
-				ArrayList<DetailListItemVO> vo=new ArrayList<DetailListItemVO>();
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			if(service.containsClient(client.getId())){
+				Iterator<SalesBillPO> i = service.findClient1(client.getId());
+				ArrayList<DetailListItemVO> vo = new ArrayList<DetailListItemVO>();
 				
-				for(int i=0;i<temp.size();i++){
-					SalesBillPO sales=temp.get(i);
-					String date=sales.getId().substring(3,11);
-					ArrayList<SalesBillItemPO> list=sales.getList();
-					for(int j=0;j<list.size();j++){
-						vo.add(exchange(date,list.get(j)));
+				while(i.hasNext()){
+					SalesBillPO sales = i.next();
+					String date = sales.getId().substring(3,11);
+					ArrayList<SalesBillItemPO> list = sales.getList();
+					
+					for(int j = 0; j<list.size(); j++){
+						vo.add(Convert.convert(date,list.get(j)));
 					}
 				}
 				DetailListVO result=new DetailListVO(null,null,null,null,
@@ -94,26 +100,28 @@ public class FinanceCheck implements FinanceCheckBLService{
 				return result;
 			}
 			return null;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
 		}
 	}
 
 	public DetailListVO getDetailList(UserVO operator){
-		try{
-			SalesDataService service=(SalesDataService) Naming.lookup("");
-			UserPO po=exchange(operator);
-			if(service.containsOperator(po)){
-				ArrayList<SalesBillPO> temp=service.findOperator(po);
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			if(service.containsOperator(operator.getName())){
+				Iterator<SalesBillPO> i = service.findOperator(operator.getName());
 				ArrayList<DetailListItemVO> vo=new ArrayList<DetailListItemVO>();
 				
-				for(int i=0;i<temp.size();i++){
-					SalesBillPO sales=temp.get(i);
-					String date=sales.getId().substring(3,11);
-					ArrayList<SalesBillItemPO> list=sales.getList();
-					for(int j=0;j<list.size();j++){
-						vo.add(exchange(date,list.get(j)));
+				while(i.hasNext()){
+					SalesBillPO sales = i.next();
+					String date = sales.getId().substring(3,11);
+					ArrayList<SalesBillItemPO> list = sales.getList();
+				
+					for(int j = 0; j<list.size(); j++){
+						vo.add(Convert.convert(date,list.get(j)));
 					}
 				}
 				DetailListVO result=new DetailListVO(null,null,null,operator.getName(),
@@ -121,16 +129,37 @@ public class FinanceCheck implements FinanceCheckBLService{
 				return result;
 			}
 			return null;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
 		}
 	}
 
-	@Override
+
 	public DetailListVO getDetailListInStorehouse(String storehouse) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			if(service.containStorehouse(storehouse)){
+				Iterator<SalesBillPO> i = service.findStorehouse(storehouse);
+				ArrayList<DetailListItemVO> vo=new ArrayList<DetailListItemVO>();
+				
+				while(i.hasNext()){
+					SalesBillPO sales = i.next();
+					String date = sales.getId().substring(3,11);
+					ArrayList<SalesBillItemPO> list = sales.getList();
+				
+					for(int j = 0; j<list.size(); j++){
+						vo.add(Convert.convert(date,list.get(j)));
+					}
+				}
+				DetailListVO result=new DetailListVO(null,null,null,null,
+						null,storehouse,vo);
+				return result;
+			}
+			return null;
+		}
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package convert;
 import vo.*;
+import vo.DetailListVO.DetailListItemVO;
 import po.*;
+import po.SalesBillPO.SalesBillItemPO;
 import dataservice.*;
 
 import java.util.*;
@@ -200,12 +202,12 @@ public class Convert {
 		DiscountStrategyVO vo=new DiscountStrategyVO();
 		vo.setId(po.getId());
 		vo.setDiscount(po.getDiscount());
-		vo.setClientList(po.getClientList());
+		vo.setRank(po.getRank());
 		return vo;
 	}
 	public static DiscountStrategyPO convert(DiscountStrategyVO vo){
 		DiscountStrategyPO po=new DiscountStrategyPO();
-		po.setClientList(vo.getClientList());
+		po.setRank(vo.getRank());
 		po.setDiscount(vo.getDiscount());
 		po.setId(vo.getId());
 		return po;
@@ -347,7 +349,7 @@ public class Convert {
 	}
 	public static GiftStrategyVO convert(GiftStrategyPO po){
 		GiftStrategyVO vo=new GiftStrategyVO();
-		vo.setClientList(po.getClientList());
+		vo.setRank(po.getRank());
 		vo.setId(po.getId());
 		vo.setOperator(po.getOperator());
 		Iterator<GiftStrategyPO.GiftItemPO> iterator=po.getItemlist().iterator();
@@ -360,7 +362,7 @@ public class Convert {
 	}
 	public static GiftStrategyPO convert(GiftStrategyVO vo){
 		GiftStrategyPO po=new GiftStrategyPO();
-		po.setClientList(vo.getClientList());
+		po.setRank(vo.getRank());
 		po.setId(vo.getId());
 		po.setOperator(vo.getOperator());
 		Iterator<GiftStrategyVO.GiftItemVO> iterator=vo.getList().iterator();
@@ -897,7 +899,7 @@ public class Convert {
 	}
 	public static VoucherStrategyVO convert(VoucherStrategyPO po){
 		VoucherStrategyVO vo=new VoucherStrategyVO();
-		vo.setClientList(po.getClientList());
+		vo.setRank(po.getRank());
 		vo.setId(po.getId());
 		vo.setVoucher(po.getVoucher());
 		return vo;
@@ -905,8 +907,16 @@ public class Convert {
 	public static VoucherStrategyPO convert(VoucherStrategyVO vo){
 		VoucherStrategyPO po=new VoucherStrategyPO();
 		po.setId(vo.getId());
-		po.setClientList(vo.getClientList());
+		po.setRank(vo.getRank());
 		po.setVoucher(vo.getVoucher());
 		return po;
+	}
+	
+	public static DetailListItemVO convert(String date, SalesBillItemPO sales) {
+		CommodityDataService service = RMI.getCommodityDataService();
+		DetailListVO.DetailListItemVO v = new DetailListVO().new DetailListItemVO(date,null,
+				sales.getModel(),sales.getNumber(),sales.getPrice(),sales.getTotal());
+		v.setCommodity(service.findCommodityInID(sales.getCommodityID()).getName());
+		return v;
 	}
 }
