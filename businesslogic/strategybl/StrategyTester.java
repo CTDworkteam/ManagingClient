@@ -3,7 +3,7 @@ import vo.*;
 import enumType.*;
 
 public class StrategyTester {
-	public void testSetVoucher(VoucherStrategyVO vo){
+	/*public void testSetVoucher(VoucherStrategyVO vo){
 		MockStrategy strategy=new MockStrategy();
 		if(strategy.setVoucher(vo)==ResultMessage.Failure)
 			System.out.println("We have failed to set the voucher");
@@ -30,5 +30,5 @@ public class StrategyTester {
 			System.out.println("We have failed to set the gift");
 		else 
 			System.out.println("We have succeeded to set the gift");
-	}
+	}*/
 }

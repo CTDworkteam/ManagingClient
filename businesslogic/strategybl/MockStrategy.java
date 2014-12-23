@@ -5,11 +5,11 @@ import clientbl.Client;
 import commoditybl.Commodity;
 
 public class MockStrategy {
-	private static Client[] client={new Client(),new Client()};
+/*	private static Client[] client={new Client(),new Client()};
 	private static Commodity[] commodity={new Commodity(),new Commodity()};
 	public ResultMessage setVoucher(VoucherStrategyVO vo){
-		for(int i=0;i<vo.getClientList().size();i++){
-			if(!(vo.getClientList().get(i).equals(client[0].id)||vo.getClientList().get(i).equals(client[1].id)))
+		for(int i=0;i<vo.getRank();i++){
+			if(!(vo.getRank().equals(client[0].id)||vo.getRank.equals(client[1].id)))
 				return ResultMessage.Failure;
 		}
 		return ResultMessage.Success;
@@ -38,5 +38,5 @@ public class MockStrategy {
 				return ResultMessage.Failure;
 		}
 		return ResultMessage.Success;
-	}
+	}*/
 }

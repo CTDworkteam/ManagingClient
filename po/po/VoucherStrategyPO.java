@@ -1,7 +1,5 @@
 package po;
 
-import java.util.ArrayList;
-
 public class VoucherStrategyPO implements java.io.Serializable{
 	private String id;
 	private double voucher;
