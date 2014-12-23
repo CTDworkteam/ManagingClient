@@ -146,8 +146,8 @@ public class FinanceCheck implements FinanceCheckBLService{
 		}
 		
 		else{
-			if(service.containStorehouse(storehouse)){
-				Iterator<SalesBillPO> i = service.findStorehouse(storehouse);
+			if(service.containBillsByStorehouse(storehouse)){
+				Iterator<SalesBillPO> i = service.findBillsByStorehouse(storehouse);
 				ArrayList<DetailListItemVO> vo=new ArrayList<DetailListItemVO>();
 				
 				while(i.hasNext()){

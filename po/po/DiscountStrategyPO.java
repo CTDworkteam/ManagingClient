@@ -1,5 +1,6 @@
 package po;
 public class DiscountStrategyPO implements java.io.Serializable{
+	//ID:DISCOUNT2014122300001
 	private String id;
 	private double discount;
 	private int rank;

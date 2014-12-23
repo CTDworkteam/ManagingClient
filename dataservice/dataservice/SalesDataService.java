@@ -34,6 +34,8 @@ public interface SalesDataService {
 	    
 	    public void init();
 	    public void save();
-		public boolean containStorehouse(String storehouse);
-		public Iterator<SalesBillPO> findStorehouse(String storehouse);
+		public boolean containBillsByStorehouse(String storehouse);
+		public Iterator<SalesBillPO> findBillsByStorehouse(String storehouse);
+		public boolean containReturnBillsByStorehouse(String storehouse);
+		public Iterator<SalesReturnBillPO> findReturnBillsByStorehouse(String storehouse);
 }
