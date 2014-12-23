@@ -7,7 +7,6 @@ import java.util.Iterator;
 import object.TypeTree;
 import blservice.InitialBLService;
 import po.InitialPO;
-import utility.Utility;
 import vo.AccountVO;
 import vo.ClientVO;
 import vo.CommodityTypeVO;
@@ -23,7 +22,6 @@ import dataservice.AccountDataService;
 import dataservice.ClientDataService;
 import dataservice.CommodityDataService;
 import dataservice.CommodityTypeDataService;
-import dataservice.FinanceDataService;
 import dataservice.InitialDataService;
 import enumType.ResultMessage;
 
@@ -31,24 +29,34 @@ public class Initial implements InitialBLService{
 	public Initial(){
 	}
 	
-	public ResultMessage addCommodityType(TypeTree<CommodityTypeVO> tree){
-		CommodityTypeDataService service2 = RMI.getCommodityTypeDataService();
+	public ResultMessage addCommodityType(ArrayList<CommodityTypeVO> tree){
 		InitialDataService service = RMI.getInitialDataService();
 		
-		if(service == null || service2 == null){
+		if(service == null){
 			return ResultMessage.Failure;
 		}
 		
 		else{
 			CommodityType type = new CommodityType();
+			ArrayList<String> po = new ArrayList<String>();
+			
+			for(int i = 0; i<tree.size(); i++){
+				po.add(tree.get(i).getName());
+				
+				if(type.addType(tree.get(i)).equals(ResultMessage.Failure)){
+					return ResultMessage.Failure;
+				}
+			}
+			
+			service.insert(new InitialPO("1",null,po,null,null));
+			return ResultMessage.Success;
 		}
 	}
 
 	public ResultMessage addCommodity(ArrayList<CommodityVO> list){
 		InitialDataService service = RMI.getInitialDataService();
-		CommodityDataService service2 = RMI.getCommodityDataService();
 		
-		if(service == null || service2 == null){
+		if(service == null){
 			return ResultMessage.Failure;
 		}
 		
@@ -117,13 +125,8 @@ public class Initial implements InitialBLService{
 
 	public InitialVO getInitialInfo(String id){
 		InitialDataService service = RMI.getInitialDataService();
-		CommodityDataService service2 = RMI.getCommodityDataService();
-		CommodityTypeDataService service3 = RMI.getCommodityTypeDataService();
-		ClientDataService service4 = RMI.getClientDataService();
-		AccountDataService service5 = RMI.getAccountDataService();
 		
-		if(service == null || service2 == null || service3 == null
-				|| service4 == null || service5 == null){
+		if(service == null){
 			return null;
 		}
 		

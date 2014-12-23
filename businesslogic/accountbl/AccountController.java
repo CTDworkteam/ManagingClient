@@ -47,6 +47,6 @@ public class AccountController implements AccountBLService{
 	@Override
 	public long getNewAccountID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return account.getNewAccountID();
 	}
 }

@@ -79,29 +79,55 @@ public class StrategyController implements StrategyBLService{
 	public ArrayList<GiftBasedOnTotalMoneyVO> getAllGBOTMs() {
 		return strategy.getAllGBOTMs();
 	}
-	@Override
+	
 	public String getNewVoucherStrategyID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return strategy.getNewVoucherStrategyID(date);
 	}
-	@Override
+	
 	public String getNewDiscountStrateyID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return strategy.getNewDiscountStrateyID(date);
 	}
-	@Override
+	
 	public String getNewCombinationStrategyID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return strategy.getNewCombinationStrategyID(date);
 	}
-	@Override
+	
 	public String getNewGiftStrategyID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return strategy.getNewGiftStrategyID(date);
 	}
-	@Override
-	public String getNewGiftBasedOnTotalMoney(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public ResultMessage setVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		return strategy.setVoucherBasedOnTotalMoney(vo);
+	}
+	
+	public ResultMessage executeVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		return strategy.executeVoucherBasedOnTotalMoney(vo);
+	}
+	
+	public ResultMessage deleteVoucher(VoucherStrategyVO vo) {
+		return strategy.deleteVoucher(vo);
+	}
+	
+	public ResultMessage deleteGift(GiftStrategyVO vo) {
+		return strategy.deleteGift(vo);
+	}
+	
+	public ResultMessage deleteVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		return strategy.deleteVoucherBasedOnTotalMoney(vo);
+	}
+	
+	public ArrayList<VoucherBasedOnTotalMoneyVO> getAllVBOTMs() {
+		return strategy.getAllVBOTMs();
+	}
+	
+	public String getNewGiftBasedOnTotalMoneyID(GregorianCalendar date) {
+		return strategy.getNewGiftBasedOnTotalMoneyID(date);
+	}
+	
+	public String getNewVoucherBasedOnTotalMoneyID(GregorianCalendar date) {
+		return strategy.getNewVoucherBasedOnTotalMoneyID(date);
 	}
 }

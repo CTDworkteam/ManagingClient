@@ -266,8 +266,6 @@ public class Expenseui {
 					 }
 				 }
 			}
-			ExpenseVO vo=new ExpenseVO();
-			vo.setAccount((String) tableNew.getValueAt(0, 0));
 		}
 	}
 	

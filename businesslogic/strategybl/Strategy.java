@@ -95,10 +95,10 @@ public class Strategy implements StrategyBLService{
 		}
 		
 		else{
-			Iterator<ClientPO> i = service.findByRank(vo.getRank());
+			ArrayList<ClientPO> list = service.findInRank(vo.getRank());
 			
-			while(i.hasNext()){
-				ClientPO temp = i.next();
+			for(int i = 0; i<list.size(); i++){
+				ClientPO temp = list.get(i);
 				temp.setVoucher(vo.getVoucher());
 				service.update(temp);
 			}
@@ -114,10 +114,10 @@ public class Strategy implements StrategyBLService{
 		}
 		
 		else{
-			Iterator<ClientPO> i = service.findByRank(vo.getRank());
+			ArrayList<ClientPO> list = service.findInRank(vo.getRank());
 			
-			while(i.hasNext()){
-				ClientPO temp = i.next();
+			for(int i = 0; i<list.size(); i++){
+				ClientPO temp = list.get(i);
 				temp.setDiscount(vo.getDiscount());
 				service.update(temp);
 			}
@@ -126,22 +126,22 @@ public class Strategy implements StrategyBLService{
 	}
 
 	public ResultMessage executeCombination(CombinationStrategyVO vo) {
-		ClientDataService service = RMI.getClientDataService();
+		/*ClientDataService service = RMI.getClientDataService();
 		
 		if(service == null){
 			return ResultMessage.Failure;
 		}
 		
 		else{
-			Iterator<ClientPO> i = service.findByRank(vo.getRank());
+			Iterator<ClientPO> i = service.findInRank(vo.g);
 			
 			while(i.hasNext()){
 				ClientPO temp = i.next();
 				temp.setDiscount(vo.getDiscount());
 				service.update(temp);
-			}
+			}*/
 			return ResultMessage.Success;
-		}
+	//	}
 	}
 
 	public ResultMessage executeGift(GiftStrategyVO vo) {
@@ -393,37 +393,107 @@ public class Strategy implements StrategyBLService{
 
 	public ResultMessage executeVoucherBasedOnTotalMoney(
 			VoucherBasedOnTotalMoneyVO vo) {
-		
+		return ResultMessage.Failure;
 	}
 
 	public ResultMessage deleteVoucher(VoucherStrategyVO vo) {
+		StrategyDataService service = RMI.getStrategyDataService();
 		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containVoucherStrategy(vo.getId())){
+				VoucherStrategyPO temp = service.findVoucherStrategy(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
 
 	public ResultMessage deleteGift(GiftStrategyVO vo) {
+		StrategyDataService service=RMI.getStrategyDataService();
 		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containGiftStrategy(vo.getId())){
+				GiftStrategyPO temp = service.findGiftStrategy(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
 
 	public ResultMessage deleteVoucherBasedOnTotalMoney(
 			VoucherBasedOnTotalMoneyVO vo) {
+		StrategyDataService service=RMI.getStrategyDataService();
 		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containVBOTM(vo.getId())){
+				VoucherBasedOnTotalMoneyPO temp = service.findVBOTM(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
 
-	@Override
 	public ArrayList<VoucherBasedOnTotalMoneyVO> getAllVBOTMs() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<VoucherBasedOnTotalMoneyPO> i = service.getVBOTMList();
+			ArrayList<VoucherBasedOnTotalMoneyVO> vo = new ArrayList<VoucherBasedOnTotalMoneyVO>();
+			
+			while(i.hasNext()){
+				VoucherBasedOnTotalMoneyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
 
-	@Override
 	public String getNewGiftBasedOnTotalMoneyID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="GBOTM";
+			id+=date;
+			id+=service.numberOfGBOTMs(date);
+			return id;
+		}
 	}
 
-	@Override
 	public String getNewVoucherBasedOnTotalMoneyID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="VBOTM";
+			id+=date;
+			id+=service.numberOfVBOTMs(date);
+			return id;
+		}
 	}
 }
