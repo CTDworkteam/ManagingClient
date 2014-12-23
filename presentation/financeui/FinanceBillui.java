@@ -280,7 +280,10 @@ public class FinanceBillui {
 			String idRecipt=controller.getNewReciptID(date);
 			
 			//获取转账信息
-			int size=rowCount(tableFinanceItem);
+			int size=0;
+			while(tableFinanceItem.getValueAt(size, 0)!=null){
+				size++;
+			}
 			double total=0;
 			ArrayList<FinanceItemVO> items=new ArrayList<FinanceItemVO>();
 			for(int t=0;t<size;t++){

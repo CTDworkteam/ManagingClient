@@ -1,6 +1,7 @@
 package purchasebl;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import vo.PurchaseBillVO;
 import vo.PurchaseReturnBillVO;
@@ -29,5 +30,37 @@ public class PurchaseController implements PurchaseBLService{
 	}
 	public ResultMessage executeBill(PurchaseReturnBillVO bill) {
 		return purchase.executeBill(bill);
+	}
+	@Override
+	public ArrayList<PurchaseBillVO> findBills(GregorianCalendar before,
+			GregorianCalendar after) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseReturnBillVO> findReturnBills(
+			GregorianCalendar before, GregorianCalendar after) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseBillVO> getAllBills() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseReturnBillVO> getAllReturnBills() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewBillID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewReturnBillID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
