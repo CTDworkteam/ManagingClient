@@ -1,11 +1,12 @@
 package strategyui;
 import javax.swing.*;
 
-import vo.GiftBasedOnTotalMoneyVO;
+import vo.*;
 import vo.GiftBasedOnTotalMoneyVO.GBOTMItemVO;
 
 import java.awt.event.*;
 import java.util.*;
+
 import confirmui.*;
 import strategybl.StrategyController;
 import enumType.ResultMessage;
@@ -80,7 +81,7 @@ public class StrategyPriceui {
 				vo.setNumber(Integer.parseInt(fieldCount.getText()));
 				item.add(vo);
 			}else{
-				Runnable r=new Confirmui("");
+				Runnable r=new Confirmui("请完整填写赠品信息");
 				Thread t=new Thread(r);
 				t.start();
 			}
@@ -91,8 +92,9 @@ public class StrategyPriceui {
 		public void actionPerformed(ActionEvent e){
 			StrategyController controller=new StrategyController();
 			GregorianCalendar date=new GregorianCalendar();
-			String id=controller.getNewGiftBasedOnTotalMoney(date);
+			
 			if(item.get(0)!=null){
+				String id=controller.getNewGiftBasedOnTotalMoneyID(date);
 				GiftBasedOnTotalMoneyVO gift=new GiftBasedOnTotalMoneyVO();
 				gift.setId(id);
 				gift.setList(item);
@@ -107,13 +109,27 @@ public class StrategyPriceui {
 					Runnable r=new Confirmui("成功制定针对总价的促销策略");
 					Thread t=new Thread(r);
 					t.start();
-					
 				}
 			}else{
 				if(fieldVoucher.getText()!=null){
-					
+					String id=controller.getNewVoucherBasedOnTotalMoneyID(date);
+					VoucherBasedOnTotalMoneyVO voucher=new VoucherBasedOnTotalMoneyVO();
+					voucher.setId(id);
+					voucher.setLower(Double.parseDouble(fieldLow.getText()));
+					voucher.setUpper(Double.parseDouble(fieldHigh.getText()));
+					voucher.setMoney(Double.parseDouble(fieldVoucher.getText()));
+					ResultMessage result=controller.setVoucherBasedOnTotalMoney(voucher);
+					if(result==ResultMessage.Failure){
+						Runnable r=new Confirmui("未能成功制定针对总价的促销策略");
+						Thread t=new Thread(r);
+						t.start();
+					}else{
+						Runnable r=new Confirmui("成功制定针对总价的促销策略");
+						Thread t=new Thread(r);
+						t.start();
+					}
 				}else{
-					Runnable r=new Confirmui("");
+					Runnable r=new Confirmui("请输入促销策略信息");
 					Thread t=new Thread(r);
 					t.start();
 				}

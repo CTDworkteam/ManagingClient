@@ -7,7 +7,6 @@ import java.util.*;
 import vo.*;
 import vo.GiftStrategyVO.GiftItemVO;
 import strategybl.StrategyController;
-import clientbl.ClientController;
 import confirmui.*;
 
 /*
@@ -99,28 +98,28 @@ public class StrategyClientui {
 	class confirmListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			String level=(String) boxLevel.getSelectedItem();
-			ArrayList<String> client=new ArrayList<String>();
+			int client=Integer.parseInt((String)boxLevel.getSelectedItem());
 			StrategyController strategyController=new StrategyController();
 			GregorianCalendar date=new GregorianCalendar();//得到日期以设置策略编号
 			if(gifts.get(0)!=null){
 				GiftStrategyVO vo=new GiftStrategyVO();
 				String id=strategyController.getNewGiftStrategyID(date);
 				vo.setId(id);
-				vo.setClientList(client);
+				vo.setRank(client);
 				vo.setList(gifts);
 			}
 			if(fieldDiscount.getText()!=null){
 				DiscountStrategyVO vo=new DiscountStrategyVO();
 				String id=strategyController.getNewDiscountStrateyID(date);
 				vo.setId(id);
-				vo.setClientList(client);
+				vo.setRank(client);
 				vo.setDiscount(Double.parseDouble(fieldDiscount.getText()));
 			}
 			if(fieldVoucher.getText()!=null){
 				VoucherStrategyVO vo=new VoucherStrategyVO();
 				String id=strategyController.getNewVoucherStrategyID(date);
 				vo.setId(id);
-				vo.setClientList(client);
+				vo.setRank(client);
 				vo.setVoucher(Double.parseDouble(fieldVoucher.getText()));
 			}
 		}

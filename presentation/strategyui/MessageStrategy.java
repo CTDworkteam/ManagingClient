@@ -31,24 +31,16 @@ public class MessageStrategy {
 		int count=0;
 		ArrayList<DiscountStrategyVO> discounts=controller.getAllDiscounts();
 		for(int t=0;t<discounts.size();t++){
-			ArrayList<String> clients=discounts.get(t).getClientList();
-			String client="";
-			for(int k=0;k<clients.size();k++){
-				client=client+clients.get(k)+";";
-			}
+			int client=discounts.get(t).getRank();
 			data[t][0]=discounts.get(t).getId();
-			data[t][1]="折扣："+Double.toString(discounts.get(t).getDiscount())+"      "+"客户："+client;
+			data[t][1]="折扣："+Double.toString(discounts.get(t).getDiscount())+"      "+"客户级别："+Integer.toString(client);
 			count++;
 		}
 		ArrayList<VoucherStrategyVO> vouchers=controller.getAllVouchers();
 		for(int t=0;t<vouchers.size();t++){
-			ArrayList<String> clients=vouchers.get(t).getClientList();
-			String client="";
-			for(int k=0;k<clients.size();k++){
-				client=client+clients.get(k)+";";
-			}
+			int client=vouchers.get(t).getRank();
 			data[count][0]=vouchers.get(t).getId();
-			data[count][1]="代金券："+Double.toString(vouchers.get(t).getVoucher())+"      "+"客户："+client;
+			data[count][1]="代金券："+Double.toString(vouchers.get(t).getVoucher())+"      "+"客户级别："+Integer.toString(client);
 			count++;
 		}
 		ArrayList<CombinationStrategyVO> combinations=controller.getAllCombinations();
@@ -64,18 +56,14 @@ public class MessageStrategy {
 		}
 		ArrayList<GiftStrategyVO> giftClient=controller.getAllGifts();
 		for(int t=0;t<giftClient.size();t++){
-			ArrayList<String> clients=giftClient.get(t).getClientList();
-			String client="";
-			for(int k=0;k<clients.size();k++){
-				client=client+clients.get(k)+";";
-			}
+			int client=giftClient.get(t).getRank();
 			ArrayList<GiftItemVO> items=giftClient.get(t).getList();
 			String giftItem="";
 			for(int k=0;k<items.size();k++){
 				giftItem=giftItem+items.get(k).getCommodity()+","+items.get(k).getModel()+","+Integer.toString(items.get(k).getNumber())+";";
 			}
 			data[count][0]=giftClient.get(t).getId();
-			data[count][1]="客户："+client+"     "+"赠品："+giftItem;
+			data[count][1]="客户级别："+Integer.toString(client)+"     "+"赠品："+giftItem;
 			count++;
 		}
 		ArrayList<GiftBasedOnTotalMoneyVO> giftMoney=controller.getAllGBOTMs();
@@ -114,24 +102,16 @@ public class MessageStrategy {
 			int count=0;
 			ArrayList<DiscountStrategyVO> discounts=controller.getAllDiscounts();
 			for(int t=0;t<discounts.size();t++){
-				ArrayList<String> clients=discounts.get(t).getClientList();
-				String client="";
-				for(int k=0;k<clients.size();k++){
-					client=client+clients.get(k)+";";
-				}
+				int client=discounts.get(t).getRank();
 				data[t][0]=discounts.get(t).getId();
-				data[t][1]="折扣："+Double.toString(discounts.get(t).getDiscount())+"      "+"客户："+client;
+				data[t][1]="折扣："+Double.toString(discounts.get(t).getDiscount())+"      "+"客户级别："+Integer.toString(client);
 				count++;
 			}
 			ArrayList<VoucherStrategyVO> vouchers=controller.getAllVouchers();
 			for(int t=0;t<vouchers.size();t++){
-				ArrayList<String> clients=vouchers.get(t).getClientList();
-				String client="";
-				for(int k=0;k<clients.size();k++){
-					client=client+clients.get(k)+";";
-				}
+				int client=vouchers.get(t).getRank();
 				data[count][0]=vouchers.get(t).getId();
-				data[count][1]="代金券："+Double.toString(vouchers.get(t).getVoucher())+"      "+"客户："+client;
+				data[count][1]="代金券："+Double.toString(vouchers.get(t).getVoucher())+"      "+"客户级别："+Integer.toString(client);
 				count++;
 			}
 			ArrayList<CombinationStrategyVO> combinations=controller.getAllCombinations();
@@ -147,18 +127,14 @@ public class MessageStrategy {
 			}
 			ArrayList<GiftStrategyVO> giftClient=controller.getAllGifts();
 			for(int t=0;t<giftClient.size();t++){
-				ArrayList<String> clients=giftClient.get(t).getClientList();
-				String client="";
-				for(int k=0;k<clients.size();k++){
-					client=client+clients.get(k)+";";
-				}
+				int client=giftClient.get(t).getRank();
 				ArrayList<GiftItemVO> items=giftClient.get(t).getList();
 				String giftItem="";
 				for(int k=0;k<items.size();k++){
 					giftItem=giftItem+items.get(k).getCommodity()+","+items.get(k).getModel()+","+Integer.toString(items.get(k).getNumber())+";";
 				}
 				data[count][0]=giftClient.get(t).getId();
-				data[count][1]="客户："+client+"     "+"赠品："+giftItem;
+				data[count][1]="客户级别："+Integer.toString(client)+"     "+"赠品："+giftItem;
 				count++;
 			}
 			ArrayList<GiftBasedOnTotalMoneyVO> giftMoney=controller.getAllGBOTMs();
