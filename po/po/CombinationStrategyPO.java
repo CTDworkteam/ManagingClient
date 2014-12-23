@@ -1,6 +1,7 @@
 package po;
 import java.util.ArrayList;
 public class CombinationStrategyPO implements java.io.Serializable{
+	//ID:COMBINATION2014122300001
 	private String id;
 	private ArrayList<CombinationItemPO> list;
 	private double total;

@@ -1,6 +1,7 @@
 package po;
 
 public class VoucherBasedOnTotalMoneyPO {
+	//ID:VBOTM2014122300001
 	private String id;
 	private double money;
 	private double lower;

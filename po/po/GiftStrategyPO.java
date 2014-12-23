@@ -1,6 +1,7 @@
 package po;
 import java.util.*;
 public class GiftStrategyPO implements java.io.Serializable{
+	//ID:GIFT2014122300001
 	public class GiftItemPO implements java.io.Serializable{
 		private String commodityID;
 		private String model;

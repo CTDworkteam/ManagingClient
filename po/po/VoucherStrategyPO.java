@@ -1,6 +1,7 @@
 package po;
 
 public class VoucherStrategyPO implements java.io.Serializable{
+	//ID:VOUCHER2014122300001
 	private String id;
 	private double voucher;
 	private int rank;
