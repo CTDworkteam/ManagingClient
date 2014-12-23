@@ -1,5 +1,6 @@
 package dataservice;
 import java.util.*;
+
 import po.*;
 public interface SalesDataService {
 	   public void insert(SalesBillPO po);
@@ -33,4 +34,8 @@ public interface SalesDataService {
 	    
 	    public void init();
 	    public void save();
+		public boolean containBillsByStorehouse(String storehouse);
+		public Iterator<SalesBillPO> findBillsByStorehouse(String storehouse);
+		public boolean containReturnBillsByStorehouse(String storehouse);
+		public Iterator<SalesReturnBillPO> findReturnBillsByStorehouse(String storehouse);
 }

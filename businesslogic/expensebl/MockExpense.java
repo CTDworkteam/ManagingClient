@@ -7,7 +7,7 @@ import userbl.User;
 
 public class MockExpense extends Expense{
 	
-	private static Account[] account={new Account(1,"A",1000),new Account(2,"B",2000)};
+/*	private static Account[] account={new Account(1,"A",1000),new Account(2,"B",2000)};
 	private static Expense[] expense={new Expense("XJFYD2014111500001",new User(),"A",new ArrayList<ExpenseItem>(),100),new Expense("XJFYD2014111500002",new User(),"B",new ArrayList<ExpenseItem>(),100)};
 	public ResultMessage add(ExpenseVO vo){
 		if((vo.getAccount().equals(account[0].name)&&vo.getTotal()<=account[0].money)||(vo.getAccount().equals(account[1].name)&&vo.getTotal()<=account[1].money))
@@ -31,5 +31,5 @@ public class MockExpense extends Expense{
 		if((vo.getAccount().equals(account[0].name)&&vo.getTotal()<=account[0].money)||(vo.getAccount().equals(account[1].name)&&vo.getTotal()<=account[1].money))
 			return ResultMessage.Success;
 		return ResultMessage.Failure;
-	}
+	}*/
 }

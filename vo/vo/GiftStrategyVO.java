@@ -36,19 +36,18 @@ public class GiftStrategyVO {
 		}
 	}
 	private String id;
-	private ArrayList<String> clientList;
+	private int rank;
 	private String operator;
 	private ArrayList<GiftItemVO> list;
-	public GiftStrategyVO(String id, ArrayList<String> clientList,
-			String operator, ArrayList<GiftItemVO> list) {
+	public GiftStrategyVO(){
+	}
+	public GiftStrategyVO(String id, int rank, String operator,
+			ArrayList<GiftItemVO> list) {
 		super();
 		this.id = id;
-		this.clientList = clientList;
+		this.rank = rank;
 		this.operator = operator;
 		this.list = list;
-	}
-	public GiftStrategyVO() {
-		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
@@ -56,11 +55,11 @@ public class GiftStrategyVO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public ArrayList<String> getClientList() {
-		return clientList;
+	public int getRank() {
+		return rank;
 	}
-	public void setClientList(ArrayList<String> clientList) {
-		this.clientList = clientList;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 	public String getOperator() {
 		return operator;
@@ -73,6 +72,5 @@ public class GiftStrategyVO {
 	}
 	public void setList(ArrayList<GiftItemVO> list) {
 		this.list = list;
-	}	
-	
+	}
 }

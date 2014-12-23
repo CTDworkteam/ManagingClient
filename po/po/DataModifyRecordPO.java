@@ -7,18 +7,22 @@ public class DataModifyRecordPO implements java.io.Serializable{
 	private String objectID;
 	private String objectName;
 	private Attribute attribute;
-	private double beforeData;
-	private double afterData;
-	public DataModifyRecordPO(String ID,String operator,Operation operation,String objectID,
-			String objectName,Attribute attribute,double beforeData,double afterData){
-		this.ID=ID;
-		this.operator=operator;
-		this.operation=operation;
-		this.objectID=objectID;
-		this.objectName=objectName;
-		this.attribute=attribute;
-		this.beforeData=beforeData;
-		this.afterData=afterData;
+	private String beforeData;
+	private String afterData;
+	public DataModifyRecordPO(){
+	}
+	public DataModifyRecordPO(String iD, String operator, Operation operation,
+			String objectID, String objectName, Attribute attribute,
+			String beforeData, String afterData) {
+		super();
+		ID = iD;
+		this.operator = operator;
+		this.operation = operation;
+		this.objectID = objectID;
+		this.objectName = objectName;
+		this.attribute = attribute;
+		this.beforeData = beforeData;
+		this.afterData = afterData;
 	}
 	public String getID() {
 		return ID;
@@ -56,16 +60,16 @@ public class DataModifyRecordPO implements java.io.Serializable{
 	public void setAttribute(Attribute attribute) {
 		this.attribute = attribute;
 	}
-	public double getBeforeData() {
+	public String getBeforeData() {
 		return beforeData;
 	}
-	public void setBeforeData(double beforeData) {
+	public void setBeforeData(String beforeData) {
 		this.beforeData = beforeData;
 	}
-	public double getAfterData() {
+	public String getAfterData() {
 		return afterData;
 	}
-	public void setAfterData(double afterData) {
+	public void setAfterData(String afterData) {
 		this.afterData = afterData;
 	}
 }

@@ -35,7 +35,7 @@ public class MockInitial extends Initial{
 		return ResultMessage.Success;
 	}
 	
-	public ResultMessage addCommodity(ArrayList<CommodityVO> list){
+/*	public ResultMessage addCommodity(ArrayList<CommodityVO> list){
 		for(int i=0;i<list.size();i++){
 			for(int j=0;j<ini.getCommodityList().size();j++)
 				if(list.get(i).getName().equals(ini.getCommodityList().get(j))
@@ -64,5 +64,5 @@ public class MockInitial extends Initial{
 				}
 		}
 		return ResultMessage.Failure;
-	}
+	}*/
 }

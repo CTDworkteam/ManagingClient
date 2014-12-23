@@ -5,116 +5,124 @@ import java.io.FileWriter;
 import java.rmi.Naming;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 import blservice.SalesBLService;
 import config.RMI;
+import convert.Convert;
 import po.*;
+import utility.Utility;
 import vo.*;
 import dataservice.*;
 import enumType.ResultMessage;
-public class Sales{
-	public String operator;
-	public ArrayList<SalesBill> list1;
-	public ArrayList<SalesReturnBill> list2;
-	public Sales(){
-		
+public class Sales implements SalesBLService{
+	public Sales(){	
 	}
-	public Sales(String operator){
-		this.operator=operator;
-		list1=new ArrayList<SalesBill>();
-		list2=new ArrayList<SalesReturnBill>();
-	}
+	
 	public ResultMessage addBill(SalesBillVO vo){
-		try{
-			SalesDataService service=RMI.getSalesDataService();
-			if(service.getIDs1().length==99999){
+		SalesDataService service=RMI.getSalesDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.numberOfBills(Utility.getDate()) == 99999){
 				return ResultMessage.Failure;
 			}
+			
 			else{
-				SalesBillPO po=exchange(vo);
+				SalesBillPO po = Convert.convert(vo);
 				service.insert(po);
 				return ResultMessage.Success;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 	
 	public ResultMessage addReturnBill(SalesReturnBillVO vo){
-		try{
-			SalesDataService service=RMI.getSalesDataService();
-			if(service.getIDs1().length==99999){
+		SalesDataService service=RMI.getSalesDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.numberOfReturnBills(Utility.getDate()) == 99999){
 				return ResultMessage.Failure;
 			}
+			
 			else{
-				SalesReturnBillPO po=exchange(vo);
+				SalesReturnBillPO po = Convert.convert(vo);
 				service.insert(po);
 				return ResultMessage.Success;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 	
 	public ResultMessage deleteBill(SalesBillVO vo){
-		try{
-			SalesDataService service=RMI.getSalesDataService();
+		SalesDataService service=RMI.getSalesDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
 			if(service.contain(vo.getId())){
-				SalesBillPO po=exchange(vo);
+				SalesBillPO po = Convert.convert(vo);
 				service.delete(po);
 				return ResultMessage.Success;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();		
-		}finally{
 			return ResultMessage.Failure;
 		}
 	}
 	
 	public ResultMessage deleteReturnBill(SalesReturnBillVO vo){
-		try{
-			SalesDataService service=RMI.getSalesDataService();
+		SalesDataService service=RMI.getSalesDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
 			if(service.contain(vo.getId())){
-				SalesReturnBillPO po=exchange(vo);
+				SalesReturnBillPO po = Convert.convert(vo);
 				service.delete(po);
-				return ResultMessage.Success;
+ 				return ResultMessage.Success;
 			}
-		}catch(Exception ex){
-			ex.printStackTrace();		
-		}finally{
 			return ResultMessage.Failure;
 		}
 	}
 	
 	public ResultMessage sendBill(ArrayList<SalesBillVO> bills){
-		try{
-			SalesDataService service = RMI.getSalesDataService();
+		SalesDataService service = RMI.getSalesDataService();
 			
-			for(int i=0;i<bills.size();i++){
-				SalesBillPO temp=exchange(bills.get(i));
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			for(int i = 0; i<bills.size(); i++){
+				SalesBillPO temp = Convert.convert(bills.get(i));
 				service.insert(temp);
 			}
 			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 
 	public ResultMessage sendReturnBill(ArrayList<SalesReturnBillVO> bills){
-		try{
-			SalesDataService service = RMI.getSalesDataService();
+		SalesDataService service = RMI.getSalesDataService();
 			
-			for(int i=0;i<bills.size();i++){
-				SalesReturnBillPO temp=exchange(bills.get(i));
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			for(int i = 0; i<bills.size(); i++){
+				SalesReturnBillPO temp = Convert.convert(bills.get(i));
 				service.insert(temp);
 			}
 			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 	
@@ -143,6 +151,8 @@ public class Sales{
 							","+temp.getNote()+":");
 				}
 			}
+			bf.close();
+			fr.close();
 			return ResultMessage.Success;
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -175,6 +185,8 @@ public class Sales{
 							","+temp.getNote()+":");
 				}
 			}
+			bf.close();
+			fr.close();
 			return ResultMessage.Success;
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -182,111 +194,113 @@ public class Sales{
 		}
 	}
 	
-	public ResultMessage executeBill(SalesBillVO bill){
-		try{
-			SalesDataService service=RMI.getSalesDataService();
-			if(bill.isPassed()){
-				SalesBillPO po=exchange(bill);
-				service.update(po);
-				return ResultMessage.Success;
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();		
-		}finally{
-			return ResultMessage.Failure;
+	public ArrayList<SalesBillVO> findBills(GregorianCalendar before,
+			GregorianCalendar after) {
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
 		}
-	}
-	
-	public ResultMessage executeReturnBill(SalesReturnBillVO bill){
-		try{
-			SalesDataService service=RMI.getSalesDataService();
-			if(bill.isPassed()){
-				SalesReturnBillPO po=exchange(bill);
-				service.update(po);
-				return ResultMessage.Success;
-			}
-		}catch(Exception ex){
-			ex.printStackTrace();		
-		}finally{
-			return ResultMessage.Failure;
-		}
-	}
-	
-	private SalesReturnBillPO exchange(SalesReturnBillVO vo) {
-		try{
-			UserDataService service=RMI.getUserDataService();
-			ClientDataService service2=RMI.getClientDataService();
-			CommodityDataService service3=RMI.getCommodityDataService();
-	
-			UserPO userpo=service.find(vo.getOperator());
-			ClientPO clientpo=service2.find(vo.getClient());
-			ArrayList<SalesReturnBillPO.SalesReturnBillItemPO> list=new ArrayList<SalesReturnBillPO.SalesReturnBillItemPO>();
-			SalesReturnBillPO po=new SalesReturnBillPO(vo.getId(),clientpo,vo.getDefaultOperator(),
-					userpo,vo.getStorehouse(),null,vo.getInitialTotal(),
-					vo.getDiscount(),vo.getVoucher(),vo.getTotal(),vo.getNote());
+		
+		else{
+			ArrayList<SalesBillVO> list = new ArrayList<SalesBillVO>();
+			Iterator<SalesBillPO> i = service.finds1(before, after);
 			
-			for(int i=0;i<vo.getList().size();i++){
-				CommodityPO commoditypo=service3.findCommodityInName(vo.getList().get(i).getCommodity());
-				SalesReturnBillPO.SalesReturnBillItemPO temp=po.new SalesReturnBillItemPO(commoditypo,
-						vo.getList().get(i).getModel(),vo.getList().get(i).getNumber(),
-						vo.getList().get(i).getPrice(),vo.getList().get(i).getNote());
+			while(i.hasNext()){
+				SalesBillVO temp = Convert.convert(i.next());
 				list.add(temp);
 			}
-			po.setList(list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+			return list;
 		}
 	}
 
-	private SalesBillPO exchange(SalesBillVO vo) {
-		try{
-			UserDataService service=RMI.getUserDataService();
-			ClientDataService service2=RMI.getClientDataService();
-			CommodityDataService service3=RMI.getCommodityDataService();
-	
-			UserPO userpo=service.find(vo.getOperator());
-			ClientPO clientpo=service2.find(vo.getClient());
-			ArrayList<SalesBillPO.SalesBillItemPO> list=new ArrayList<SalesBillPO.SalesBillItemPO>();
-			SalesBillPO po=new SalesBillPO(vo.getId(),clientpo,vo.getDefaultOperator(),
-					userpo,vo.getStorehouse(),null,vo.getInitialTotal(),
-					vo.getDiscount(),vo.getVoucher(),vo.getTotal(),vo.getNote());
-			
-			for(int i=0;i<vo.getList().size();i++){
-				CommodityPO commoditypo=service3.findCommodityInName(vo.getList().get(i).getCommodity());
-				SalesBillPO.SalesBillItemPO temp=po.new SalesBillItemPO(commoditypo,
-						vo.getList().get(i).getModel(),vo.getList().get(i).getNumber(),
-						vo.getList().get(i).getPrice(),vo.getList().get(i).getNote());
-				list.add(temp);
-			}
-			po.setList(list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
-	@Override
-	public ArrayList<SalesBillVO> findBills(GregorianCalendar before,
-			GregorianCalendar after) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-	@Override
 	public ArrayList<SalesReturnBillVO> findReturnBills(
 			GregorianCalendar before, GregorianCalendar after) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<SalesReturnBillVO> list = new ArrayList<SalesReturnBillVO>();
+			Iterator<SalesReturnBillPO> i = service.finds2(before, after);
+			
+			while(i.hasNext()){
+				SalesReturnBillVO temp = Convert.convert(i.next());
+				list.add(temp);
+			}
+			return list;
+		}
 	}
-	@Override
+
 	public ArrayList<SalesBillVO> getAllBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<SalesBillVO> vo = new ArrayList<SalesBillVO>();
+			TreeMap<String,SalesBillPO> po = service.getList1();
+			Iterator<SalesBillPO> i = po.values().iterator();
+			
+			while(i.hasNext()){
+				SalesBillVO temp = Convert.convert(i.next());
+				vo.add(temp);
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public ArrayList<SalesReturnBillVO> getAllReturnBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			ArrayList<SalesReturnBillVO> vo = new ArrayList<SalesReturnBillVO>();
+			TreeMap<String,SalesReturnBillPO> po = service.getList2();
+			Iterator<SalesReturnBillPO> i = po.values().iterator();
+			
+			while(i.hasNext()){
+				SalesReturnBillVO temp = Convert.convert(i.next());
+				vo.add(temp);
+			}
+			return vo;
+		}
+	}
+
+	public String getNewBillID(GregorianCalendar date) {
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id = "XSD";
+			id+=date;
+			id+=Utility.getIntegerString(service.numberOfBills(date),5);
+			return id;
+		}
+	}
+
+	public String getNewReturnBillID(GregorianCalendar date) {
+		SalesDataService service = RMI.getSalesDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id = "XSTHD";
+			id+=date;
+			id+=Utility.getIntegerString(service.numberOfBills(date),5);
+			return id;
+		}
 	}
 }

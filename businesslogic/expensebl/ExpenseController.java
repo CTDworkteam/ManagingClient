@@ -18,10 +18,6 @@ public class ExpenseController implements ExpenseBLService{
 	public ResultMessage send(ExpenseVO vo) {
 		return expense.send(vo);
 	}
-	public ResultMessage execute(ExpenseVO vo) {
-		return expense.execute(vo);
-	}
-	@Override
 	public ExpenseVO find(String id) {
 		// TODO Auto-generated method stub
 		return null;

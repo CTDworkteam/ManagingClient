@@ -9,11 +9,7 @@ public class MockSales extends Sales {
 	public MockSales(){
 		
 	}
-	public MockSales(String operator){
-		this.operator=operator;
-		list1=new ArrayList<SalesBill>();
-		list2=new ArrayList<SalesReturnBill>();
-	}
+
 	public ResultMessage addBill(SalesBillVO vo) {
 		if(vo.getId().equals("0001"))
 			return ResultMessage.Success;

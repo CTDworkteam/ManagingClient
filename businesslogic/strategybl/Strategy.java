@@ -1,240 +1,499 @@
 package strategybl;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import blservice.StrategyBLService;
 import config.RMI;
+import convert.Convert;
 import po.*;
 import vo.*;
 import dataservice.*;
 import enumType.ResultMessage;
 
-public class Strategy{
-	public ArrayList<ClientStrategy> clientStrategy;
-	public ArrayList<SalesStrategy> salesStrategy;
-	public ArrayList<StockGift> stockGift;
+public class Strategy implements StrategyBLService{
 	public Strategy(){
-		
 	}
-	public Strategy(ArrayList<ClientStrategy> clientStrategy,ArrayList<SalesStrategy> salesStrategy,ArrayList<StockGift> stockGift){
-		this.clientStrategy=clientStrategy;
-		this.salesStrategy=salesStrategy;
-		this.stockGift=stockGift;
-	}
+	
 	public ResultMessage setVoucher(VoucherStrategyVO vo){
-		try{
-			StrategyDataService service=RMI.getStrategyDataService();
-			VoucherStrategyPO po=exchange(vo);
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			VoucherStrategyPO po = Convert.convert(vo);
 			service.insert(po);
 			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 
 	public ResultMessage setDiscount(DiscountStrategyVO vo){
-		try{
-			StrategyDataService service=RMI.getStrategyDataService();
-			DiscountStrategyPO po=exchange(vo);
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			DiscountStrategyPO po = Convert.convert(vo);
 			service.insert(po);
 			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return ResultMessage.Failure;
 		}
 	}
 	
 	public ResultMessage setCombination(CombinationStrategyVO vo){
-		try{
-			StrategyDataService service=RMI.getStrategyDataService();
-			CombinationStrategyPO po=exchange(vo);
-			service.insert(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
 			return ResultMessage.Failure;
+		}
+		
+		else{
+			CombinationStrategyPO po = Convert.convert(vo);
+			service.insert(po);
+ 			return ResultMessage.Success;
 		}
 	}
 	
 	public ResultMessage setGift(GiftStrategyVO vo){
-		try{
-			StrategyDataService service=RMI.getStrategyDataService();
-			GiftStrategyPO po=exchange(vo);
-			
-			service.insert(po);
-			return ResultMessage.Success;
-		}catch(Exception ex){
-			ex.printStackTrace();
+		StrategyDataService service = RMI.getStrategyDataService();
+		
+		if(service == null){
 			return ResultMessage.Failure;
 		}
-	}
-	
-	private GiftStrategyPO exchange(GiftStrategyVO vo) {
-		try{
-			CommodityDataService service=RMI.getCommodityDataService();
-			ClientDataService service2=RMI.getClientDataService();
-			UserDataService service3=RMI.getUserDataService();
-			
-			ArrayList<ClientPO> list=new ArrayList<ClientPO>();
-			for(int i=0;i<vo.getClientList().size();i++){
-				ClientPO temp=service2.find(vo.getClientList().get(i));
-				list.add(temp);
-			}
-			
-			UserPO operator=service3.find(vo.getOperator());
-			
-			ArrayList<GiftStrategyVO.GiftItemVO> item=vo.getList();
-			ArrayList<GiftStrategyPO.GiftItemPO> result=new ArrayList<GiftStrategyPO.GiftItemPO>();
-			
-			GiftStrategyPO po=new GiftStrategyPO(vo.getId(), null, null, list, operator);
-			for(int i=0;i<item.size();i++){
-				CommodityPO co=service.findCommodityInName(item.get(i).getCommodity());
-				GiftStrategyPO.GiftItemPO first=po.new GiftItemPO(co,item.get(i).getModel(),
-				item.get(i).getNumber(),null);
-				result.add(first);
-			}
-			
-			for(int i=0;i<result.size();i++){
-				if(i==result.size()-1){
-				}
-				else{
-					result.get(i).setNext(result.get(i+1));
-				}
-			}
-			GiftStrategyPO.GiftItemPO first=result.get(0);
-			GiftStrategyPO.GiftItemPO last=result.get(result.size()-1);
-			po.setFirst(first);
-			po.setLast(last);
-			
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+		
+		else{
+			GiftStrategyPO po = Convert.convert(vo);
+			service.insert(po);
+			return ResultMessage.Success;
 		}
 	}
 
-	private CombinationStrategyPO exchange(CombinationStrategyVO vo) {
-		try{
-			CommodityDataService c=RMI.getCommodityDataService();
-			ArrayList<CombinationStrategyPO.CombinationItemPO> list=new ArrayList<CombinationStrategyPO.CombinationItemPO>();
-			ArrayList<CombinationStrategyVO.CombinationItemVO> list2=vo.getList();
-			CombinationStrategyPO po=new CombinationStrategyPO(vo.getId(),null,
-					vo.getInitialMoney(),vo.getLaterMoney());
-			for(int i=0;i<list2.size();i++){
-				list.add(po.new CombinationItemPO(c.findCommodityInName(list2.get(i).getCommodity()),
-						list2.get(i).getModel(),list2.get(i).getNumber()));
-			}
-			po.setList(list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+
+	public ResultMessage setGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
+		StrategyDataService service = RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			GiftBasedOnTotalMoneyPO po = Convert.convert(vo);
+			service.insert(po);
+			return ResultMessage.Success;
 		}
 	}
 
-	private DiscountStrategyPO exchange(DiscountStrategyVO vo) {
-		try{
-			ClientDataService service=RMI.getClientDataService();
-			ArrayList<ClientPO> list=new ArrayList<ClientPO>();
-			for(int i=0;i<vo.getClientList().size();i++){
-				ClientPO temp=service.find(vo.getClientList().get(i));
-				temp.setDiscount(vo.getDiscount());;
-				service.update(temp);
-				list.add(temp);
-			}
-			DiscountStrategyPO po=new DiscountStrategyPO(vo.getId(),vo.getDiscount(),list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
 
-	private VoucherStrategyPO exchange(VoucherStrategyVO vo) {
-		try{
-			ClientDataService service=RMI.getClientDataService();
-			ArrayList<ClientPO> list=new ArrayList<ClientPO>();
-			for(int i=0;i<vo.getClientList().size();i++){
-				ClientPO temp=service.find(vo.getClientList().get(i));
+	public ResultMessage executeVoucher(VoucherStrategyVO vo) {
+		ClientDataService service = RMI.getClientDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			ArrayList<ClientPO> list = service.findInRank(vo.getRank());
+			
+			for(int i = 0; i<list.size(); i++){
+				ClientPO temp = list.get(i);
 				temp.setVoucher(vo.getVoucher());
 				service.update(temp);
-				list.add(temp);
 			}
-			VoucherStrategyPO po=new VoucherStrategyPO(vo.getId(),vo.getVoucher(),list);
-			return po;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+			return ResultMessage.Success;
 		}
 	}
-	@Override
-	public ResultMessage setGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-	@Override
-	public ResultMessage executeVoucher(VoucherStrategyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
-	}
-	@Override
+
 	public ResultMessage executeDiscount(DiscountStrategyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		ClientDataService service = RMI.getClientDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			ArrayList<ClientPO> list = service.findInRank(vo.getRank());
+			
+			for(int i = 0; i<list.size(); i++){
+				ClientPO temp = list.get(i);
+				temp.setDiscount(vo.getDiscount());
+				service.update(temp);
+			}
+			return ResultMessage.Success;
+		}
 	}
-	@Override
+
 	public ResultMessage executeCombination(CombinationStrategyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		/*ClientDataService service = RMI.getClientDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			Iterator<ClientPO> i = service.findInRank(vo.g);
+			
+			while(i.hasNext()){
+				ClientPO temp = i.next();
+				temp.setDiscount(vo.getDiscount());
+				service.update(temp);
+			}*/
+			return ResultMessage.Success;
+	//	}
 	}
-	@Override
+
 	public ResultMessage executeGift(GiftStrategyVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
+
 	@Override
 	public ResultMessage executeGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
-	@Override
+
 	public ResultMessage deleteDiscount(DiscountStrategyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containDiscountStrategy(vo.getId())){
+				DiscountStrategyPO temp = service.findDiscountStrategy(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
-	@Override
+
 	public ResultMessage deleteCombination(CombinationStrategyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containCombinationStrategy(vo.getId())){
+				CombinationStrategyPO temp = service.findCombinationStrategy(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
-	@Override
+
 	public ResultMessage deleteGiftBasedOnTotalMoney(GiftBasedOnTotalMoneyVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containGBOTM(vo.getId())){
+				GiftBasedOnTotalMoneyPO temp = service.findGBOTM(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
 	}
-	@Override
+
 	public ArrayList<DiscountStrategyVO> getAllDiscounts() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<DiscountStrategyPO> i = service.getDiscountStrategyList();
+			ArrayList<DiscountStrategyVO> vo = new ArrayList<DiscountStrategyVO>();
+			
+			while(i.hasNext()){
+				DiscountStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public ArrayList<VoucherStrategyVO> getAllVouchers() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<VoucherStrategyPO> i = service.getVoucherStrategyList();
+			ArrayList<VoucherStrategyVO> vo = new ArrayList<VoucherStrategyVO>();
+			
+			while(i.hasNext()){
+				VoucherStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public ArrayList<CombinationStrategyVO> getAllCombinations() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<CombinationStrategyPO> i = service.getCombinationStrategyList();
+			ArrayList<CombinationStrategyVO> vo = new ArrayList<CombinationStrategyVO>();
+			
+			while(i.hasNext()){
+				CombinationStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public ArrayList<GiftStrategyVO> getAllGifts() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<GiftStrategyPO> i = service.getGiftStrategyList();
+			ArrayList<GiftStrategyVO> vo = new ArrayList<GiftStrategyVO>();
+			
+			while(i.hasNext()){
+				GiftStrategyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
 	}
-	@Override
+
 	public ArrayList<GiftBasedOnTotalMoneyVO> getAllGBOTMs() {
-		// TODO 自动生成的方法存根
-		return null;
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<GiftBasedOnTotalMoneyPO> i = service.getGBOTMList();
+			ArrayList<GiftBasedOnTotalMoneyVO> vo = new ArrayList<GiftBasedOnTotalMoneyVO>();
+			
+			while(i.hasNext()){
+				GiftBasedOnTotalMoneyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
+	}
+
+	public String getNewVoucherStrategyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="DJQ";
+			id+=date;
+			id+=service.numberOfVouchers(date);
+			return id;
+		}
+	}
+
+	public String getNewDiscountStrateyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="DZ";
+			id+=date;
+			id+=service.numberOfDiscounts(date);
+			return id;
+		}
+	}
+
+	public String getNewCombinationStrategyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="ZH";
+			id+=date;
+			id+=service.numberOfCombinations(date);
+			return id;
+		}
+	}
+
+	public String getNewGiftStrategyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="ZS";
+			id+=date;
+			id+=service.numberOfGifts(date);
+			return id;
+		}
+	}
+
+	public String getNewGiftBasedOnTotalMoney(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="ZJ";
+			id+=date;
+			id+=service.numberOfGBOTMs(date);
+			return id;
+		}
+	}
+
+	public ResultMessage setVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			VoucherBasedOnTotalMoneyPO po = Convert.convert(vo);
+			service.insert(po);
+			return ResultMessage.Success;
+		}
+	}
+
+	public ResultMessage executeVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		return ResultMessage.Failure;
+	}
+
+	public ResultMessage deleteVoucher(VoucherStrategyVO vo) {
+		StrategyDataService service = RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containVoucherStrategy(vo.getId())){
+				VoucherStrategyPO temp = service.findVoucherStrategy(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
+	}
+
+	public ResultMessage deleteGift(GiftStrategyVO vo) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containGiftStrategy(vo.getId())){
+				GiftStrategyPO temp = service.findGiftStrategy(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
+	}
+
+	public ResultMessage deleteVoucherBasedOnTotalMoney(
+			VoucherBasedOnTotalMoneyVO vo) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return ResultMessage.Failure;
+		}
+		
+		else{
+			if(service.containVBOTM(vo.getId())){
+				VoucherBasedOnTotalMoneyPO temp = service.findVBOTM(vo.getId());
+				service.delete(temp);
+				return ResultMessage.Success;
+			}
+			return ResultMessage.Failure;
+		}
+	}
+
+	public ArrayList<VoucherBasedOnTotalMoneyVO> getAllVBOTMs() {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			Iterator<VoucherBasedOnTotalMoneyPO> i = service.getVBOTMList();
+			ArrayList<VoucherBasedOnTotalMoneyVO> vo = new ArrayList<VoucherBasedOnTotalMoneyVO>();
+			
+			while(i.hasNext()){
+				VoucherBasedOnTotalMoneyPO temp = i.next();
+				vo.add(Convert.convert(temp));
+			}
+			return vo;
+		}
+	}
+
+	public String getNewGiftBasedOnTotalMoneyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="GBOTM";
+			id+=date;
+			id+=service.numberOfGBOTMs(date);
+			return id;
+		}
+	}
+
+	public String getNewVoucherBasedOnTotalMoneyID(GregorianCalendar date) {
+		StrategyDataService service=RMI.getStrategyDataService();
+		
+		if(service == null){
+			return null;
+		}
+		
+		else{
+			String id="VBOTM";
+			id+=date;
+			id+=service.numberOfVBOTMs(date);
+			return id;
+		}
 	}
 }

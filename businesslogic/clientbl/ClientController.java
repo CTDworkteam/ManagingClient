@@ -19,7 +19,7 @@ public class ClientController implements ClientBLService{
 	public ResultMessage update(ClientVO vo) {
 		return client.update(vo);
 	}
-	public ClientVO find(String id) {
+	public ClientVO find(long id) {
 		return client.find(id);
 	}
 	public ArrayList<ClientVO> finds(String key) {

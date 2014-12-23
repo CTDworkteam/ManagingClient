@@ -1,6 +1,7 @@
 package po;
 import java.util.*;
 public class GiftStrategyPO implements java.io.Serializable{
+	//ID:GIFT2014122300001
 	public class GiftItemPO implements java.io.Serializable{
 		private String commodityID;
 		private String model;
@@ -34,17 +35,17 @@ public class GiftStrategyPO implements java.io.Serializable{
 	}
 	private String id;
 	private ArrayList<GiftItemPO> itemlist;
-	private ArrayList<String> clientList;
+	private int rank;
 	private String operator;
-	public GiftStrategyPO(String id, String operator,
-			ArrayList<String> clientList, ArrayList<GiftItemPO> itemlist) {
+	public GiftStrategyPO(){
+	}
+	public GiftStrategyPO(String id, ArrayList<GiftItemPO> itemlist, int rank,
+			String operator) {
+		super();
 		this.id = id;
 		this.itemlist = itemlist;
-		this.clientList = clientList;
+		this.rank = rank;
 		this.operator = operator;
-	}
-	public GiftStrategyPO() {
-		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
@@ -58,11 +59,11 @@ public class GiftStrategyPO implements java.io.Serializable{
 	public void setItemlist(ArrayList<GiftItemPO> itemlist) {
 		this.itemlist = itemlist;
 	}
-	public ArrayList<String> getClientList() {
-		return clientList;
+	public int getRank() {
+		return rank;
 	}
-	public void setClientList(ArrayList<String> clientList) {
-		this.clientList = clientList;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 	public String getOperator() {
 		return operator;

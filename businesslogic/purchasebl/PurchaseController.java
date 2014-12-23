@@ -25,11 +25,37 @@ public class PurchaseController implements PurchaseBLService{
 	public ResultMessage save(PurchaseReturnBillVO vo) {
 		return purchase.save(vo);
 	}
-	public ResultMessage executeBill(PurchaseBillVO bill) {
-		return purchase.executeBill(bill);
+	@Override
+	public ArrayList<PurchaseBillVO> findBills(GregorianCalendar before,
+			GregorianCalendar after) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
-	public ResultMessage executeBill(PurchaseReturnBillVO bill) {
-		return purchase.executeBill(bill);
+	@Override
+	public ArrayList<PurchaseReturnBillVO> findReturnBills(
+			GregorianCalendar before, GregorianCalendar after) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseBillVO> getAllBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseReturnBillVO> getAllReturnBills() {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public String getNewReturnBillID(GregorianCalendar date) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 	@Override
 	public ArrayList<PurchaseBillVO> findBills(GregorianCalendar before,

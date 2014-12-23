@@ -1,5 +1,4 @@
 package stockcheckbl;
-import java.rmi.Naming;
 import java.util.*;
 
 import config.RMI;
@@ -7,7 +6,6 @@ import po.*;
 import dataservice.*;
 import userbl.*;
 import vo.*;
-import blservice.*;
 public class StockCheck{
 	public User operator;
 	public StockCheckListVO check(String storehouse, GregorianCalendar start,

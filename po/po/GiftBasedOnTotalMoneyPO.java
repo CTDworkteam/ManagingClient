@@ -1,6 +1,7 @@
 package po;
 import java.util.*;
 public class GiftBasedOnTotalMoneyPO {
+	//ID:GBOTM2014122300001
 	private String id;
 	private double lower;
 	private double upper;

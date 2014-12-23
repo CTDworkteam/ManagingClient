@@ -8,8 +8,6 @@ public interface FinanceBLService {
 	public ResultMessage sendPayment(ArrayList<PaymentVO> bills);
 	public ResultMessage save(ReciptVO vo);
 	public ResultMessage save(PaymentVO vo);
-	public ResultMessage executeBill(ReciptVO bill);
-	public ResultMessage executeReturnBill(PaymentVO bill);
 	public ReciptVO findRecipt(String id);
 	public PaymentVO findPayment(String id);
 	public ArrayList<ReciptVO> findRecipts(GregorianCalendar before,GregorianCalendar after);
