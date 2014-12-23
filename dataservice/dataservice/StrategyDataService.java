@@ -53,7 +53,7 @@ public interface StrategyDataService {
 	public boolean containVBOTM(String id);
 	public VoucherBasedOnTotalMoneyPO findVBOTM(String id);
 	public Iterator<VoucherBasedOnTotalMoneyPO> getVBOTMList();
-	public int numberOfVBOTMs();
+	public int numberOfVBOTMs(GregorianCalendar date);
 	public boolean hasVBOTM();
 	
 	public void init();
