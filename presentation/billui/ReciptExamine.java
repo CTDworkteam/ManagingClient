@@ -25,6 +25,7 @@ public class ReciptExamine {
 	JTextField fieldClient;
 	JTextField fieldOperator;
 	JTextField fieldTotal;
+	JComboBox<String> boxState;
 	
 	ReciptVO vo;
 	
@@ -61,7 +62,7 @@ public class ReciptExamine {
 		JLabel labelTotal=new JLabel("总计：");
 		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		JComboBox<String> boxState=new JComboBox<String>();
+		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");//审批完成
@@ -76,7 +77,7 @@ public class ReciptExamine {
 		fieldClient.setBounds(85,120,85,25);
 		labelOperator.setBounds(300,120,65,25);
 		fieldOperator.setBounds(365,120,85,25);
-		scroller.setBounds(50,160,300,300);
+		scroller.setBounds(50,160,400,300);
 		labelTotal.setBounds(wide/4,370,60,25);
 		fieldTotal.setBounds(wide/4+60,370,40,25);
 		boxState.setBounds(wide/4,400,100,25);
@@ -118,6 +119,12 @@ public class ReciptExamine {
 			
 			Bill bill=new Bill();
 			ReciptVO theRecipt=new ReciptVO(vo.getId(),fieldOperator.getText(),fieldClient.getText(),items,total);
+			String state=(String)boxState.getSelectedItem();
+			if(state=="通过"){
+				theRecipt.setPassed(true);
+			}else{
+				theRecipt.setPassed(false);
+			}
 			ResultMessage result=bill.approveRecipt(theRecipt);
 			String message="";
 			if(result==ResultMessage.Failure){

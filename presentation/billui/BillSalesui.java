@@ -1,8 +1,11 @@
 package billui;
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.util.*;
+
 import vo.*;
+import salesbl.SalesController;
 
 /*
  * 销售单据审批界面
@@ -83,6 +86,90 @@ public class BillSalesui {
 				dataSalesReturn[t][2]=salesReturnBill.get(t).getOperator();
 			}
 		}
+	}
+	
+	class salesListener implements MouseListener{
+
+		public void mouseClicked(MouseEvent e) {
+			SalesController controller=new SalesController();
+			ArrayList<SalesBillVO> sales=controller.getAllBills();
+			String id=(String)tableSales.getValueAt(tableSales.getSelectedRow(), 0);
+			SalesBillVO theBill=new SalesBillVO();
+			for(int t=0;t<sales.size();t++){
+				if(sales.get(t).getId()==id){
+					theBill=sales.get(t);
+				}
+			}
+			SalesExamine examine=new SalesExamine();
+			examine.go(theBill);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class salesReturnListener implements MouseListener{
+
+		public void mouseClicked(MouseEvent e) {
+			SalesController controller=new SalesController();
+			ArrayList<SalesReturnBillVO> salesReturn=controller.getAllReturnBills();
+			String id=(String)tableSalesReturn.getValueAt(tableSalesReturn.getSelectedRow(), 0);
+			SalesReturnBillVO theBill=new SalesReturnBillVO();
+			for(int t=0;t<salesReturn.size();t++){
+				if(salesReturn.get(t).getId()==id){
+					theBill=salesReturn.get(t);
+				}
+			}
+			SalesReturnExamine examine=new SalesReturnExamine();
+			examine.go(theBill);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }
