@@ -1,23 +1,33 @@
 package financecheckui;
 import javax.swing.*;
+import javax.swing.event.*;
 
 public class Financecheckui {
 	
 	public JPanel panelFinancecheck=new JPanel();
+	JTabbedPane tab;
+	
+	DetailListCheck detailList=new DetailListCheck();
+	ProcessListCheck processList=new ProcessListCheck();
+	ConditionListCheck conditionList=new ConditionListCheck();
 	
 	public Financecheckui(){
-		JButton buttonSaleslist=new JButton("销售明细表");
-		JButton buttonBusinessprocess=new JButton("经营历程表");
-		JButton buttonBusinessstatus=new JButton("经营情况表");
+		
+		tab=new JTabbedPane(JTabbedPane.LEFT);
+		tab.add("销售明细表",detailList.panel);
+		tab.add("经营历程表",processList.panel);
+		tab.add("经营情况表",conditionList.panel);
+		tab.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e){
+				int selectedIndex=tab.getSelectedIndex();
+				tab.getToolTipTextAt(selectedIndex);
+			}
+		});
 		
 		panelFinancecheck.setLayout(null);
-		buttonSaleslist.setBounds(100,200,100,25);
-		buttonBusinessprocess.setBounds(290,200,100,25);
-		buttonBusinessstatus.setBounds(480,200,100,25);
+		tab.setBounds(0,0,765,470);
 		
-		panelFinancecheck.add(buttonSaleslist);
-		panelFinancecheck.add(buttonBusinessprocess);
-		panelFinancecheck.add(buttonBusinessstatus);
+		panelFinancecheck.add(tab);
 	}
 
 }

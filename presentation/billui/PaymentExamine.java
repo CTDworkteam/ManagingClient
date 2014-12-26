@@ -25,6 +25,7 @@ public class PaymentExamine {
 	JTextField fieldClient;
 	JTextField fieldOperator;
 	JTextField fieldTotal;
+	JComboBox<String> boxState;
 	
 	PaymentVO vo;
 	
@@ -61,7 +62,7 @@ public class PaymentExamine {
 		JLabel labelTotal=new JLabel("总计：");
 		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		JComboBox<String> boxState=new JComboBox<String>();
+		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");//审批完成
@@ -117,6 +118,12 @@ public class PaymentExamine {
 			
 			Bill bill=new Bill();
 			PaymentVO thePayment=new PaymentVO(vo.getId(),fieldOperator.getText(),fieldClient.getText(),items,total);
+			String state=(String) boxState.getSelectedItem();
+			if(state=="通过"){
+				thePayment.setPassed(true);
+			}else{
+				thePayment.setPassed(false);
+			}
 			ResultMessage result=bill.approvePayment(thePayment);
 			String message="";
 			if(result==ResultMessage.Failure){

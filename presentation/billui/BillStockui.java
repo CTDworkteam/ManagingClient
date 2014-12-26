@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 
 import vo.*;
+import stockbl.StockController;
 
 /*
  * 库存单据审批界面
@@ -50,6 +51,7 @@ public class BillStockui {
 		}
 		tableGift.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableGift.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableGift.addMouseListener(new giftListener());
 		JScrollPane scrollerGift=new JScrollPane(tableGift);
 		
 		for(int t=0;t<overFlowBill.size();t++){
@@ -59,6 +61,7 @@ public class BillStockui {
 		}
 		tableOverFlow.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableOverFlow.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableOverFlow.addMouseListener(new overflowListener());
 		JScrollPane scrollerOverFlow=new JScrollPane(tableOverFlow);
 		
 		for(int t=0;t<underFlowBill.size();t++){
@@ -68,6 +71,7 @@ public class BillStockui {
 		}
 		tableUnderFlow.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableUnderFlow.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableUnderFlow.addMouseListener(new underflowListener());
 		JScrollPane scrollerUnderFlow=new JScrollPane(tableUnderFlow);
 		
 		panel.setLayout(null);
@@ -106,6 +110,132 @@ public class BillStockui {
 				dataUnderFlow[t][2]=underFlowBill.get(t).getOperator();
 			}
 		}
+	}
+	
+	class giftListener implements MouseListener{
+
+		public void mouseClicked(MouseEvent e) {
+			StockController controller=new StockController();
+			ArrayList<GiftBillVO> bills=controller.getAllGiftBills();
+			String id=(String)tableGift.getValueAt(tableGift.getSelectedRow(), 0);
+			GiftBillVO theBill=new GiftBillVO();
+			for(int t=0;t<bills.size();t++){
+				if(bills.get(t).getId()==id){
+					theBill=bills.get(t);
+				}
+			}
+			GiftBillExamine examine=new GiftBillExamine();
+			examine.go(theBill);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class overflowListener implements MouseListener{
+
+		public void mouseClicked(MouseEvent e) {
+			StockController controller=new StockController();
+			ArrayList<OverflowBillVO> bills=controller.getAllOverflowBills();
+			String id=(String)tableOverFlow.getValueAt(tableOverFlow.getSelectedRow(), 0);
+			OverflowBillVO theBill=new OverflowBillVO();
+			for(int t=0;t<bills.size();t++){
+				if(bills.get(t).getId()==id){
+					theBill=bills.get(t);
+				}
+			}
+			OverflowBillExamine examine=new OverflowBillExamine();
+			examine.go(theBill);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class underflowListener implements MouseListener{
+
+		public void mouseClicked(MouseEvent e) {
+			StockController controller=new StockController();
+			ArrayList<UnderflowBillVO> bills=controller.getAllUnderflowBills();
+			String id=(String)tableUnderFlow.getValueAt(tableUnderFlow.getSelectedRow(), 0);
+			UnderflowBillVO theBill=new UnderflowBillVO();
+			for(int t=0;t<bills.size();t++){
+				if(bills.get(t).getId()==id){
+					theBill=bills.get(t);
+				}
+			}
+			UnderflowBillExamine examine=new UnderflowBillExamine();
+			examine.go(theBill);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }

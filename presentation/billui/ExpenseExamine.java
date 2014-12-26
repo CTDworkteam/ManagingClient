@@ -26,6 +26,7 @@ public class ExpenseExamine {
 	JTextField fieldOperator;
 	JTextField fieldAccount;
 	JTextField fieldTotal;
+	JComboBox<String> boxState;
 	
 	ExpenseVO vo;
 	
@@ -39,7 +40,7 @@ public class ExpenseExamine {
 		frame.setSize(wide/3,high-300);
 		frame.setLocation(wide/3,high-150);
 		
-		ArrayList<ExpenseItemVO> items=new ArrayList<ExpenseItemVO>();
+		ArrayList<ExpenseItemVO> items=vo.getList();
 		//条目信息列表设置
 		String[] heading={"条目名","条目金额","备注"};
 		for(int t=0;t<items.size();t++){
@@ -62,7 +63,7 @@ public class ExpenseExamine {
 		JLabel labelTotal=new JLabel("总计：");
 		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		JComboBox<String> boxState=new JComboBox<String>();
+		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");
@@ -129,6 +130,12 @@ public class ExpenseExamine {
 							fieldTotal.setText(Double.toString(total));
 							 
 							ExpenseVO theExpense=new ExpenseVO(vo.getId(),fieldOperator.getText(),(String)table.getValueAt(0, 0),total,item);
+							String state=(String) boxState.getSelectedItem();
+							if(state=="通过"){
+								theExpense.setPassed(true);
+							}else{
+								theExpense.setPassed(false);
+							}
 							
 							Bill bill=new Bill();
 							ResultMessage result=bill.approveExpense(theExpense);
