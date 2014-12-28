@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import enumType.ResultMessage;
+import purchasebl.PurchaseController;
+import salesbl.SalesController;
+import utility.Utility;
+import vo.PurchaseBillVO;
 
 class salesImportPanelui extends JPanel{
 	JButton jbtImport=new JButton("销售");
@@ -79,6 +86,9 @@ class salesImportPanelui extends JPanel{
 	DefaultTableModel returnTableModel=new DefaultTableModel(returnRowData,returnColumn);
 	JTable returnTable=new JTable(returnTableModel);
 	JScrollPane returnJS=new JScrollPane(returnTable);
+	
+	ArrayList<PurchaseBillVO> allBills;
+	
 	
 	salesImportPanelui(){
 		mainPanel.add(new JLabel());
@@ -165,6 +175,13 @@ class salesImportPanelui extends JPanel{
 				importListFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				importListFrame.setTitle("销售");
 				importListFrame.setVisible(true);
+				//12.26
+				jbtAssure.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						Object[] newItem={importNameField.getText(),importTypeField.getText(),importNumField.getText(),importPriceField.getText(),Double.parseDouble(importNumField.getText())*Double.parseDouble(importPriceField.getText()),importTipArea.getText()};
+					    salesItemTableModel.addRow(newItem);
+					}
+				});
 				
 		/*		jbtSend.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
@@ -191,17 +208,34 @@ class salesImportPanelui extends JPanel{
 					}
 				});             */
 				
-				jbtAssure.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e){
-						JOptionPane.showMessageDialog(null, "提交成功");
-						importListFrame.dispose();
-					}
-				});
+				
 				jbtCancel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						importListFrame.dispose();
 					}
 				});
+				/*jbtSend.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						PurchaseController sales=new PurchaseController();
+						Utility utility=new Utility();
+						int itemNum=salesItemTable.getRowCount();
+						double total=0;
+						PurchaseBillVO insvo=new PurchaseBillVO();
+						ArrayList<PurchaseBillVO.PurchaseBillItemVO> list=new ArrayList<PurchaseBillVO.PurchaseBillItemVO>();
+						for(int i=0;i<itemNum;i++)
+						{
+							PurchaseBillVO.PurchaseBillItemVO insItemVO=insvo.new PurchaseBillItemVO((String)salesItemTable.getValueAt(i, 0),(String)salesItemTable.getValueAt(i, 1),Integer.parseInt((String)salesItemTable.getValueAt(i, 2)),Double.parseDouble((String)salesItemTable.getValueAt(i, 3)),Double.parseDouble((String)salesItemTable.getValueAt(i, 4)),(String)salesItemTable.getValueAt(i, 5));
+						    total=total+Double.parseDouble((String)salesItemTable.getValueAt(i, 4));
+						    list.add(insItemVO);
+						}
+						//获取操作人员信息
+						PurchaseBillVO vo=new PurchaseBillVO(sales.getNewBillID(utility.getDate()),supplierField.getText(),storehouseField.getText(),"di",list,total,"");
+						ArrayList<PurchaseBillVO> vos=new ArrayList<PurchaseBillVO>();
+						vos.add(vo);
+						ResultMessage result=sales.sendBill(vos);
+						if(result==ResultMessage.Success)
+					}
+				});*/
 			}
 		});
 		
@@ -217,7 +251,16 @@ class salesImportPanelui extends JPanel{
 				jbtReturnAssure=new JButton("确定");
 				jbtReturnCancel=new JButton("取消");
 				returnTableModel=new DefaultTableModel(returnRowData,returnColumn);
-			    returnTable=new JTable(returnTableModel);
+			    /*
+			     * 
+			     * 
+			     * 
+			     * 
+			     * 
+			     * 
+			     * 初始化表格
+			     */
+				returnTable=new JTable(returnTableModel);
 				returnJS=new JScrollPane(returnTable);
 				
 				TopPanel.add(returnSearch,BorderLayout.WEST);
@@ -244,6 +287,7 @@ class salesImportPanelui extends JPanel{
 				
 				jbtReturnAssure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
+					    
 						JOptionPane.showMessageDialog(null, "提交成功");
 					}
 				});
