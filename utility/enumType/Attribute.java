@@ -11,5 +11,8 @@ public enum Attribute {
 	Client_Rank,
 	Client_Telephone,
 	Client_Type,
-	
+	Commodity_Name,
+	Commodity_Type,
+	CommodityType_Father,
+	CommodityType_Name,
 }
