@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import enumType.ResultMessage;
+import salesbl.SalesBill;
+import salesbl.SalesController;
+import utility.Utility;
+import vo.SalesBillVO;
+import vo.SalesReturnBillVO;
+import vo.SalesReturnBillVO.SalesReturnBillItemVO;
+
+
 
 class salesImportPanelui extends JPanel{
 	JButton jbtImport=new JButton("销售");
@@ -59,9 +70,13 @@ class salesImportPanelui extends JPanel{
 	JButton jbtCheck=new JButton("查看保存单据");
 	JLabel supplier=new JLabel("客户",SwingConstants.CENTER);
 	JLabel storehouse=new JLabel("仓库",SwingConstants.CENTER);
+	JLabel discount=new JLabel("",SwingConstants.CENTER);
+	JLabel voucher=new JLabel("",SwingConstants.CENTER);
 	JTextField supplierField=new JTextField();
 	JTextField storehouseField=new JTextField();
-	JPanel mainInfoPanel=new JPanel(new GridLayout(1,4));
+	JTextField discountField=new JTextField();
+	JTextField voucherField=new JTextField();
+    JPanel mainInfoPanel=new JPanel(new GridLayout(1,8));
 	JPanel mainSubPanel=new JPanel(new BorderLayout());
 	
 	//importReturnFrame:
@@ -74,11 +89,14 @@ class salesImportPanelui extends JPanel{
 	JButton jbtReturnSearch=new JButton("搜索");
 	JButton jbtReturnAssure=new JButton("确定");
 	JButton jbtReturnCancel=new JButton("取消");
-	String[] returnColumn={"销售单编号","商品名","商品型号","单价","数量"};
-	Object[][] returnRowData={{"xxx_xxx","di","XX",30,30}};
+	String[] returnColumn={"销售单编号","客户","操作员","仓库","总额"};
+	Object[][] returnRowData={{}};
 	DefaultTableModel returnTableModel=new DefaultTableModel(returnRowData,returnColumn);
 	JTable returnTable=new JTable(returnTableModel);
 	JScrollPane returnJS=new JScrollPane(returnTable);
+	
+	ArrayList<SalesBillVO> allBills;
+	
 	
 	salesImportPanelui(){
 		mainPanel.add(new JLabel());
@@ -147,6 +165,10 @@ class salesImportPanelui extends JPanel{
 				mainInfoPanel.add(supplierField);
 				mainInfoPanel.add(storehouse);
 				mainInfoPanel.add(storehouseField);
+				mainInfoPanel.add(discount);
+				mainInfoPanel.add(discountField);
+				mainInfoPanel.add(voucher);
+				mainInfoPanel.add(voucherField);
 			    salesItemButtons.add(jbtCheck);
 				salesItemButtons.add(jbtSave);
 				salesItemButtons.add(jbtSend);
@@ -165,6 +187,13 @@ class salesImportPanelui extends JPanel{
 				importListFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				importListFrame.setTitle("销售");
 				importListFrame.setVisible(true);
+				//12.26
+				jbtAssure.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						Object[] newItem={importNameField.getText(),importTypeField.getText(),importNumField.getText(),importPriceField.getText(),Double.parseDouble(importNumField.getText())*Double.parseDouble(importPriceField.getText()),importTipArea.getText()};
+					    salesItemTableModel.addRow(newItem);
+					}
+				});
 				
 		/*		jbtSend.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
@@ -191,15 +220,76 @@ class salesImportPanelui extends JPanel{
 					}
 				});             */
 				
-				jbtAssure.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e){
-						JOptionPane.showMessageDialog(null, "提交成功");
-						importListFrame.dispose();
-					}
-				});
+				
 				jbtCancel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						importListFrame.dispose();
+					}
+				});
+				//12.27
+				jbtSend.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						ArrayList<SalesBillVO> vos=new ArrayList<SalesBillVO>();
+						Utility utility=new Utility();
+						SalesController sales=new SalesController();
+						double total=0;
+						SalesBillVO vo=new SalesBillVO(sales.getNewBillID(utility.getDate()),supplierField.getText(),"","",storehouseField.getText(),null,0,Double.parseDouble(discountField.getText()),Double.parseDouble(voucherField.getText()),0,"");
+						ArrayList<SalesBillVO.SalesBillItemVO> itemList=new ArrayList<SalesBillVO.SalesBillItemVO>();
+					    int itemNum=salesItemTable.getRowCount();
+					    for(int i=0;i<itemNum;i++){
+						SalesBillVO.SalesBillItemVO items=vo.new SalesBillItemVO((String)salesItemTableModel.getValueAt(i, 0),(String)salesItemTableModel.getValueAt(i, 1),(int)salesItemTableModel.getValueAt(i, 2),(double)salesItemTableModel.getValueAt(i, 3),(double)salesItemTableModel.getValueAt(i, 4),(String)salesItemTableModel.getValueAt(i, 5));
+					    itemList.add(items);
+					    total=total+Double.parseDouble((String)salesItemTable.getValueAt(i, 4));
+					    }
+					    vo.setInitialTotal(total);
+					    vo.setTotal(total-Double.parseDouble(discountField.getText())-Double.parseDouble(voucherField.getText()));
+					    vo.setList(itemList);
+					    vo.setId(sales.getNewBillID(utility.getDate()));
+					    vos.add(vo);
+					    
+					    ResultMessage result=sales.sendBill(vos);
+					    if(result==ResultMessage.Success){
+					    	JOptionPane.showMessageDialog(null, "提交成功");
+					    	importListFrame.dispose();
+					    }
+					    else
+					    	JOptionPane.showMessageDialog(null, "提交失败");
+					}
+				});
+				//12.27
+				jbtSave.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						ArrayList<SalesBillVO> vos=new ArrayList<SalesBillVO>();
+						Utility utility=new Utility();
+						SalesController sales=new SalesController();
+						double total=0;
+						SalesBillVO vo=new SalesBillVO(sales.getNewBillID(utility.getDate()),supplierField.getText(),"","",storehouseField.getText(),null,0,Double.parseDouble(discountField.getText()),Double.parseDouble(voucherField.getText()),0,"");
+						ArrayList<SalesBillVO.SalesBillItemVO> itemList=new ArrayList<SalesBillVO.SalesBillItemVO>();
+					    int itemNum=salesItemTable.getRowCount();
+					    for(int i=0;i<itemNum;i++){
+						SalesBillVO.SalesBillItemVO items=vo.new SalesBillItemVO((String)salesItemTableModel.getValueAt(i, 0),(String)salesItemTableModel.getValueAt(i, 1),(int)salesItemTableModel.getValueAt(i, 2),(double)salesItemTableModel.getValueAt(i, 3),(double)salesItemTableModel.getValueAt(i, 4),(String)salesItemTableModel.getValueAt(i, 5));
+					    itemList.add(items);
+					    total=total+Double.parseDouble((String)salesItemTable.getValueAt(i, 4));
+					    }
+					    vo.setInitialTotal(total);
+					    vo.setTotal(total-Double.parseDouble(discountField.getText())-Double.parseDouble(voucherField.getText()));
+					    vo.setList(itemList);
+					    vo.setId(sales.getNewBillID(utility.getDate()));
+					    
+					    
+					    ResultMessage result=sales.save(vo);
+					    if(result==ResultMessage.Success){
+					    	JOptionPane.showMessageDialog(null, "保存成功");
+					    	importListFrame.dispose();
+					    }
+					    else
+					    	JOptionPane.showMessageDialog(null, "保存失败");
+					}
+				});
+				//未实现
+				jbtCheck.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						
 					}
 				});
 			}
@@ -217,7 +307,25 @@ class salesImportPanelui extends JPanel{
 				jbtReturnAssure=new JButton("确定");
 				jbtReturnCancel=new JButton("取消");
 				returnTableModel=new DefaultTableModel(returnRowData,returnColumn);
-			    returnTable=new JTable(returnTableModel);
+			    /*
+			     * 
+			     * 
+			     * 初始化表格
+			     */
+				SalesController sales=new SalesController();
+				allBills=sales.getAllBills();
+				int billNum=allBills.size();
+				for(int i=0;i<billNum;i++)
+				{
+					SalesBillVO insvo=allBills.get(i);
+					Object[] newRow={insvo.getId(),insvo.getClient(),insvo.getOperator(),insvo.getStorehouse(),insvo.getTotal()};
+				//	"销售单编号","客户","操作员","仓库","总额"
+					returnTableModel.addRow(newRow);
+				}
+				
+				
+				
+				returnTable=new JTable(returnTableModel);
 				returnJS=new JScrollPane(returnTable);
 				
 				TopPanel.add(returnSearch,BorderLayout.WEST);
@@ -241,10 +349,36 @@ class salesImportPanelui extends JPanel{
 						
 					}
 				});
-				
+			//12.27	
 				jbtReturnAssure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						JOptionPane.showMessageDialog(null, "提交成功");
+						SalesController sales=new SalesController();
+					    Utility utility=new Utility();
+					    int selectedRow=salesItemTable.getSelectedRow();
+					    SalesBillVO oldvo=allBills.get(selectedRow);
+					    ArrayList<SalesBillVO.SalesBillItemVO> oldItems=oldvo.getList();
+					    SalesReturnBillVO insvo=new SalesReturnBillVO();
+					    ArrayList<SalesReturnBillVO.SalesReturnBillItemVO> list=new ArrayList<SalesReturnBillVO.SalesReturnBillItemVO>();
+					    SalesReturnBillVO vo=new SalesReturnBillVO(sales.getNewReturnBillID(utility.getDate()),oldvo.getClient(),oldvo.getDefaultOperator(),oldvo.getOperator(),oldvo.getStorehouse(),list,oldvo.getInitialTotal(),oldvo.getDiscount(),oldvo.getVoucher(),oldvo.getTotal(),oldvo.getNote());
+						int itemNum=oldItems.size();
+						for(int i=0;i<itemNum;i++)
+						{
+							SalesReturnBillItemVO newItem=insvo.new SalesReturnBillItemVO(oldItems.get(i).getCommodity(),oldItems.get(i).getModel(),oldItems.get(i).getNumber(),oldItems.get(i).getPrice(),oldItems.get(i).getTotal(),oldItems.get(i).getNote());
+							list.add(newItem);
+						}
+						vo.setList(list);
+						ArrayList<SalesReturnBillVO> voarray=new ArrayList<SalesReturnBillVO>();
+						voarray.add(vo);
+					    ResultMessage result=sales.sendReturnBill(voarray);
+					    if(result==ResultMessage.Success)
+					    {
+					    	JOptionPane.showMessageDialog(null, "提交成功");
+					    	importReturnFrame.dispose();
+					    }
+					    else
+					    {
+					    	JOptionPane.showMessageDialog(null, "提交失败");
+					    }
 					}
 				});
 				

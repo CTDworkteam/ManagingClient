@@ -24,11 +24,18 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import commoditybl.CommodityController;
+import commoditybl.CommodityModel;
 import stockbl.StockController;
 import stockcheckbl.StockCheckController;
+import utility.Utility;
+import vo.CommodityModelVO;
+import vo.CommodityVO;
 import vo.GiftBillVO;
 import vo.OverflowBillVO;
 import vo.StockCheckListVO;
+import vo.StockCommodityInfoVO;
+import vo.StockCommodityListVO;
 import vo.UnderflowBillVO;
 import vo.GiftBillVO.GiftBillItemVO;
 import enumType.ResultMessage;
@@ -72,7 +79,7 @@ class stockManagementui extends JPanel{
 	JButton jbtSelect=new JButton("确定");
 	JButton jbtNotSelect=new JButton("取消");
 	String[] columnName1={"序号","仓库名"};
-	String[][] rowData1={{"0001","hehe"},{"0002","haha"}};
+	String[][] rowData1={{"0001","仓库A"},{"0002","仓库B"},{"0003","仓库C"}};
 	DefaultTableModel tableModel1=new DefaultTableModel(rowData1,columnName1);
 	JTable shotTable=new JTable(tableModel1);
 	JScrollPane shotListPane=new JScrollPane(shotTable);
@@ -89,8 +96,8 @@ class stockManagementui extends JPanel{
 	JLabel info2=new JLabel("盘点时间  刁");
 	JButton jbtPath=new JButton("选择路径");
 	JButton jbtPathCancel=new JButton("取消");
-	String[] goodsColumn={"编号","名称","型号","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
-	Object[][] goodsRowData={{"00001","淫迪","1号",1,4,4,4,4,4}};
+	String[] goodsColumn={"名称","型号","库存数量","均价","批次","总批次","日期"};
+	Object[][] goodsRowData={{}};
 	DefaultTableModel goodsTableModel=new DefaultTableModel(goodsRowData,goodsColumn);
 	JTable goodsTable=new JTable(goodsTableModel);
 	JScrollPane goodsListPane=new JScrollPane(goodsTable);
@@ -101,7 +108,7 @@ class stockManagementui extends JPanel{
 	JButton jbtPresentSelect=new JButton("确定");
 	JButton jbtPresentNotSelect=new JButton("取消");
 	String[] presentColumnName1={"序号","仓库名"};
-	String[][] presentRowData1={{"0001","hehe"},{"0002","haha"}};
+	String[][] presentRowData1={{"0001","仓库A"},{"0002","仓库B"},{"0003","仓库C"}};
 	DefaultTableModel presentTableModel=new DefaultTableModel(presentRowData1,presentColumnName1);
 	JTable presentTable=new JTable(presentTableModel);
 	JScrollPane presentListPane=new JScrollPane(presentTable);
@@ -109,11 +116,13 @@ class stockManagementui extends JPanel{
 	JPanel presentBiao=new JPanel(new BorderLayout());
 	JPanel presentButt=new JPanel();
 	JSplitPane presentSplit;
+	JLabel client;
+	JTextField clientField;
 	
 	//present_subFrame:
 	JFrame subPresentFrame=new JFrame();
-	String[] presentColumn={"编号","名称","型号","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
-	Object[][] presentRowData={{"00001","淫迪","1号",1,4,4,4,4,4}};
+	String[] presentColumn={"编号","名称","型号","库存数量"};
+	Object[][] presentRowData={{}};
 	DefaultTableModel presentListTableModel=new DefaultTableModel(presentRowData,presentColumn);
 	JTable presentListTable=new JTable(presentListTableModel);
 	JScrollPane presentJScrollPane=new JScrollPane(presentListTable);
@@ -133,7 +142,7 @@ class stockManagementui extends JPanel{
 	//overFlowFrame:
 	JFrame overFlowFrame=new JFrame();
 	String[] overColumn={"仓库名","编号","名称","型号","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
-	Object[][] overRowData={{"1A231","00001","淫迪","1号",1,4,4,4,4,4}};
+	Object[][] overRowData={{}};
 	DefaultTableModel overTableModel=new DefaultTableModel(overRowData,overColumn);
 	JTable overTable=new JTable(overTableModel);
 	JScrollPane overJScrollPane=new JScrollPane(overTable);
@@ -181,8 +190,8 @@ class stockManagementui extends JPanel{
 	
 	//lossFrame:
 			JFrame lossFrame=new JFrame();
-			String[] lossColumn={"仓库名","编号","名称","型号","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
-			Object[][] lossRowData={{"1A231","00001","淫迪","1号",1,4,4,4,4,4}};
+			String[] lossColumn={"仓库名","编号","名称","型号","库存报警线","库存数量"};
+			Object[][] lossRowData={{}};
 			DefaultTableModel lossTableModel=new DefaultTableModel(lossRowData,lossColumn);
 			JTable lossTable=new JTable(lossTableModel);
 			JScrollPane lossJScrollPane=new JScrollPane(lossTable);
@@ -231,7 +240,7 @@ class stockManagementui extends JPanel{
 		//warmingFrame:
 			JFrame warmingFrame=new JFrame();
 			String[] warmingListColumn={"仓库名","编号","名称","型号","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
-			Object[][] warmingRowData={{"1A231","00001","淫迪","1号",1,4,4,4,4,4}};
+			Object[][] warmingRowData={{}};
 			DefaultTableModel warmingTableModel=new DefaultTableModel(warmingRowData,warmingListColumn);
 			JTable warmingTable=new JTable(warmingTableModel);
 			JScrollPane warmingScrollPane=new JScrollPane(warmingTable);
@@ -329,7 +338,7 @@ class stockManagementui extends JPanel{
 				
 			}
 		});
-		//截至这里！！！！
+	
 	
 		jbtSnapshot.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -349,6 +358,10 @@ class stockManagementui extends JPanel{
 		//未实现选择仓库		
 				jbtSelect.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
+						StockCheckController stockCheck=new StockCheckController();
+						StockCommodityListVO commodityList=stockCheck.lookover((String)goodsTable.getValueAt(goodsTable.getSelectedRow(), 1));
+						ArrayList<StockCommodityInfoVO> list=commodityList.getList();
+						int listNum=list.size();
 						topInfoPanel.add(info1);
 						topInfoPanel.add(info2);
 						middlePanel.add(topInfoPanel,BorderLayout.NORTH);
@@ -357,6 +370,11 @@ class stockManagementui extends JPanel{
 						butto.add(jbtPath);
 						butto.add(jbtPathCancel);
 						systemPanel.add(butto,BorderLayout.SOUTH);
+						for(int i=0;i<listNum;i++)
+						{
+							Object[] insRowData={list.get(i).getName(),list.get(i).getModel(),list.get(i).getNumInStock(),list.get(i).getAverage(),list.get(i).getBatch(),list.get(i).getBatchNumber(),list.get(i).getDate()};
+							goodsTableModel.addRow(insRowData);
+						}
 						oneStockInfoFrame.add(systemPanel);
 						oneStockInfoFrame.pack();
 						oneStockInfoFrame.setLocationRelativeTo(null);
@@ -416,14 +434,34 @@ class stockManagementui extends JPanel{
 					public void actionPerformed(ActionEvent e){
 						subPresentFrame=new JFrame();
 						String[] presentColumn={"编号","名称","型号","库存数量"};
-						Object[][] presentRowData={{"00001","淫迪","1号",1}};
+					    Object[][] presentRowData={{}};
 						presentListTableModel=new DefaultTableModel(presentRowData,presentColumn);
 						presentListTable=new JTable(presentListTableModel);
+//						initializi  12.27
+						CommodityController commodity=new CommodityController();
+						ArrayList<CommodityVO> commodities=commodity.getAllCommodity();
+						int commodityNum=commodities.size();
+						for(int i=0;i<commodityNum;i++)
+						{
+							CommodityVO insvo=commodities.get(i);
+							ArrayList<CommodityModelVO> models=commodities.get(i).getList();
+							int modelNum=models.size();
+							for(int j=0;j<modelNum;j++)
+							{
+								Object[] newRow={insvo.getId(),insvo.getName(),models.get(j).getModel(),models.get(j).getStockNumber()};
+							    presentTableModel.addRow(newRow);
+							}
+						}
+						
 						presentJScrollPane=new JScrollPane(presentListTable);
 					    jbtPresentSelected=new JButton("赠送");
 						jbtPresentNotSelected=new JButton("取消");
+						client=new JLabel("客户");
+						clientField=new JTextField();
 						rightPresentPanel=new JPanel(new BorderLayout());
 						rightTopPresentPanel=new JPanel(new BorderLayout());
+						JPanel rightClientPanel=new JPanel(new BorderLayout());
+						JPanel rightFieldPanel=new JPanel(new GridLayout(2,1));
 						rightBottomPresentPanel=new JPanel(new BorderLayout());
 						rightTotalPanel=new JPanel(new BorderLayout());
 						presentButtons=new JPanel();
@@ -433,11 +471,16 @@ class stockManagementui extends JPanel{
 						tip=new JLabel("备注");
 						tipArea=new JTextArea(5,20);
 						
+						
+						rightClientPanel.add(client,BorderLayout.WEST);
+						rightClientPanel.add(clientField,BorderLayout.CENTER);
 						rightTopPresentPanel.add(number,BorderLayout.WEST);
 						rightTopPresentPanel.add(numberField,BorderLayout.CENTER);
+						rightFieldPanel.add(rightClientPanel);
+						rightFieldPanel.add(rightTopPresentPanel);
 						rightBottomPresentPanel.add(tip,BorderLayout.WEST);
 						rightBottomPresentPanel.add(tipArea,BorderLayout.CENTER);
-						rightPresentPanel.add(rightTopPresentPanel,BorderLayout.NORTH);
+						rightPresentPanel.add(rightFieldPanel,BorderLayout.NORTH);
 						rightPresentPanel.add(rightBottomPresentPanel,BorderLayout.CENTER);
 						presentButtons.add(jbtPresentSelected);
 						presentButtons.add(jbtPresentNotSelected);
@@ -460,10 +503,10 @@ class stockManagementui extends JPanel{
 									JOptionPane.showMessageDialog(null, "未选择赠送商品");
 								else
 								{
-								
+								Utility utility=new Utility();
 								StockController stock=new StockController();
 								ArrayList<GiftBillVO.GiftBillItemVO> list=new ArrayList<GiftBillVO.GiftBillItemVO>();
-								GiftBillVO vo=new GiftBillVO("GiftBill", "迪", (String)presentTableModel.getValueAt(presentTable.getSelectedRow(),1), "di",list);
+								GiftBillVO vo=new GiftBillVO(stock.getNewGiftBillID(utility.getDate()), clientField.getText(), (String)presentTableModel.getValueAt(presentTable.getSelectedRow(),1), "di",list);
 								
 								GiftBillVO.GiftBillItemVO item=vo.new GiftBillItemVO((String)presentListTableModel.getValueAt(presentListTable.getSelectedRow(),1),(String)presentListTableModel.getValueAt(presentListTable.getSelectedRow(), 2),Integer.parseInt(numberField.getText()));
 								list.add(item);
@@ -477,7 +520,7 @@ class stockManagementui extends JPanel{
 								else
 								{
 								JOptionPane.showMessageDialog(null, "赠送失败");
-								subPresentFrame.dispose();
+							//	subPresentFrame.dispose();
 								}
 								}
 							}
@@ -501,6 +544,33 @@ class stockManagementui extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				overFlowFrame=new JFrame();
 				overTableModel=new DefaultTableModel(overRowData,overColumn);
+				/*
+				 * 
+				 * 
+				 * 
+				 * 初始化表格
+				 * 
+				 * 
+				 * 
+				 * 
+				 */
+				
+				CommodityController commodity=new CommodityController();
+				ArrayList<CommodityVO> commodities=commodity.getAllCommodity();
+				int commodityNum=commodities.size();
+				for(int i=0;i<commodityNum;i++)
+				{
+					CommodityVO insvo=commodities.get(i);
+					ArrayList<CommodityModelVO> models=commodities.get(i).getList();
+					int modelNum=models.size();
+					for(int j=0;j<modelNum;j++)
+					{
+						Object[] newRow={models.get(j).getStorehouse(),insvo.getId(),insvo.getName(),models.get(j).getModel(),models.get(j).getNoticeNumber(),models.get(j).getStockNumber()};
+					    presentTableModel.addRow(newRow);
+					}
+				}
+				
+				
 				overTable=new JTable(overTableModel);
 				overJScrollPane=new JScrollPane(overTable);
 				stockName=new JLabel("仓库名称");
@@ -559,11 +629,11 @@ class stockManagementui extends JPanel{
 						overSystemNum=new JLabel("系统记录数量",SwingConstants.RIGHT);
 						overActualNum=new JLabel("实际库存数量",SwingConstants.RIGHT);
 						overTip=new JLabel("备注",SwingConstants.RIGHT);
-						overStockNameField=new JTextField();
-						overGoodsIDField=new JTextField();
-						overGoodsNameField=new JTextField();
-						overGoodsTypeField=new JTextField();
-						overSystemNumField=new JTextField();
+						overStockNameField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),0));
+						overGoodsIDField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),1));
+						overGoodsNameField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),2));
+						overGoodsTypeField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),3));
+						overSystemNumField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),5));
 						overActualNumField=new JTextField();
 						overTipArea       =new JTextArea();
 						overOutput=new JButton("生成");
@@ -614,7 +684,8 @@ class stockManagementui extends JPanel{
 						overOutput.addActionListener(new ActionListener(){
 							public void actionPerformed(ActionEvent e){
 								StockController stock=new StockController();
-								OverflowBillVO vo=new OverflowBillVO("XXX",overStockNameField.getText(),overGoodsNameField.getText(), overGoodsTypeField.getText(),Integer.parseInt(overSystemNumField.getText()),Integer.parseInt(overActualNumField.getText()));
+								Utility utility=new Utility();
+								OverflowBillVO vo=new OverflowBillVO(stock.getNewOverflowBillID(utility.getDate()),overStockNameField.getText(),overGoodsNameField.getText(), overGoodsTypeField.getText(),Integer.parseInt(overSystemNumField.getText()),Integer.parseInt(overActualNumField.getText()));
 								ResultMessage result=stock.send(vo);
 								if(result==ResultMessage.Success)
 								{
@@ -649,6 +720,29 @@ class stockManagementui extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				lossFrame=new JFrame();
 				lossTableModel=new DefaultTableModel(lossRowData,lossColumn);
+				//初始化表格  12.27
+			/*	、、
+				、
+		
+				、、、
+				、、？？*/
+				CommodityController commodity=new CommodityController();
+				ArrayList<CommodityVO> commodities=commodity.getAllCommodity();
+				int commodityNum=commodities.size();
+				for(int i=0;i<commodityNum;i++)
+				{
+					CommodityVO insvo=commodities.get(i);
+					ArrayList<CommodityModelVO> models=commodities.get(i).getList();
+					int modelNum=models.size();
+					for(int j=0;j<modelNum;j++)
+					{
+						Object[] newRow={models.get(j).getStorehouse(),insvo.getId(),insvo.getName(),models.get(j).getModel(),models.get(j).getNoticeNumber(),models.get(j).getStockNumber()};
+					    presentTableModel.addRow(newRow);
+					}
+				}
+				
+				
+				
 				lossTable=new JTable(lossTableModel);
 				lossJScrollPane=new JScrollPane(lossTable);
 				stockLossName=new JLabel("仓库名称");
@@ -709,11 +803,11 @@ class stockManagementui extends JPanel{
 						lossSystemNum=new JLabel("系统记录数量",SwingConstants.RIGHT);
 						lossActualNum=new JLabel("实际库存数量",SwingConstants.RIGHT);
 					    lossTip=new JLabel("备注",SwingConstants.RIGHT);
-						lossStockNameField=new JTextField();
-						lossGoodsIDField=new JTextField();
-						lossGoodsNameField=new JTextField();
-						lossGoodsTypeField=new JTextField();
-						lossSystemNumField=new JTextField();
+						lossStockNameField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),0));
+						lossGoodsIDField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),1));
+						lossGoodsNameField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),2));
+						lossGoodsTypeField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),3));
+						lossSystemNumField=new JTextField((String)lossTable.getValueAt(lossTable.getSelectedRow(),5));
 						lossActualNumField=new JTextField();
 						lossTipArea       =new JTextArea();
 						lossOutput=new JButton("生成");
@@ -764,7 +858,8 @@ class stockManagementui extends JPanel{
 						lossOutput.addActionListener(new ActionListener(){
 							public void actionPerformed(ActionEvent e){
 								StockController stock=new StockController();
-								UnderflowBillVO vo=new UnderflowBillVO("XXX",lossStockNameField.getText(),lossGoodsNameField.getText(), lossGoodsTypeField.getText(),Integer.parseInt(lossSystemNumField.getText()),Integer.parseInt(lossActualNumField.getText()));
+								Utility utility=new Utility();
+								UnderflowBillVO vo=new UnderflowBillVO(stock.getNewUnderflowBillID(utility.getDate()),lossStockNameField.getText(),lossGoodsNameField.getText(), lossGoodsTypeField.getText(),Integer.parseInt(lossSystemNumField.getText()),Integer.parseInt(lossActualNumField.getText()));
 								ResultMessage result=stock.send(vo);
 								if(result==ResultMessage.Success)
 								{
@@ -797,6 +892,30 @@ class stockManagementui extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				warmingFrame=new JFrame();
 				warmingTableModel=new DefaultTableModel(warmingRowData,warmingListColumn);
+				/*
+				 * 
+				 * 
+				 * 初始化表格
+				 * 
+				 * 
+				 */
+				CommodityController commodity=new CommodityController();
+				ArrayList<CommodityVO> commodities=commodity.getAllCommodity();
+				int commodityNum=commodities.size();
+				for(int i=0;i<commodityNum;i++)
+				{
+					CommodityVO insvo=commodities.get(i);
+					ArrayList<CommodityModelVO> models=commodities.get(i).getList();
+					int modelNum=models.size();
+					for(int j=0;j<modelNum;j++)
+					{
+						Object[] newRow={models.get(j).getStorehouse(),insvo.getId(),insvo.getName(),models.get(j).getModel(),models.get(j).getNoticeNumber(),models.get(j).getStockNumber()};
+					    presentTableModel.addRow(newRow);
+					}
+				}
+				
+				
+				
 				warmingTable=new JTable(warmingTableModel);
 			    warmingScrollPane=new JScrollPane(warmingTable);
 				warmingTitle=new JLabel("库存报警单列表");
@@ -821,8 +940,9 @@ class stockManagementui extends JPanel{
 					public void actionPerformed(ActionEvent e){
 						if(warmingTable.getSelectedRow()>=0)
 						{
+							Utility utility=new Utility();
 							StockController stock=new StockController();
-							OverflowBillVO vo=new OverflowBillVO("XXX",overStockNameField.getText(),overGoodsNameField.getText(), overGoodsTypeField.getText(),Integer.parseInt(overSystemNumField.getText()),Integer.parseInt(overActualNumField.getText()));
+							OverflowBillVO vo=new OverflowBillVO(stock.getNewNoticeBillID(utility.getDate()),overStockNameField.getText(),overGoodsNameField.getText(), overGoodsTypeField.getText(),Integer.parseInt(overSystemNumField.getText()),Integer.parseInt(overActualNumField.getText()));
 							ResultMessage result=stock.send(vo);
 							if(result==ResultMessage.Success)
 							{

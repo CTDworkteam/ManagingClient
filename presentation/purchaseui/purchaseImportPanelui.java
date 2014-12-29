@@ -19,8 +19,13 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import purchasebl.PurchaseController;
+
+import utility.Utility;
 import vo.PurchaseBillVO;
+
 import vo.PurchaseBillVO.PurchaseBillItemVO;
+import vo.PurchaseReturnBillVO;
+import vo.PurchaseReturnBillVO.PurchaseReturnBillItemVO;
 import enumType.ResultMessage;
 
 class purchaseImportPanelui extends JPanel{
@@ -79,11 +84,13 @@ class purchaseImportPanelui extends JPanel{
 	JButton jbtReturnSearch=new JButton("搜索");
 	JButton jbtReturnAssure=new JButton("确定");
 	JButton jbtReturnCancel=new JButton("取消");
-	String[] returnColumn={"进货单编号","客户","仓库","操作员","总额","备注"};
-	Object[][] returnRowData={{"xxx_xxx","di","XX","XX",30,"XXX"}};
+	String[] returnColumn={"销售单编号","客户","操作员","仓库","总额"};
+	Object[][] returnRowData={{}};
 	DefaultTableModel returnTableModel=new DefaultTableModel(returnRowData,returnColumn);
 	JTable returnTable=new JTable(returnTableModel);
 	JScrollPane returnJS=new JScrollPane(returnTable);
+	
+	ArrayList<PurchaseBillVO> allBills;
 	
 	purchaseImportPanelui(){
 		mainPanel.add(new JLabel());
@@ -174,17 +181,22 @@ class purchaseImportPanelui extends JPanel{
 				jbtSend.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						ArrayList<PurchaseBillVO> vos=new ArrayList<PurchaseBillVO>();
-						
-						PurchaseBillVO vo=new PurchaseBillVO("XXX",supplierField.getText(),storehouseField.getText(),"didi",null,0,"");
+						Utility utility=new Utility();
+						PurchaseController purchase=new PurchaseController();
+						PurchaseBillVO vo=new PurchaseBillVO(purchase.getNewBillID(utility.getDate()),supplierField.getText(),storehouseField.getText(),"didi",null,0,"");
 						ArrayList<PurchaseBillVO.PurchaseBillItemVO> itemList=new ArrayList<PurchaseBillVO.PurchaseBillItemVO>();
 					    int itemNum=commodityItemTable.getRowCount();
+					    double total=0;
 					    for(int i=0;i<itemNum;i++){
 						PurchaseBillVO.PurchaseBillItemVO items=vo.new PurchaseBillItemVO((String)commodityItemTableModel.getValueAt(i, 0),(String)commodityItemTableModel.getValueAt(i, 1),(int)commodityItemTableModel.getValueAt(i, 2),(double)commodityItemTableModel.getValueAt(i, 3),(double)commodityItemTableModel.getValueAt(i, 4),(String)commodityItemTableModel.getValueAt(i, 5));
 					    itemList.add(items);
+					    total=total+Double.parseDouble((String)commodityItemTable.getValueAt(i, 4));
 					    }
+					    vo.setTotal(total);
 					    vo.setList(itemList);
+					    vo.setId(purchase.getNewBillID(utility.getDate()));
 					    vos.add(vo);
-					    PurchaseController purchase=new PurchaseController();
+					    
 					    ResultMessage result=purchase.sendBill(vos);
 					    if(result==ResultMessage.Success){
 					    	JOptionPane.showMessageDialog(null, "提交成功");
@@ -196,15 +208,19 @@ class purchaseImportPanelui extends JPanel{
 					}
 				});
 				
+				
 				jbtSave.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						PurchaseBillVO vo=new PurchaseBillVO("XXX",supplierField.getText(),storehouseField.getText(),"didi",null,0,"");
 						ArrayList<PurchaseBillVO.PurchaseBillItemVO> itemList=new ArrayList<PurchaseBillVO.PurchaseBillItemVO>();
 					    int itemNum=commodityItemTable.getRowCount();
+					    double total=0;
 					    for(int i=0;i<itemNum;i++){
 						PurchaseBillVO.PurchaseBillItemVO items=vo.new PurchaseBillItemVO((String)commodityItemTableModel.getValueAt(i, 0),(String)commodityItemTableModel.getValueAt(i, 1),(int)commodityItemTableModel.getValueAt(i, 2),(double)commodityItemTableModel.getValueAt(i, 3),(double)commodityItemTableModel.getValueAt(i, 4),(String)commodityItemTableModel.getValueAt(i, 5));
 					    itemList.add(items);
+					    total=total+Double.parseDouble((String)commodityItemTable.getValueAt(i, 4));
 					    }
+					    vo.setTotal(total);
 					    vo.setList(itemList);
 					    PurchaseController purchaseController=new PurchaseController();
 					    ResultMessage result=purchaseController.save(vo);
@@ -255,6 +271,17 @@ class purchaseImportPanelui extends JPanel{
 				jbtReturnAssure=new JButton("确定");
 				jbtReturnCancel=new JButton("取消");
 				returnTableModel=new DefaultTableModel(returnRowData,returnColumn);
+				PurchaseController purchase=new PurchaseController();
+				allBills=purchase.getAllBills();
+				int billNum=allBills.size();
+				for(int i=0;i<billNum;i++)
+				{
+					
+					PurchaseBillVO insvo=allBills.get(i);
+					Object[] newRow={insvo.getId(),insvo.getSupplier(),insvo.getOperator(),insvo.getStorehouse(),insvo.getTotal()};
+				//	"销售单编号","客户","操作员","仓库","总额"
+					returnTableModel.addRow(newRow);
+				}
 			    returnTable=new JTable(returnTableModel);
 				returnJS=new JScrollPane(returnTable);
 				
@@ -282,7 +309,33 @@ class purchaseImportPanelui extends JPanel{
 				
 				jbtReturnAssure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						JOptionPane.showMessageDialog(null, "提交成功");
+						PurchaseController purchase=new PurchaseController();
+					    Utility utility=new Utility();
+					    int selectedRow=commodityItemTable.getSelectedRow();
+					    PurchaseBillVO oldvo=allBills.get(selectedRow);
+					    ArrayList<PurchaseBillItemVO> oldItems=oldvo.getList();
+					    PurchaseReturnBillVO insvo=new PurchaseReturnBillVO();
+					    ArrayList<PurchaseReturnBillItemVO> list=new ArrayList<PurchaseReturnBillItemVO>();
+					    PurchaseReturnBillVO vo=new PurchaseReturnBillVO(purchase.getNewReturnBillID(utility.getDate()),oldvo.getSupplier(),oldvo.getStorehouse(),oldvo.getOperator(),list,oldvo.getTotal(),oldvo.getNote());
+						int itemNum=oldItems.size();
+						for(int i=0;i<itemNum;i++)
+						{
+							PurchaseReturnBillItemVO newItem=insvo.new PurchaseReturnBillItemVO(oldItems.get(i).getCommodity(),oldItems.get(i).getModel(),oldItems.get(i).getNumber(),oldItems.get(i).getPrice(),oldItems.get(i).getTotal(),oldItems.get(i).getNote());
+							list.add(newItem);
+						}
+						vo.setList(list);
+						ArrayList<PurchaseReturnBillVO> voarray=new ArrayList<PurchaseReturnBillVO>();
+						voarray.add(vo);
+					    ResultMessage result=purchase.sendReturnBill(voarray);
+					    if(result==ResultMessage.Success)
+					    {
+					    	JOptionPane.showMessageDialog(null, "提交成功");
+					    	importReturnFrame.dispose();
+					    }
+					    else
+					    {
+					    	JOptionPane.showMessageDialog(null, "提交失败");
+					    }
 					}
 				});
 				
