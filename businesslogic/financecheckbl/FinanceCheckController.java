@@ -1079,24 +1079,24 @@ public class FinanceCheckController implements FinanceCheckBLService{
 		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(SalesReturnBillVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(PurchaseBillVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(PurchaseReturnBillVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(ReciptVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(PaymentVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(ExpenseVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 	public ResultMessage deficitInvoice(GiftBillVO vo) {
-		return check.defictInvoice(vo);
+		return check.deficitInvoice(vo);
 	}
 }

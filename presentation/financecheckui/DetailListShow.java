@@ -4,6 +4,9 @@ import java.awt.event.*;
 import java.util.*;
 import vo.*;
 import vo.DetailListVO.DetailListItemVO;
+import financecheckbl.FinanceCheckController;
+import confirmui.*;
+import enumType.ResultMessage;
 
 /*
  * 查看销售明细界面
@@ -19,7 +22,13 @@ public class DetailListShow {
 	String[][] data;
 	JTable table;
 	
+	JTextField fieldDest;
+	
+	DetailListVO vo;
+	
 	public void go(DetailListVO vo){
+		
+		this.vo=vo;
 		
 		int wide=frame.getToolkit().getScreenSize().width;
 		int high=frame.getToolkit().getScreenSize().height;
@@ -46,6 +55,7 @@ public class DetailListShow {
 		JTable table=new JTable(data,heading);
 		JScrollPane scroller=new JScrollPane(table);
 		
+		fieldDest=new JTextField();
 		JButton button=new JButton("导出");
 		
 		button.addActionListener(new buttonListener());
@@ -78,7 +88,18 @@ public class DetailListShow {
 	
 	class buttonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			frame.dispose();
+			String dest=fieldDest.getText();
+			FinanceCheckController controller=new FinanceCheckController();
+			ResultMessage result=controller.export(vo, dest);
+			String message="";
+			if(result==ResultMessage.Failure){
+				message="导出失败";
+			}else{
+				message="已成功导出";
+			}
+			Runnable r=new Confirmui(message);
+			Thread thread=new Thread(r);
+			thread.start();
 		}
 	}
 	
