@@ -65,16 +65,12 @@ public class FinanceController implements FinanceBLService{
 		return finance.getAllPayments();
 	}
 
-	@Override
 	public String getNewReciptID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return finance.getNewReciptID(date);
 	}
 
-	@Override
 	public String getNewPaymentID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return finance.getNewPaymentID(date);
 	}
 
 }

@@ -26,13 +26,13 @@ public class PurchaseController implements PurchaseBLService{
 		return purchase.save(vo);
 	}
 	@Override
-	public ArrayList<PurchaseBillVO> findBills(GregorianCalendar before,
+	public ArrayList<PurchaseBillVO> findBills1(GregorianCalendar before,
 			GregorianCalendar after) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
 	@Override
-	public ArrayList<PurchaseReturnBillVO> findReturnBills(
+	public ArrayList<PurchaseReturnBillVO> findReturnBills1(
 			GregorianCalendar before, GregorianCalendar after) {
 		// TODO 自动生成的方法存根
 		return null;
@@ -55,6 +55,38 @@ public class PurchaseController implements PurchaseBLService{
 	@Override
 	public String getNewReturnBillID(GregorianCalendar date) {
 		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseBillVO> findBills(GregorianCalendar before,
+			GregorianCalendar after) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseReturnBillVO> findReturnBills(
+			GregorianCalendar before, GregorianCalendar after) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseBillVO> getAllBills() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ArrayList<PurchaseReturnBillVO> getAllReturnBills() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewBillID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getNewReturnBillID(GregorianCalendar date) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

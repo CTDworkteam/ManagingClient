@@ -19,23 +19,16 @@ public class ExpenseController implements ExpenseBLService{
 		return expense.send(vo);
 	}
 	public ExpenseVO find(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return expense.find(id);
 	}
-	@Override
 	public ArrayList<ExpenseVO> findByCalendar(GregorianCalendar before,
 			GregorianCalendar after) {
-		// TODO Auto-generated method stub
-		return null;
+		return expense.findByCalendar(before, after);
 	}
-	@Override
 	public ArrayList<ExpenseVO> getList() {
-		// TODO Auto-generated method stub
-		return null;
+		return expense.getList();
 	}
-	@Override
 	public String getNewID(GregorianCalendar date) {
-		// TODO Auto-generated method stub
-		return null;
+		return expense.getNewID(date);
 	}
 }

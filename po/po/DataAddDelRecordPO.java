@@ -10,8 +10,9 @@ public class DataAddDelRecordPO {
 	public DataAddDelRecordPO(){
 	}
 	public DataAddDelRecordPO(String id, String operator, Operation operation,
-			String objectID, String objectName) {
+			String objectID, String objectName,ActionType action) {
 		super();
+		this.action = action;
 		this.id = id;
 		this.operator = operator;
 		this.operation = operation;

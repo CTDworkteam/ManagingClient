@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ import commoditybl.CommodityController;
 import enumType.ResultMessage;
 
 class stockGoodsui extends JPanel{
+	//
 //	private String[] columnName={"编号","名称","型号","类型","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
 	private String[] columnName={"编号","名称","型号","总数"};
 	private Object[][] rowData={
@@ -36,7 +38,7 @@ class stockGoodsui extends JPanel{
 	private JButton jbtAdd=new JButton("增加商品");
 	private JButton jbtDelete=new JButton("删除");
 	private JButton jbtUpdate=new JButton("修改");
-	private JButton jbtAddModel=new JButton("增加型号");
+	//private JButton jbtAddModel=new JButton("增加型号");
 	private JScrollPane jScrollPane=new JScrollPane(jTable);
 	
 	//add commdity ui
@@ -68,7 +70,40 @@ class stockGoodsui extends JPanel{
 	JTable checkTable;
 	JButton jbtCheckAssure=new JButton("确定");
 	
+	//update the commodity
+	JFrame updateFrame=new JFrame();
+	JPanel updatePanel=new JPanel();
+	JLabel updateTitle=new JLabel("商品信息");
+	JLabel updateID;
+	JLabel updateName;
+	JLabel updateType;
+	JTextField updateIDField;
+	JTextField updateNameField;
+	JTextField updateTypeField;
+	DefaultTableModel updateModelTableModel;
+	JTable updateModelTable;
+	JButton jbtAddModel;
+	JButton jbtDeleteModel;
+	JButton jbtUpdateModel;
+	JButton jbtUpdateAssure;
+	JButton jbtUpdateCancel;
+	//update the commodityModel
+	JFrame updateModelFrame=new JFrame();
+	JPanel updateModelPanel;
+	JLabel updateCommodity;
+	JLabel updateModel;
+	JLabel updateStorehouse;
+	JLabel updateNoticeNumber;
+	JTextField updateCommodityField;
+	JTextField updateModelField;
+	JTextField updateNoticeNumberField;
+	JComboBox updateStorehouseField;
+	JButton jbtUpdateModelAssure;
+	JButton jbtUpdateModelCancel;
+	
+	
 	CommodityVO vo;
+	CommodityModelVO modelvo;
 	
 	public stockGoodsui(){
 		setLayout(new BorderLayout());
@@ -323,8 +358,186 @@ class stockGoodsui extends JPanel{
 		//未实现：!!!!!!!!!!!!!!!!!!!!!!!!!!aaaaaaaaaaaa
 		jbtUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				CommodityController commodity=new CommodityController();
+				vo=commodity.findCommodityByID((String)jTable.getValueAt(jTable.getSelectedRow(),0));
+				updateFrame=new JFrame();
+				updatePanel=new JPanel(new BorderLayout());
+				JPanel updateTop=new JPanel(new BorderLayout());
+				JPanel updateTopPanel=new JPanel(new GridLayout(3,2));
+				updateTitle=new JLabel("商品信息");
 				
+				updateID=new JLabel("商品编号");
+				updateName=new JLabel("商品名称");
+				updateType=new JLabel("商品类型");
+				updateIDField=new JTextField(vo.getId());
+				updateNameField=new JTextField(vo.getName());
+				updateType=new JLabel(vo.getType());
+				jbtAddModel=new JButton("增加");
+				jbtDeleteModel=new JButton("删除");
+				jbtUpdateModel=new JButton("修改");
+				jbtUpdateAssure=new JButton("确定");
+				jbtUpdateCancel=new JButton("取消");
+				jbtUpdateModelAssure=new JButton("确定");
+				jbtUpdateModelCancel=new JButton("取消");
+				updateTopPanel.add(updateID);
+				updateTopPanel.add(updateIDField);
+				updateTopPanel.add(updateName);
+				updateTopPanel.add(updateNameField);
+				updateTopPanel.add(updateType);
+				updateTopPanel.add(updateTypeField);
+				updateTop.add(updateTitle,BorderLayout.NORTH);
+				updateTop.add(updateTopPanel,BorderLayout.CENTER);
+				String[] modelColumn={"商品","型号","仓库","报警线","库存数量"};
+				ArrayList<CommodityModelVO> modelList=vo.getList();
+				int modelNum=modelList.size();
+				Object[][] modelRow=new Object[modelNum][5];
+				for(int i=0;i<modelNum;i++)
+				{
+					modelRow[i][0]=modelList.get(i).getCommodity();
+					modelRow[i][1]=modelList.get(i).getModel();
+					modelRow[i][2]=modelList.get(i).getStorehouse();
+					modelRow[i][3]=modelList.get(i).getNoticeNumber();
+					modelRow[i][4]=modelList.get(i).getStockNumber();
+				}
+				updateModelTableModel=new DefaultTableModel(modelRow,modelColumn);
+				updateModelTable=new JTable(updateModelTableModel);
+				JScrollPane JSUpdateModelTable=new JScrollPane(updateModelTable);
+				JPanel updateMiddle=new JPanel(new BorderLayout());
+				JPanel updateMiddleButtons=new JPanel();
+				updateMiddleButtons.add(jbtAddModel);
+				updateMiddleButtons.add(jbtUpdateModel);
+				updateMiddleButtons.add(jbtDeleteModel);
+				updateMiddle.add(JSUpdateModelTable,BorderLayout.CENTER);
+				updateMiddle.add(updateMiddleButtons,BorderLayout.SOUTH);
+				
+				JPanel updateButtons=new JPanel();
+				updateButtons.add(jbtUpdateAssure);
+				updateButtons.add(jbtUpdateCancel);
+				updatePanel.add(updateTop,BorderLayout.NORTH);
+				updatePanel.add(updateMiddle,BorderLayout.CENTER);
+				updatePanel.add(updateButtons,BorderLayout.SOUTH);
+				updateFrame.add(updatePanel);
+				
+				updateFrame.pack();
+				updateFrame.setLocationRelativeTo(null);
+				updateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				updateFrame.setTitle("更新商品");
+				updateFrame.setVisible(true);
+				//等待代码转移
+				jbtAddModel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						
+					}
+				});
+				
+				jbtDeleteModel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						CommodityController commodity=new CommodityController();
+						CommodityModelVO returnvo=commodity.getModel(vo.getId(),(String)updateModelTable.getValueAt(updateModelTable.getSelectedRow(),1));
+						ResultMessage result=commodity.deleteModel(vo.getId(), returnvo.getModel());
+						if(result==ResultMessage.Success)
+						{
+							JOptionPane.showMessageDialog(null, "删除成功");
+					        updateModelTableModel.removeRow(updateModelTable.getSelectedRow());
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "删除失败");
+						}
+					}
+				});
+				
+				jbtUpdateModel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						CommodityController commodity=new CommodityController();
+						modelvo=commodity.getModel(vo.getId(),(String)updateModelTable.getValueAt(updateModelTable.getSelectedRow(),1));
+						updateModelFrame=new JFrame();
+						updateModelPanel=new JPanel(new BorderLayout());
+						JPanel updateModelCenter=new JPanel(new GridLayout(2,4));
+						JPanel updateModelButtons=new JPanel();
+						updateCommodity=new JLabel("商品名");
+						updateModel=new JLabel("型号");
+						updateStorehouse=new JLabel("仓库");
+						updateNoticeNumber=new JLabel("库存报警线");
+						updateCommodityField=new JTextField(modelvo.getCommodity());
+						updateCommodityField.setEditable(false);
+						updateModelField=new JTextField(modelvo.getModel());
+						updateNoticeNumberField=new JTextField(modelvo.getNoticeNumber());
+						//枚举未完成！
+						updateStorehouseField=new JComboBox();
+						updateModelCenter.add(updateCommodity);
+						updateModelCenter.add(updateCommodityField);
+						updateModelCenter.add(updateModel);
+						updateModelCenter.add(updateModelField);
+						updateModelCenter.add(updateStorehouse);
+						updateModelCenter.add(updateStorehouseField);
+						updateModelCenter.add(updateNoticeNumber);
+						updateModelCenter.add(updateStorehouseField);
+						updateModelButtons.add(jbtUpdateModelAssure);
+						updateModelButtons.add(jbtUpdateModelCancel);
+						updateModelPanel.add(updateModelCenter,BorderLayout.CENTER);
+						updateModelPanel.add(updateModelButtons,BorderLayout.SOUTH);
+						updateModelFrame.add(updateModelPanel);
+						
+						updateModelFrame.pack();
+						updateModelFrame.setLocationRelativeTo(null);
+						updateModelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						updateModelFrame.setTitle("修改型号");
+						updateModelFrame.setVisible(true);
+						
+						jbtUpdateModelAssure.addActionListener(new ActionListener(){
+							public void actionPerformed(ActionEvent e){
+								CommodityController commodity=new CommodityController();
+								modelvo.setModel(updateModelField.getText());
+								modelvo.setStorehouse(updateStorehouse.getText());
+								modelvo.setNoticeNumber(Integer.parseInt(updateNoticeNumber.getText()));
+								ResultMessage result=commodity.updateModel(xxxx, modelvo);
+								if(result==ResultMessage.Success)
+								{
+									JOptionPane.showMessageDialog(null, "修改成功");
+									updateModelFrame.dispose();
+									//flash
+								}
+								else
+								{
+									JOptionPane.showMessageDialog(null, "修改失败");
+								}
+							}
+						});
+						jbtUpdateModelCancel.addActionListener(new ActionListener(){
+							public void actionPerformed(ActionEvent e){
+								updateModelFrame.dispose();
+							}
+						});
+					}
+				});
+				jbtUpdateAssure.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						CommodityController commodity=new CommodityController();
+						vo=commodity.findCommodityByID((String)jTable.getValueAt(jTable.getSelectedRow(),0));
+						vo.setId(updateIDField.getText());
+						vo.setName(updateNameField.getText());
+						vo.setType(updateTypeField.getText());
+						ResultMessage result=commodity.updateCommodity(vo);
+						if(result==ResultMessage.Success)
+						{
+							JOptionPane.showMessageDialog(null, "修改成功");
+							updateFrame.dispose();
+							//flash
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "修改失败");
+						}
+					}
+				});
+				jbtUpdateCancel.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						updateFrame.dispose();
+					}
+				});
 			}
 		});
+		
 	}
 }
