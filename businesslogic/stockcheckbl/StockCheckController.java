@@ -1,6 +1,6 @@
 package stockcheckbl;
 import java.util.GregorianCalendar;
-
+import enumType.*;
 import vo.StockCheckListVO;
 import vo.StockCommodityListVO;
 import blservice.*;
@@ -15,5 +15,8 @@ public class StockCheckController implements StockCheckBLService{
 	}
 	public StockCommodityListVO lookover(String storehouse) {
 		return check.lookover(storehouse);
+	}
+	public ResultMessage export(StockCommodityListVO list,String dest){
+		return check.export(list, dest);
 	}
 }
