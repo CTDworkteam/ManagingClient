@@ -23,7 +23,7 @@ public class purchaseui extends JFrame{
 	private purchaseCustomerManagementui customerManagement=new purchaseCustomerManagementui();
 	private purchaseImportPanelui importPanel=new purchaseImportPanelui();
 	
-	public purchaseui(){
+	public void go(){
 		purchaseGuide.setTabPlacement(JTabbedPane.LEFT);
 		purchaseGuide.addTab("首页", homePage);
 		purchaseGuide.addTab("客户管理",customerManagement);

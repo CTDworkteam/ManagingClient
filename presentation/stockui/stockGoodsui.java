@@ -4,14 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -35,7 +39,7 @@ class stockGoodsui extends JPanel{
 	private JTextField keyField=new JTextField();
 	private JButton jbtSearch=new JButton("搜索");
 	private JButton jbtSee=new JButton("查看");
-	private JButton jbtAdd=new JButton("增加商品");
+	private JButton jbtAdd=new JButton("增加");
 	private JButton jbtDelete=new JButton("删除");
 	private JButton jbtUpdate=new JButton("修改");
 	//private JButton jbtAddModel=new JButton("增加型号");
@@ -101,7 +105,7 @@ class stockGoodsui extends JPanel{
 	JButton jbtUpdateModelAssure;
 	JButton jbtUpdateModelCancel;
 	
-	
+	JPopupMenu popupMenu;
 	CommodityVO vo;
 	CommodityModelVO modelvo;
 	
@@ -122,19 +126,46 @@ class stockGoodsui extends JPanel{
 		setLayout(new BorderLayout());
 		JPanel top=new JPanel(new GridLayout(1,3));
 		JPanel bottom=new JPanel(new GridLayout(1,3));
-		JPanel addButtons=new JPanel(new GridLayout(2,1));
-		addButtons.add(jbtAdd);
-		addButtons.add(jbtAddModel);
+		
+		
 		top.add(tip);
 		top.add(keyField);
 		top.add(jbtSearch);
 		bottom.add(jbtSee);
-		bottom.add(addButtons);
+		bottom.add(jbtAdd);
 		bottom.add(jbtDelete);
 		bottom.add(jbtUpdate);
 		add(top,BorderLayout.NORTH);
 		add(jScrollPane,BorderLayout.CENTER);
 		add(bottom,BorderLayout.SOUTH);
+		//右键菜单：
+		popupMenu=new JPopupMenu();
+		JMenuItem popFlash=new JMenuItem("刷新");
+		popupMenu.add(popFlash);
+		add(popupMenu);
+		popFlash.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				//初始化表格：
+				tableModel=new DefaultTableModel(rowData,columnName);
+				jTable=new JTable(tableModel);
+				//重构：
+				CommodityController commodity=new CommodityController();
+				ArrayList<CommodityVO> allCommodity=commodity.getAllCommodity();
+				for(int i=0;i<allCommodity.size();i++)
+				{
+					CommodityVO insvo=allCommodity.get(i);
+					Object[] newRow={insvo.getId(),insvo.getName(),insvo.getType(),insvo.getTotal()};
+					tableModel.addRow(newRow);
+				}
+				
+			}
+		});
+		this.addMouseListener(new java.awt.event.MouseAdapter(){
+			public void mousePressed(MouseEvent e){
+				this_mousePressed(e);
+			}
+		});
+		
 		//12.19
 		jbtSearch.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -280,7 +311,7 @@ class stockGoodsui extends JPanel{
 			}
 		});
 		//12/19
-		jbtAddModel.addActionListener(new ActionListener(){
+		/*jbtAddModel.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				CommodityController commodity=new CommodityController();
 				if(jTable.getSelectedRow()>=0)
@@ -325,7 +356,7 @@ class stockGoodsui extends JPanel{
 							int warmingInfo=Integer.parseInt(newWarmingField.getText());
 							
 							CommodityModelVO modelvo=new CommodityModelVO(vo.getId(),modelInfo,storehouseInfo,warmingInfo,0,0,0,0,0);
-							ResultMessage result=commodity.addModel(vo,modelvo);
+							ResultMessage result=commodity.addModel(modelvo);
 							if(result==ResultMessage.Success)
 							{
 								JOptionPane.showMessageDialog(null, "添加成功");
@@ -343,7 +374,7 @@ class stockGoodsui extends JPanel{
 					JOptionPane.showMessageDialog(null, "未选择目标商品");
 				}
 			}
-		});
+		});*/
 		//12,19
 		jbtDelete.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -368,7 +399,7 @@ class stockGoodsui extends JPanel{
 				}
 			}
 		});
-		//未实现：!!!!!!!!!!!!!!!!!!!!!!!!!!aaaaaaaaaaaa
+		//hehe
 		jbtUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				CommodityController commodity=new CommodityController();
@@ -439,7 +470,65 @@ class stockGoodsui extends JPanel{
 				//等待代码转移
 				jbtAddModel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						
+						CommodityController commodity=new CommodityController();
+						if(updateModelTable.getSelectedRow()>=0)
+						{
+							modelFrame=new JFrame();
+							newModel=new JLabel("新类型名称");
+							newStorehouse=new JLabel("所属仓库");
+							newWarming=new JLabel("库存报警线");
+							newModelField=new JTextField();
+							newStorehouseField=new JTextField();
+							newWarmingField=new JTextField();
+							jbtModelAssure=new JButton("确定");
+							jbtModelCancel=new JButton("取消");
+							JPanel modelPanel=new JPanel(new BorderLayout());
+							JPanel head=new JPanel(new GridLayout(3,2));
+							JPanel tool=new JPanel(new GridLayout(1,2));
+							
+							head.add(newModel);
+							head.add(newModelField);
+							head.add(newStorehouse);
+							head.add(newStorehouseField);
+							head.add(newWarming);
+							head.add(newWarmingField);
+							tool.add(jbtModelAssure);
+							tool.add(jbtModelCancel);
+							
+							modelPanel.add(head,BorderLayout.CENTER);
+							modelPanel.add(tool,BorderLayout.SOUTH);
+							modelFrame.add(modelPanel);
+							modelFrame.pack();
+							modelFrame.setLocationRelativeTo(null);
+							modelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+							modelFrame.setTitle("添加商品型号");
+							modelFrame.setVisible(true);
+							
+							jbtModelAssure.addActionListener(new ActionListener(){
+								public void actionPerformed(ActionEvent e){
+									CommodityController commodity=new CommodityController();
+									String modelInfo=newModelField.getText();
+									String storehouseInfo=newStorehouseField.getText();
+									int warmingInfo=Integer.parseInt(newWarmingField.getText());
+									
+									CommodityModelVO modelvo=new CommodityModelVO(vo.getId(),modelInfo,storehouseInfo,warmingInfo,0,0,0,0,0);
+									ResultMessage result=commodity.addModel(modelvo);
+									if(result==ResultMessage.Success)
+									{
+										JOptionPane.showMessageDialog(null, "添加成功");
+										modelFrame.dispose();
+									}
+									else
+									{
+										JOptionPane.showMessageDialog(null, "添加失败");
+									}
+								}
+							});
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "未选择目标商品");
+						}
 					}
 				});
 				
@@ -500,11 +589,12 @@ class stockGoodsui extends JPanel{
 						
 						jbtUpdateModelAssure.addActionListener(new ActionListener(){
 							public void actionPerformed(ActionEvent e){
+								String beforeName=modelvo.getModel();
 								CommodityController commodity=new CommodityController();
 								modelvo.setModel(updateModelField.getText());
 								modelvo.setStorehouse(updateStorehouse.getText());
 								modelvo.setNoticeNumber(Integer.parseInt(updateNoticeNumber.getText()));
-								ResultMessage result=commodity.updateModel(xxxx, modelvo);
+								ResultMessage result=commodity.updateModel(beforeName, modelvo);
 								if(result==ResultMessage.Success)
 								{
 									JOptionPane.showMessageDialog(null, "修改成功");
@@ -552,5 +642,11 @@ class stockGoodsui extends JPanel{
 			}
 		});
 		
+	}
+	void this_mousePressed(MouseEvent e){
+		int mods=e.getModifiers();
+		if((mods&InputEvent.BUTTON3_DOWN_MASK)!=0){
+			popupMenu.show(this, e.getX(), e.getY());
+		}
 	}
 }

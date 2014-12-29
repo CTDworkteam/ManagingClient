@@ -21,7 +21,7 @@ public class salesui extends JFrame{
 	private salesCustomerManagementui customerManagement=new salesCustomerManagementui();
 	private salesImportPanelui importPanel=new salesImportPanelui();
 		
-	public salesui(){
+	public void go(String operator){
 		salesGuide.setTabPlacement(JTabbedPane.LEFT);
 		salesGuide.addTab("首页", homePage);
 		salesGuide.addTab("客户管理",customerManagement);

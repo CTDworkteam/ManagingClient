@@ -2,15 +2,20 @@ package stockui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -21,6 +26,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import vo.CommodityTypeVO;
+import vo.CommodityVO;
+import commoditybl.CommodityController;
 import commoditytypebl.CommodityTypeController;
 import enumType.ResultMessage;
 
@@ -53,6 +60,16 @@ class stockTypeui extends JPanel{
 	JPanel splitPane=new JPanel(new BorderLayout());
 	private JPanel panelSearch3=new JPanel(new GridLayout(2,1));
 	
+	//checkFrame的属性：
+	JFrame checkFrame=new JFrame();
+	String[] checkColumn={"编号","名称"};
+	Object[][] rowData={{}};
+	DefaultTableModel checkTableModel=new DefaultTableModel(rowData,checkColumn);
+	JTable checkTable=new JTable(checkTableModel);
+	JScrollPane checkTableJS=new JScrollPane(checkTable);
+	JButton jbtcheckAssure=new JButton("确定");
+	JPanel checkPanel=new JPanel(new BorderLayout());
+	
 	//searchFrame的属性：
 	JFrame searchFrame=new JFrame();
 	JPanel searchPanel=new JPanel(new BorderLayout());
@@ -65,6 +82,8 @@ class stockTypeui extends JPanel{
 	JScrollPane searchTableJS=new JScrollPane(searchTable);
 	JButton jbtNextFloor=new JButton("查看");
 	JButton jbtCancelFloor=new JButton("取消");
+	JLabel topInfo1;
+	JLabel topInfo2;
 	
 	//vosFrame的属性：
 	JFrame vosFrame=new JFrame();
@@ -87,15 +106,74 @@ class stockTypeui extends JPanel{
 	JTable endTable=new JTable(endTableModel);
 	JScrollPane endTableJS=new JScrollPane(endTable);
 	JButton jbtEnd=new JButton("确定");
+	JLabel typeInfo1;
+	JLabel typeInfo2;
 	
+	//updateFrame的属性：
+	JFrame updateFrame;
+	JPanel updatePanel=new JPanel(new GridLayout(3,1));
+	JLabel updateLabel=new JLabel("输入所选分类的新名称");
+	JTextField updateField=new JTextField();
+	JButton jbtUpdateAssure=new JButton("确定");
+	JButton jbtUpdateCancel=new JButton("取消");
+	
+	JPopupMenu popupMenu;
 	
 	stockTypeui(){
 		CommodityTypeController commodityType=new CommodityTypeController();
 		DefaultMutableTreeNode type=new DefaultMutableTreeNode("商品分类");
-		type.add(new DefaultMutableTreeNode("分类1"));
+	/*	type.add(new DefaultMutableTreeNode("分类1"));
 		type.add(new DefaultMutableTreeNode("分类2"));
-		type.add(new DefaultMutableTreeNode("分类3"));
+		type.add(new DefaultMutableTreeNode("分类3"));*/
 		jTree=new JTree(type);
+		ArrayList<CommodityTypeVO> allType=commodityType.getAllCommodityType();
+		ArrayList<CommodityTypeVO> allRootType=new ArrayList<CommodityTypeVO>();
+		for(int i=0;i<allType.size();i++)
+		{
+			if(allType.get(i).isRootNode())
+				allRootType.add(allType.get(i));
+		}
+		for(int i=0;i<allRootType.size();i++)
+		{
+			DefaultMutableTreeNode headNode=new DefaultMutableTreeNode(allRootType.get(i).getName()+" "+allRootType.get(i).getId());
+		    type.add(headNode);
+		    initialTree(headNode,allRootType.get(i).getChild());
+		}
+		
+		//刷新：
+		//右键菜单：
+				popupMenu=new JPopupMenu();
+				JMenuItem popFlash=new JMenuItem("刷新");
+				popupMenu.add(popFlash);
+				add(popupMenu);
+				popFlash.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						
+						CommodityTypeController commodityType=new CommodityTypeController();
+						DefaultMutableTreeNode type=new DefaultMutableTreeNode("商品分类");
+					    jTree=new JTree(type);
+						ArrayList<CommodityTypeVO> allType=commodityType.getAllCommodityType();
+						ArrayList<CommodityTypeVO> allRootType=new ArrayList<CommodityTypeVO>();
+						for(int i=0;i<allType.size();i++)
+						{
+							if(allType.get(i).isRootNode())
+								allRootType.add(allType.get(i));
+						}
+						for(int i=0;i<allRootType.size();i++)
+						{
+							DefaultMutableTreeNode headNode=new DefaultMutableTreeNode(allRootType.get(i).getName()+" "+allRootType.get(i).getId());
+						    type.add(headNode);
+						    initialTree(headNode,allRootType.get(i).getChild());
+						}
+						
+					}
+				});
+				this.addMouseListener(new java.awt.event.MouseAdapter(){
+					public void mousePressed(MouseEvent e){
+						this_mousePressed(e);
+					}
+				});
+		
 		setLayout(new BorderLayout());
 		panelSearch.add(name,BorderLayout.WEST);
 		panelSearch.add(nameField,BorderLayout.CENTER);
@@ -113,7 +191,7 @@ class stockTypeui extends JPanel{
 		panelOperation.add(jbtUpdate);
 		add(splitPane,BorderLayout.CENTER);
 		add(panelOperation,BorderLayout.SOUTH);
-	//unfinished:
+	//12.29
 		jbtSearch.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 			    CommodityTypeVO returnvo;
@@ -123,6 +201,191 @@ class stockTypeui extends JPanel{
 				{
 					returnvo=commodityType.findInID(IDField.getText());
 					//显示结果！！！！！！！！！！！！！！！
+					
+					//依次初始化组件：
+					vosFrame=new JFrame();
+					vosPanel=new JPanel(new BorderLayout());
+					vosButtons=new JPanel();
+					vosTitle=new JLabel("搜索结果");
+					jbtEnter=new JButton("查看");
+					jbtNotEnter=new JButton("取消");
+					vosTableModel=new DefaultTableModel(emptyRowData,searchColumn);
+					vosTable=new JTable(vosTableModel);
+					vosTableJS=new JScrollPane(vosTable);
+					
+
+					searchFrame=new JFrame();
+					searchPanel=new JPanel(new BorderLayout());
+					searchTopInfo=new JPanel(new GridLayout(1,2));
+					searchButtons=new JPanel();
+					searchTableModel=new DefaultTableModel(emptyRowData,searchColumn);
+					searchTable=new JTable(searchTableModel);
+					searchTableJS=new JScrollPane(searchTable);
+					jbtNextFloor=new JButton("查看");
+					jbtCancelFloor=new JButton("取消");
+					topInfo1=new JLabel();
+					topInfo2=new JLabel();
+					
+					searchTopInfo.add(topInfo1);
+					searchTopInfo.add(topInfo2);
+					searchButtons.add(jbtNextFloor);
+					searchButtons.add(jbtCancelFloor);
+					searchPanel.add(searchTopInfo,BorderLayout.NORTH);
+					searchPanel.add(searchTableJS,BorderLayout.CENTER);
+					searchPanel.add(searchButtons,BorderLayout.SOUTH);
+					searchFrame.add(searchPanel);
+					
+					
+					endFrame=new JFrame();
+					endPanel=new JPanel(new BorderLayout());
+					endButtons=new JPanel();
+				    endTopInfo=new JPanel(new GridLayout(1,2));
+					endTableModel=new DefaultTableModel(emptyRowData,endColumn);
+					endTable=new JTable(endTableModel);
+					endTableJS=new JScrollPane(endTable);
+					jbtEnd=new JButton("确定");
+					typeInfo1=new JLabel();
+					typeInfo2=new JLabel();
+					
+					endTopInfo.add(typeInfo1);
+					endTopInfo.add(typeInfo2);
+					endButtons.add(jbtEnd);
+					endPanel.add(endTopInfo,BorderLayout.NORTH);
+					endPanel.add(endTableJS,BorderLayout.CENTER);
+					endPanel.add(endButtons,BorderLayout.SOUTH);
+					endFrame.add(endPanel);
+					
+					vosButtons.add(jbtEnter);
+					vosButtons.add(jbtNotEnter);
+					vosPanel.add(vosTitle,BorderLayout.NORTH);
+					vosPanel.add(vosTableJS,BorderLayout.CENTER);
+					vosPanel.add(vosButtons,BorderLayout.SOUTH);
+					vosFrame.add(vosPanel);
+			//缺少无效提示：		int resultNum=returnvos.size();
+			/*		if(resultNum==0)
+						JOptionPane.showMessageDialog(null, "未找到目标");
+					else
+					{
+					for(int i=0;i<resultNum;i++)
+					 {
+					   String[] resultRow={returnvos.get(i).getName(),returnvos.get(i).getId()};
+					   vosTableModel.addRow(resultRow);
+					 }*/
+					String[] resultRow={returnvo.getName(),returnvo.getId()};
+				    vosTableModel.addRow(resultRow);
+					   
+					vosFrame.pack();
+					vosFrame.setLocationRelativeTo(null);
+					vosFrame.setTitle("搜索结果");
+					vosFrame.setVisible(true);
+					vosFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					
+					jbtEnter.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							CommodityTypeController commodityType=new CommodityTypeController();
+							ArrayList<CommodityTypeVO> insArray=commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).getChild();
+							if(!commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).isLeafNode())
+							{
+								String insName=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),0);
+								String insId=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1);
+								topInfo1=new JLabel("上一级名称："+insName);
+								topInfo2=new JLabel("上一级编号："+insId);
+								int rowNum=vosTableModel.getRowCount();
+								for(int i=0;i<rowNum;i++)
+									vosTableModel.removeRow(0);
+								vosFrame.dispose();
+								
+						        int typeNum=insArray.size();
+						        for(int i=0;i<typeNum;i++)
+						        {
+						        	Object[] insRow={insArray.get(i).getName(),insArray.get(i).getId()};
+						        	searchTableModel.addRow(insRow);
+						        }
+						        searchFrame.pack();
+						        searchFrame.setLocationRelativeTo(null);
+						        searchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						        searchFrame.setTitle("搜索结果");
+						        searchFrame.setVisible(true);
+								
+						        jbtNextFloor.addActionListener(new ActionListener(){
+						        	public void actionPerformed(ActionEvent e){
+						        		CommodityTypeController commodityType=new CommodityTypeController();
+										ArrayList<CommodityVO> insArray=commodityType.findInID((String)searchTableModel.getValueAt(searchTable.getSelectedRow(),1)).getCommodityList();
+										if(!commodityType.findInID((String)searchTableModel.getValueAt(searchTable.getSelectedRow(),1)).isLeafNode())
+										{
+											int rowNum=searchTableModel.getRowCount();
+											for(int i=0;i<rowNum;i++)
+												searchTableModel.removeRow(0);
+											
+									        int typeNum=insArray.size();
+									        for(int i=0;i<typeNum;i++)
+									        {
+									        	Object[] insRow={insArray.get(i).getName(),insArray.get(i).getId()};
+									        	searchTableModel.addRow(insRow);
+									        }
+										}
+										else
+										{
+											searchFrame.dispose();
+											String insName=(String)searchTableModel.getValueAt(searchTable.getSelectedRow(),0);
+											String insId=(String)searchTableModel.getValueAt(searchTable.getSelectedRow(),1);
+											typeInfo1=new JLabel("上一级名称："+insName);
+											typeInfo2=new JLabel("上一级编号："+insId);
+											ArrayList<CommodityVO> endArray=commodityType.findInID((String)searchTableModel.getValueAt(vosTable.getSelectedRow(),1)).getCommodityList();
+											int endNum=endArray.size();
+											for(int i=0;i<endNum;i++)
+											{
+												Object[] insRow={endArray.get(i).getName(),endArray.get(i).getId()};
+												endTableModel.addRow(insRow);
+											}
+											endFrame.pack();
+											endFrame.setLocationRelativeTo(null);
+											endFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+											endFrame.setTitle("搜索结果");
+											endFrame.setVisible(true);
+											
+											jbtEnd.addActionListener(new ActionListener(){
+												public void actionPerformed(ActionEvent e){
+													endFrame.dispose();
+												}
+											});
+										}
+						        	}
+						        });
+						        jbtCancelFloor.addActionListener(new ActionListener(){
+						        	public void actionPerformed(ActionEvent e){
+						        		searchFrame.dispose();
+						        	}
+						        });
+							}
+							else
+							{
+								vosFrame.dispose();
+								String insName=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),0);
+								String insId=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1);
+								typeInfo1=new JLabel("上一级名称："+insName);
+								typeInfo2=new JLabel("上一级编号："+insId);
+								ArrayList<CommodityVO> endArray=commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).getCommodityList();
+								int endNum=endArray.size();
+								for(int i=0;i<endNum;i++)
+								{
+									Object[] insRow={endArray.get(i).getName(),endArray.get(i).getId()};
+									endTableModel.addRow(insRow);
+								}
+								endFrame.pack();
+								endFrame.setLocationRelativeTo(null);
+								endFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+								endFrame.setTitle("搜索结果");
+								endFrame.setVisible(true);
+								
+								jbtEnd.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent e){
+										endFrame.dispose();
+									}
+								});
+							}
+						}
+					});
 					
 				}
 				else
@@ -138,6 +401,48 @@ class stockTypeui extends JPanel{
 					vosTableModel=new DefaultTableModel(emptyRowData,searchColumn);
 					vosTable=new JTable(vosTableModel);
 					vosTableJS=new JScrollPane(vosTable);
+					
+
+					searchFrame=new JFrame();
+					searchPanel=new JPanel(new BorderLayout());
+					searchTopInfo=new JPanel(new GridLayout(1,2));
+					searchButtons=new JPanel();
+					searchTableModel=new DefaultTableModel(emptyRowData,searchColumn);
+					searchTable=new JTable(searchTableModel);
+					searchTableJS=new JScrollPane(searchTable);
+					jbtNextFloor=new JButton("查看");
+					jbtCancelFloor=new JButton("取消");
+					topInfo1=new JLabel();
+					topInfo2=new JLabel();
+					
+					searchTopInfo.add(topInfo1);
+					searchTopInfo.add(topInfo2);
+					searchButtons.add(jbtNextFloor);
+					searchButtons.add(jbtCancelFloor);
+					searchPanel.add(searchTopInfo,BorderLayout.NORTH);
+					searchPanel.add(searchTableJS,BorderLayout.CENTER);
+					searchPanel.add(searchButtons,BorderLayout.SOUTH);
+					searchFrame.add(searchPanel);
+					
+					
+					endFrame=new JFrame();
+					endPanel=new JPanel(new BorderLayout());
+					endButtons=new JPanel();
+				    endTopInfo=new JPanel(new GridLayout(1,2));
+					endTableModel=new DefaultTableModel(emptyRowData,endColumn);
+					endTable=new JTable(endTableModel);
+					endTableJS=new JScrollPane(endTable);
+					jbtEnd=new JButton("确定");
+					typeInfo1=new JLabel();
+					typeInfo2=new JLabel();
+					
+					endTopInfo.add(typeInfo1);
+					endTopInfo.add(typeInfo2);
+					endButtons.add(jbtEnd);
+					endPanel.add(endTopInfo,BorderLayout.NORTH);
+					endPanel.add(endTableJS,BorderLayout.CENTER);
+					endPanel.add(endButtons,BorderLayout.SOUTH);
+					endFrame.add(endPanel);
 					
 					vosButtons.add(jbtEnter);
 					vosButtons.add(jbtNotEnter);
@@ -164,13 +469,106 @@ class stockTypeui extends JPanel{
 					jbtEnter.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent e){
 							CommodityTypeController commodityType=new CommodityTypeController();
-							ArrayList insArray=commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).getCommodityList();
+							ArrayList<CommodityTypeVO> insArray=commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).getChild();
 							if(!commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).isLeafNode())
 							{
+								String insName=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),0);
+								String insId=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1);
+								topInfo1=new JLabel("上一级名称："+insName);
+								topInfo2=new JLabel("上一级编号："+insId);
 								int rowNum=vosTableModel.getRowCount();
 								for(int i=0;i<rowNum;i++)
 									vosTableModel.removeRow(0);
+								vosFrame.dispose();
 								
+						        int typeNum=insArray.size();
+						        for(int i=0;i<typeNum;i++)
+						        {
+						        	Object[] insRow={insArray.get(i).getName(),insArray.get(i).getId()};
+						        	searchTableModel.addRow(insRow);
+						        }
+						        searchFrame.pack();
+						        searchFrame.setLocationRelativeTo(null);
+						        searchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						        searchFrame.setTitle("搜索结果");
+						        searchFrame.setVisible(true);
+								
+						        jbtNextFloor.addActionListener(new ActionListener(){
+						        	public void actionPerformed(ActionEvent e){
+						        		CommodityTypeController commodityType=new CommodityTypeController();
+										ArrayList<CommodityVO> insArray=commodityType.findInID((String)searchTableModel.getValueAt(searchTable.getSelectedRow(),1)).getCommodityList();
+										if(!commodityType.findInID((String)searchTableModel.getValueAt(searchTable.getSelectedRow(),1)).isLeafNode())
+										{
+											int rowNum=searchTableModel.getRowCount();
+											for(int i=0;i<rowNum;i++)
+												searchTableModel.removeRow(0);
+											
+									        int typeNum=insArray.size();
+									        for(int i=0;i<typeNum;i++)
+									        {
+									        	Object[] insRow={insArray.get(i).getName(),insArray.get(i).getId()};
+									        	searchTableModel.addRow(insRow);
+									        }
+										}
+										else
+										{
+											searchFrame.dispose();
+											String insName=(String)searchTableModel.getValueAt(searchTable.getSelectedRow(),0);
+											String insId=(String)searchTableModel.getValueAt(searchTable.getSelectedRow(),1);
+											typeInfo1=new JLabel("上一级名称："+insName);
+											typeInfo2=new JLabel("上一级编号："+insId);
+											ArrayList<CommodityVO> endArray=commodityType.findInID((String)searchTableModel.getValueAt(vosTable.getSelectedRow(),1)).getCommodityList();
+											int endNum=endArray.size();
+											for(int i=0;i<endNum;i++)
+											{
+												Object[] insRow={endArray.get(i).getName(),endArray.get(i).getId()};
+												endTableModel.addRow(insRow);
+											}
+											endFrame.pack();
+											endFrame.setLocationRelativeTo(null);
+											endFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+											endFrame.setTitle("搜索结果");
+											endFrame.setVisible(true);
+											
+											jbtEnd.addActionListener(new ActionListener(){
+												public void actionPerformed(ActionEvent e){
+													endFrame.dispose();
+												}
+											});
+										}
+						        	}
+						        });
+						        jbtCancelFloor.addActionListener(new ActionListener(){
+						        	public void actionPerformed(ActionEvent e){
+						        		searchFrame.dispose();
+						        	}
+						        });
+							}
+							else
+							{
+								vosFrame.dispose();
+								String insName=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),0);
+								String insId=(String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1);
+								typeInfo1=new JLabel("上一级名称："+insName);
+								typeInfo2=new JLabel("上一级编号："+insId);
+								ArrayList<CommodityVO> endArray=commodityType.findInID((String)vosTableModel.getValueAt(vosTable.getSelectedRow(),1)).getCommodityList();
+								int endNum=endArray.size();
+								for(int i=0;i<endNum;i++)
+								{
+									Object[] insRow={endArray.get(i).getName(),endArray.get(i).getId()};
+									endTableModel.addRow(insRow);
+								}
+								endFrame.pack();
+								endFrame.setLocationRelativeTo(null);
+								endFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+								endFrame.setTitle("搜索结果");
+								endFrame.setVisible(true);
+								
+								jbtEnd.addActionListener(new ActionListener(){
+									public void actionPerformed(ActionEvent e){
+										endFrame.dispose();
+									}
+								});
 							}
 						}
 					});
@@ -188,10 +586,50 @@ class stockTypeui extends JPanel{
 				}
 			}
 		});
-    //unfinished:
+    //12.29
 		jbtSee.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				checkFrame=new JFrame();
+				String[] checkColumn={"编号","名称"};
+				Object[][] rowData={{}};
+				checkTableModel=new DefaultTableModel(rowData,checkColumn);
+				checkTable=new JTable(checkTableModel);
+				checkTableJS=new JScrollPane(checkTable);
+				jbtcheckAssure=new JButton("确定");
+				checkPanel=new JPanel(new BorderLayout());
+				JPanel checkButtons=new JPanel();
+				checkButtons.add(jbtcheckAssure);
+				checkPanel.add(checkTableJS,BorderLayout.CENTER);
+				checkPanel.add(checkButtons,BorderLayout.SOUTH);
+				checkFrame.add(checkPanel);
 				
+				parent=(DefaultMutableTreeNode)jTree.getLastSelectedPathComponent();
+				String[] parentInfo=parent.toString().split(" ");
+				if(parent==null)
+				{
+					JOptionPane.showMessageDialog(null, "未选择目标分类");
+				}
+				else
+				{
+					checkFrame.pack();
+					checkFrame.setLocationRelativeTo(null);
+					checkFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					checkFrame.setTitle("查看分类");
+					checkFrame.setVisible(true);
+					
+					CommodityTypeController commodityType=new CommodityTypeController();
+					CommodityTypeVO vo=commodityType.findInID(parentInfo[1]);
+					if(vo.isLeafNode())
+					{
+						ArrayList<CommodityVO> checkCommodity=vo.getCommodityList();
+						int commodityNum=checkCommodity.size();
+						for(int i=0;i<commodityNum;i++)
+						{
+							Object[] insRow={checkCommodity.get(i).getId(),checkCommodity.get(i).getName()};
+							checkTableModel.addRow(insRow);
+						}
+					}
+				}
 			}
 		});
 		
@@ -235,7 +673,7 @@ class stockTypeui extends JPanel{
 					public void actionPerformed(ActionEvent e){
 						CommodityTypeController commodityType=new CommodityTypeController();
 				        String[] parentInfo=parent.toString().split(" ");
-					    CommodityTypeVO vo=new CommodityTypeVO(newIDField.getText(),newNameField.getText(),false,true,new ArrayList<String>(),parentInfo[0],new ArrayList<String>());
+					    CommodityTypeVO vo=new CommodityTypeVO(commodityType.getNewID(parentInfo[1]),newNameField.getText(),false,true,new ArrayList<CommodityVO>(),commodityType.findInID(parentInfo[1]),new ArrayList<CommodityTypeVO>());
 						ResultMessage result=commodityType.addType(vo);
 					    String addName=newNameField.getText();
 					    
@@ -264,6 +702,7 @@ class stockTypeui extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				CommodityTypeController commodityType=new CommodityTypeController();
 				TreePath[] paths=jTree.getSelectionPaths();
+				ResultMessage result=ResultMessage.Failure;
 				if(paths==null){
 					JOptionPane.showMessageDialog(null, "Error:未选择目标分类");
 					return;
@@ -275,12 +714,12 @@ class stockTypeui extends JPanel{
 					}
 					else
 					{
-						ResultMessage result;
+						
 						String[] parentInfo=node.getParent().toString().split(" ");
 						String[] typeInfo=node.toString().split(" ");
-						if(node.isLeaf()){
+					/*	if(node.isLeaf()){
 							if(node.isRoot()){
-								CommodityTypeVO vo=new CommodityTypeVO(typeInfo[1],typeInfo[0],true,true,new ArrayList<String>(),parentInfo[0],new ArrayList<String>());
+								CommodityTypeVO vo=commodityType.findInID(typeInfo[1]);
 								result=commodityType.deleteType(vo);
 							}
 							else
@@ -299,24 +738,97 @@ class stockTypeui extends JPanel{
 								childs.add(childName[0]);
 							}
 							CommodityTypeVO vo=new CommodityTypeVO(typeInfo[1],typeInfo[0],false,false,new ArrayList<String>(),parentInfo[0],childs);
-							result=commodityType.deleteType(vo);
-						}
+							result=commodityType.deleteType(vo);*/
+						CommodityTypeVO vo=commodityType.findInID(typeInfo[1]);
+					    result=commodityType.deleteType(vo);
+					}
 					if(result==ResultMessage.Success)
 						node.removeFromParent();
 					else
 						JOptionPane.showMessageDialog(null, "删除失败");
 						
 					}
-				}
+				
 				((DefaultTreeModel)(jTree.getModel())).reload();
 			}
 		});
-		//未实现:与添加一致。修改分类信息究竟修改的是什么？？？？？？？？、
+		
 		jbtUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				updateFrame=new JFrame();
+				updatePanel=new JPanel(new GridLayout(3,1));
+				updateLabel=new JLabel("输入所选分类的新名称");
+				JPanel updateButtons=new JPanel();
+				updateField=new JTextField();
+				jbtUpdateAssure=new JButton("确定");
 				
+				updatePanel.add(updateLabel);
+				updateButtons.add(jbtUpdateAssure);
+				updateButtons.add(jbtUpdateCancel);
+				updatePanel.add(updateField);
+				updatePanel.add(updateButtons);
+				updateFrame.add(updatePanel);
+				
+				parent=(DefaultMutableTreeNode)jTree.getLastSelectedPathComponent();
+				if(parent==null)
+				{
+					JOptionPane.showMessageDialog(null, "未选择目标分类");
+				}
+				else
+				{
+				    updateFrame.pack();
+				    updateFrame.setLocationRelativeTo(null);
+				    updateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				    updateFrame.setTitle("更新分类");
+				    updateFrame.setVisible(true);
+				    
+				    jbtUpdateAssure.addActionListener(new ActionListener(){
+				    	public void actionPerformed(ActionEvent e){
+				    		CommodityTypeController commodityType=new CommodityTypeController();
+				    		String[] parentInfo=parent.toString().split(" ");
+				    		CommodityTypeVO vo=commodityType.findInID(parentInfo[1]);
+				    		vo.setName(updateField.getText());
+				    		ResultMessage result=commodityType.updateType(vo);
+				    		if(result==ResultMessage.Success)
+				    		{
+				    			JOptionPane.showMessageDialog(null,"修改成功");
+				    		}
+				    		else
+				    		{
+				    			JOptionPane.showMessageDialog(null, "添加失败");
+				    		}
+				    	}
+				    });
+				    jbtUpdateCancel.addActionListener(new ActionListener(){
+				    	public void actionPerformed(ActionEvent e){
+				    		updateFrame.dispose();
+				    	}
+				    });
+				}
 			}
 		});
 	}
 	
+	public void initialTree(DefaultMutableTreeNode e,ArrayList<CommodityTypeVO> list){
+		if(list.size()!=0)
+		{
+			int listNum=list.size();
+			for(int i=0;i<listNum;i++)
+			{
+				DefaultMutableTreeNode newNode=new DefaultMutableTreeNode(list.get(i).getName()+" "+list.get(i).getId());
+			    e.add(newNode);
+			    initialTree(newNode,list.get(i).getChild());
+			}
+		}
+		else
+		{
+			
+		}
+	}
+	void this_mousePressed(MouseEvent e){
+		int mods=e.getModifiers();
+		if((mods&InputEvent.BUTTON3_DOWN_MASK)!=0){
+			popupMenu.show(this, e.getX(), e.getY());
+		}
+	}
 }

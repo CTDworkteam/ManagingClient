@@ -24,7 +24,7 @@ public class stockui extends JFrame{
 	private stockGoodsui goods=new stockGoodsui();
 	private stockManagementui management=new stockManagementui();
 	
-	public stockui(){
+	public void go(String operator){
 		stockGuide.setTabPlacement(JTabbedPane.LEFT);
 		stockGuide.addTab("首页", homePage);
 		stockGuide.addTab("商品分类管理", type);
@@ -40,8 +40,7 @@ public class stockui extends JFrame{
 		framePanel.add(textPanel,BorderLayout.CENTER);
 		add(framePanel);
 		
-	}
-	public static void main(String[] args){
+	
 		stockui frame=new stockui();
 		frame.pack();
 		frame.setTitle("库存管理员");
