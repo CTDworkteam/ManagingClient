@@ -38,4 +38,6 @@ public interface SalesDataService {
 		public Iterator<SalesBillPO> findBillsByStorehouse(String storehouse);
 		public boolean containReturnBillsByStorehouse(String storehouse);
 		public Iterator<SalesReturnBillPO> findReturnBillsByStorehouse(String storehouse);
+		public Iterator<SalesReturnBillPO> findClient2(long id);
+		public Iterator<SalesReturnBillPO> findOperator2(String name);
 }

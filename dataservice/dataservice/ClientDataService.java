@@ -1,7 +1,8 @@
 package dataservice;
-import po.*;
 
 import java.util.*;
+
+import po.ClientPO;
 public interface ClientDataService {
 	/**
 	 * @author “Ûµœ

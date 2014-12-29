@@ -1,6 +1,7 @@
 package financecheckui;
 import javax.swing.*;
 
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.*;
 
@@ -21,8 +22,12 @@ public class ProcessListShow {
 	String[] heading={"编号","类型"};
 	String[][] data;
 	JTable table=new JTable(data,heading);
+	
+	UserJob theJob;
 
 	public void go(ProcessListVO vo,UserJob job){
+		
+		this.theJob=job;
 		
 		int wide=frame.getToolkit().getScreenSize().width;
 		int high=frame.getToolkit().getScreenSize().height;
@@ -132,6 +137,7 @@ public class ProcessListShow {
 			data[t][0]=listGift.get(t).getId();
 			data[t][1]="库存赠送单";
 		}
+		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		JScrollPane scroller=new JScrollPane(table);
 		scroller.setEnabled(false);
@@ -174,6 +180,8 @@ public class ProcessListShow {
 						theBill=billSales.get(t);
 					}
 				}
+				ProcessListShowSales showSales=new ProcessListShowSales();
+				showSales.go(theBill,theJob);
 			}else{
 				if(billType.equals("销售退货单")){
 					SalesController controller=new SalesController();
