@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="vo"/>
 	<classpathentry kind="src" path="businesslogic"/>
 	<classpathentry kind="src" path="presentation"/>
+	<classpathentry kind="lib" path="E:/软工2/Java Excel Api及详细教程/jxl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

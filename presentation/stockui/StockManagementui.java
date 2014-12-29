@@ -40,7 +40,7 @@ import vo.UnderflowBillVO;
 import vo.GiftBillVO.GiftBillItemVO;
 import enumType.ResultMessage;
 
-class stockManagementui extends JPanel{
+class StockManagementui extends JPanel{
 	private JPanel stock=new JPanel();
 	private JPanel bills=new JPanel();
 	private JButton jbtCheck=new JButton("¿â´æ²é¿´");
@@ -251,7 +251,7 @@ class stockManagementui extends JPanel{
 			JPanel warmingTotal=new JPanel(new BorderLayout());
 			
 			
-	public stockManagementui()
+	public StockManagementui()
 	{
 		stockListTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		setLayout(new GridLayout(10,1));

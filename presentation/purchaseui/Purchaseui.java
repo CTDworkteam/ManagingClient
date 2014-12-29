@@ -1,4 +1,4 @@
-package stockui;
+package purchaseui;
 
 import java.awt.BorderLayout;
 
@@ -10,28 +10,26 @@ import javax.swing.JTabbedPane;
 
 
 
-public class stockui extends JFrame{
-	private JTabbedPane stockGuide=new JTabbedPane();
-	private JLabel UserName=new JLabel("姓名: 迪屌");
-	private JLabel UserPosition=new JLabel("职位:  库存管理员");
+public class Purchaseui extends JFrame{
+	private JTabbedPane purchaseGuide=new JTabbedPane();
+	private JLabel UserName=new JLabel("姓名：哦呵呵");
+	private JLabel UserPosition=new JLabel("职位：进货员");
 	private JPanel topInfoPanel=new JPanel();
 	private JPanel framePanel=new JPanel(new BorderLayout());
 	private JButton jbtExit=new JButton("退出");
 	private JPanel topTotalPanel=new JPanel(new BorderLayout());
 	private JPanel textPanel=new JPanel();
-	private stockHomePageui homePage=new stockHomePageui();
-	private stockTypeui type=new stockTypeui();
-	private stockGoodsui goods=new stockGoodsui();
-	private stockManagementui management=new stockManagementui();
+	private PurchaseHomePageui homePage=new PurchaseHomePageui();
+	private PurchaseCustomerManagementui customerManagement=new PurchaseCustomerManagementui();
+	private PurchaseImportPanelui importPanel=new PurchaseImportPanelui();
 	
-	public stockui(){
-		stockGuide.setTabPlacement(JTabbedPane.LEFT);
-		stockGuide.addTab("首页", homePage);
-		stockGuide.addTab("商品分类管理", type);
-		stockGuide.addTab("商品信息管理", goods);
-		stockGuide.addTab("库存管理", management);
-		stockGuide.setSelectedIndex(0);
-		textPanel.add(stockGuide);
+	public void go(){
+		purchaseGuide.setTabPlacement(JTabbedPane.LEFT);
+		purchaseGuide.addTab("首页", homePage);
+		purchaseGuide.addTab("客户管理",customerManagement);
+		purchaseGuide.addTab("进货管理", importPanel);
+		purchaseGuide.setSelectedIndex(0);
+		textPanel.add(purchaseGuide);
 		topInfoPanel.add(UserName);
 		topInfoPanel.add(UserPosition);
 		topTotalPanel.add(topInfoPanel,BorderLayout.WEST);
@@ -39,14 +37,14 @@ public class stockui extends JFrame{
 		framePanel.add(topTotalPanel,BorderLayout.NORTH);
 		framePanel.add(textPanel,BorderLayout.CENTER);
 		add(framePanel);
-		
 	}
 	public static void main(String[] args){
-		stockui frame=new stockui();
+		Purchaseui frame=new Purchaseui();
 		frame.pack();
-		frame.setTitle("库存管理员");
+		frame.setTitle("进货员");
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}
 }
+

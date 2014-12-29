@@ -1,4 +1,4 @@
-package purchaseui;
+package salesui;
 
 import java.awt.BorderLayout;
 
@@ -8,28 +8,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-
-
-public class purchaseui extends JFrame{
-	private JTabbedPane purchaseGuide=new JTabbedPane();
+public class Salesui extends JFrame{
+	private JTabbedPane salesGuide=new JTabbedPane();
 	private JLabel UserName=new JLabel("姓名：哦呵呵");
-	private JLabel UserPosition=new JLabel("职位：进货员");
+	private JLabel UserPosition=new JLabel("职位：销售员");
 	private JPanel topInfoPanel=new JPanel();
 	private JPanel framePanel=new JPanel(new BorderLayout());
 	private JButton jbtExit=new JButton("退出");
 	private JPanel topTotalPanel=new JPanel(new BorderLayout());
 	private JPanel textPanel=new JPanel();
-	private purchaseHomePageui homePage=new purchaseHomePageui();
-	private purchaseCustomerManagementui customerManagement=new purchaseCustomerManagementui();
-	private purchaseImportPanelui importPanel=new purchaseImportPanelui();
-	
-	public purchaseui(){
-		purchaseGuide.setTabPlacement(JTabbedPane.LEFT);
-		purchaseGuide.addTab("首页", homePage);
-		purchaseGuide.addTab("客户管理",customerManagement);
-		purchaseGuide.addTab("进货管理", importPanel);
-		purchaseGuide.setSelectedIndex(0);
-		textPanel.add(purchaseGuide);
+	private SalesHomePageui homePage=new SalesHomePageui();
+	private SalesCustomerManagementui customerManagement=new SalesCustomerManagementui();
+	private SalesImportPanelui importPanel=new SalesImportPanelui();
+		
+	public void go(String operator){
+		salesGuide.setTabPlacement(JTabbedPane.LEFT);
+		salesGuide.addTab("首页", homePage);
+		salesGuide.addTab("客户管理",customerManagement);
+		salesGuide.addTab("销售管理",importPanel);
+		salesGuide.setSelectedIndex(0);
+		textPanel.add(salesGuide);
 		topInfoPanel.add(UserName);
 		topInfoPanel.add(UserPosition);
 		topTotalPanel.add(topInfoPanel,BorderLayout.WEST);
@@ -39,12 +37,11 @@ public class purchaseui extends JFrame{
 		add(framePanel);
 	}
 	public static void main(String[] args){
-		purchaseui frame=new purchaseui();
+		Salesui frame=new Salesui();
 		frame.pack();
-		frame.setTitle("进货员");
+		frame.setTitle("销售员");
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}
 }
-
