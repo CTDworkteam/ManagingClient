@@ -1,4 +1,4 @@
-package purchaseui;
+package salesui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -23,7 +23,7 @@ import clientbl.ClientController;
 import enumType.ClientType;
 import enumType.ResultMessage;
 
-public class purchaseCustomerManagementui extends JPanel{
+class SalesCustomerManagementui extends JPanel{
 	JPanel customerSearch1=new JPanel(new BorderLayout());
 	JPanel customerSearch2=new JPanel(new BorderLayout());
 	JPanel customerSearch3=new JPanel(new GridLayout(2,1));
@@ -38,7 +38,7 @@ public class purchaseCustomerManagementui extends JPanel{
 	JLabel customerName=new JLabel("库户名称");
 	JTextField customerIDField=new JTextField();
 	JTextField customerNameField=new JTextField();
-	String[] column={"编号","类型","级别","名称","电话","地址","邮编","邮箱","默认业务员"};
+	String[] column={"编号","类型","级别","名称","电话","地址","邮编","邮箱","默认业务员","应收数量","应收金额","应付金额","折扣","代金卷"};
 	Object[][] rowData={{}};
 	DefaultTableModel customerTableModel=new DefaultTableModel(rowData,column);
 	JTable customerTable=new JTable(customerTableModel);
@@ -46,7 +46,7 @@ public class purchaseCustomerManagementui extends JPanel{
 	
 	//newCustomerFrame:
 	JFrame newCustomerFrame=new JFrame();
-	JLabel newCustomerTitle=new JLabel("新增进货商",SwingConstants.RIGHT);
+	JLabel newCustomerTitle=new JLabel("新增销售商",SwingConstants.RIGHT);
 	JLabel newCustomerID=new JLabel("库户编号",SwingConstants.RIGHT);
 	JLabel newCustomerRank=new JLabel("库户级别",SwingConstants.RIGHT);
 	JLabel newCustomerCounterman=new JLabel("默认业务员",SwingConstants.RIGHT);
@@ -71,14 +71,25 @@ public class purchaseCustomerManagementui extends JPanel{
 	JPanel createButtonsPanel=new JPanel();
 	JPanel createTotalPanel=new JPanel(new BorderLayout());
 	
-	purchaseCustomerManagementui(){
+	SalesCustomerManagementui(){
 		/*
 		 * 
 		 * 
 		 * 初始化表格
 		 * 
 		 * 
+		 * 
 		 */
+		ClientController client=new ClientController();
+		ArrayList<ClientVO> allClient=client.getList();
+		int clientNum=allClient.size();
+		for(int i=0;i<clientNum;i++)
+		{
+			ClientVO insvo=allClient.get(i);                                                                                                                                         
+			Object[] newRow={insvo.getId(),insvo.getType(),insvo.getRank(),insvo.getName(),insvo.getTelephone(),insvo.getAddress(),insvo.getPostcode(),insvo.getEmail(),insvo.getCourterman(),insvo.getAmountReserved(),insvo.getMoneyReserved(),insvo.getMoneyToPay(),insvo.getDiscount(),insvo.getVoucher()};
+			customerTableModel.addRow(newRow);
+		}
+		
 		setLayout(new BorderLayout());
 		customerSearch1.add(customerID,BorderLayout.WEST);
 		customerSearch1.add(customerIDField,BorderLayout.CENTER);
@@ -130,7 +141,7 @@ public class purchaseCustomerManagementui extends JPanel{
 		jbtAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				newCustomerFrame=new JFrame();
-				newCustomerTitle=new JLabel("新增进货商",SwingConstants.RIGHT);
+				newCustomerTitle=new JLabel("新增销售商",SwingConstants.RIGHT);
 				newCustomerID=new JLabel("库户编号",SwingConstants.RIGHT);
 				newCustomerRank=new JLabel("库户级别",SwingConstants.RIGHT);
 				newCustomerCounterman=new JLabel("默认业务员",SwingConstants.RIGHT);
@@ -186,9 +197,9 @@ public class purchaseCustomerManagementui extends JPanel{
 				newCustomerFrame.pack();
 				newCustomerFrame.setLocationRelativeTo(null);
 				newCustomerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				newCustomerFrame.setTitle("新增进货商");
+				newCustomerFrame.setTitle("新增销售商");
 				newCustomerFrame.setVisible(true);
-				
+			//12.26	
 				jbtCreate.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						//注意修改rank 为阿拉伯数字
@@ -215,6 +226,8 @@ public class purchaseCustomerManagementui extends JPanel{
 				});
 			}
 		});
+		
+	
 		jbtDelete.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if(customerTable.getSelectedRow()==-1)

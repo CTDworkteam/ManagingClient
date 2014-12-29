@@ -1,4 +1,4 @@
-package salesui;
+package purchaseui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -23,7 +23,7 @@ import clientbl.ClientController;
 import enumType.ClientType;
 import enumType.ResultMessage;
 
-class salesCustomerManagementui extends JPanel{
+public class PurchaseCustomerManagementui extends JPanel{
 	JPanel customerSearch1=new JPanel(new BorderLayout());
 	JPanel customerSearch2=new JPanel(new BorderLayout());
 	JPanel customerSearch3=new JPanel(new GridLayout(2,1));
@@ -46,7 +46,7 @@ class salesCustomerManagementui extends JPanel{
 	
 	//newCustomerFrame:
 	JFrame newCustomerFrame=new JFrame();
-	JLabel newCustomerTitle=new JLabel("新增销售商",SwingConstants.RIGHT);
+	JLabel newCustomerTitle=new JLabel("新增进货商",SwingConstants.RIGHT);
 	JLabel newCustomerID=new JLabel("库户编号",SwingConstants.RIGHT);
 	JLabel newCustomerRank=new JLabel("库户级别",SwingConstants.RIGHT);
 	JLabel newCustomerCounterman=new JLabel("默认业务员",SwingConstants.RIGHT);
@@ -71,15 +71,26 @@ class salesCustomerManagementui extends JPanel{
 	JPanel createButtonsPanel=new JPanel();
 	JPanel createTotalPanel=new JPanel(new BorderLayout());
 	
-	salesCustomerManagementui(){
+	PurchaseCustomerManagementui(){
 		/*
 		 * 
 		 * 
-		 * 初始化表格
-		 * 
+		 * 初始化表格  12.27
 		 * 
 		 * 
 		 */
+		ClientController client=new ClientController();
+		ArrayList<ClientVO> allClient=client.getList();
+		int clientNum=allClient.size();
+		for(int i=0;i<clientNum;i++)
+		{
+			ClientVO insvo=allClient.get(i);                                                                                                                                         
+			Object[] newRow={insvo.getId(),insvo.getType(),insvo.getRank(),insvo.getName(),insvo.getTelephone(),insvo.getAddress(),insvo.getPostcode(),insvo.getEmail(),insvo.getCourterman(),insvo.getAmountReserved(),insvo.getMoneyReserved(),insvo.getMoneyToPay(),insvo.getDiscount(),insvo.getVoucher()};
+			customerTableModel.addRow(newRow);
+		}
+		
+		
+		
 		setLayout(new BorderLayout());
 		customerSearch1.add(customerID,BorderLayout.WEST);
 		customerSearch1.add(customerIDField,BorderLayout.CENTER);
@@ -131,7 +142,7 @@ class salesCustomerManagementui extends JPanel{
 		jbtAdd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				newCustomerFrame=new JFrame();
-				newCustomerTitle=new JLabel("新增销售商",SwingConstants.RIGHT);
+				newCustomerTitle=new JLabel("新增进货商",SwingConstants.RIGHT);
 				newCustomerID=new JLabel("库户编号",SwingConstants.RIGHT);
 				newCustomerRank=new JLabel("库户级别",SwingConstants.RIGHT);
 				newCustomerCounterman=new JLabel("默认业务员",SwingConstants.RIGHT);
@@ -187,9 +198,9 @@ class salesCustomerManagementui extends JPanel{
 				newCustomerFrame.pack();
 				newCustomerFrame.setLocationRelativeTo(null);
 				newCustomerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				newCustomerFrame.setTitle("新增销售商");
+				newCustomerFrame.setTitle("新增进货商");
 				newCustomerFrame.setVisible(true);
-			//12.26	
+				
 				jbtCreate.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						//注意修改rank 为阿拉伯数字
@@ -198,7 +209,7 @@ class salesCustomerManagementui extends JPanel{
 						ResultMessage result=client.add(vo);
 						if(result==ResultMessage.Success)
 						{
-						    Object[] newRow={newCustomerIDField.getText(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
+						    Object[] newRow={client.getNewClientID(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
 						    customerTableModel.addRow(newRow);
 						    JOptionPane.showMessageDialog(null, "添加成功");
 						    newCustomerFrame.dispose();
@@ -216,8 +227,6 @@ class salesCustomerManagementui extends JPanel{
 				});
 			}
 		});
-		
-	
 		jbtDelete.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				if(customerTable.getSelectedRow()==-1)

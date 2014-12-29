@@ -7,6 +7,7 @@ import initialui.Initialui;
 import accountui.Accountui;
 import financecheckui.Financecheckui;
 import recordui.Recordui;
+import enumType.UserJob;
 
 /*
  * 财务人员工作界面
@@ -20,7 +21,7 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 	Accountui account=new Accountui();
 	Financeui finance=new Financeui();
 	Initialui initial=new Initialui();
-	Financecheckui financecheck=new Financecheckui();
+	Financecheckui financecheck=new Financecheckui(UserJob.FinanceManager);
 	Recordui record=new Recordui();
 	
 	public void go(String name){
