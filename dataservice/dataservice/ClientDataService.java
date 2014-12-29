@@ -15,6 +15,11 @@ public interface ClientDataService {
 	 * 在系统数据中存在相应的ClientPO数据对象的前置条件下，删除系统数据中
 	 */
     public void delete(ClientPO po);
+    /**
+     * @author 殷迪
+     * @param name
+     * @return 当存在相关的
+     */
     public boolean contain(String name);
     public boolean contain(long id);
     public ClientPO find(String name);

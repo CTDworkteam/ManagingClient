@@ -6,6 +6,7 @@ import strategyui.Strategyui;
 import financecheckui.Financecheckui;
 import recordui.Recordui;
 import java.awt.event.*;
+import enumType.UserJob;
 
 public class Managerui implements ChangeListener,ActionListener{
 	
@@ -15,7 +16,7 @@ public class Managerui implements ChangeListener,ActionListener{
 	
 	Billui bill=new Billui();
 	Strategyui strategy=new Strategyui();
-	Financecheckui financecheck=new Financecheckui();
+	Financecheckui financecheck=new Financecheckui(UserJob.Manager);
 	Recordui record=new Recordui();
 	
 	public void go(String name){
