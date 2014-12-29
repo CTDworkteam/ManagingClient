@@ -27,7 +27,7 @@ class stockGoodsui extends JPanel{
 //	private String[] columnName={"编号","名称","型号","类型","库存报警线","库存数量","进价","零售价","最近进价","最近零售价"};
 	private String[] columnName={"编号","名称","型号","总数"};
 	private Object[][] rowData={
-			{00001,"飞利浦","hehe",5}
+			{}
 	};
 	private DefaultTableModel tableModel=new DefaultTableModel(rowData,columnName);
 	private JTable jTable=new JTable(tableModel);
@@ -106,6 +106,19 @@ class stockGoodsui extends JPanel{
 	CommodityModelVO modelvo;
 	
 	public stockGoodsui(){
+		/*
+		 * 
+		 * 初始化表格   "编号","名称","型号","总数" 12.27
+		 */
+		CommodityController commodity=new CommodityController();
+		ArrayList<CommodityVO> allCommodity=commodity.getAllCommodity();
+		for(int i=0;i<allCommodity.size();i++)
+		{
+			CommodityVO insvo=allCommodity.get(i);
+			Object[] newRow={insvo.getId(),insvo.getName(),insvo.getType(),insvo.getTotal()};
+			tableModel.addRow(newRow);
+		}
+		
 		setLayout(new BorderLayout());
 		JPanel top=new JPanel(new GridLayout(1,3));
 		JPanel bottom=new JPanel(new GridLayout(1,3));

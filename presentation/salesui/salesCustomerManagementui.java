@@ -80,6 +80,16 @@ class salesCustomerManagementui extends JPanel{
 		 * 
 		 * 
 		 */
+		ClientController client=new ClientController();
+		ArrayList<ClientVO> allClient=client.getList();
+		int clientNum=allClient.size();
+		for(int i=0;i<clientNum;i++)
+		{
+			ClientVO insvo=allClient.get(i);                                                                                                                                         
+			Object[] newRow={insvo.getId(),insvo.getType(),insvo.getRank(),insvo.getName(),insvo.getTelephone(),insvo.getAddress(),insvo.getPostcode(),insvo.getEmail(),insvo.getCourterman(),insvo.getAmountReserved(),insvo.getMoneyReserved(),insvo.getMoneyToPay(),insvo.getDiscount(),insvo.getVoucher()};
+			customerTableModel.addRow(newRow);
+		}
+		
 		setLayout(new BorderLayout());
 		customerSearch1.add(customerID,BorderLayout.WEST);
 		customerSearch1.add(customerIDField,BorderLayout.CENTER);

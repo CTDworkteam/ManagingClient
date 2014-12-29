@@ -1,17 +1,18 @@
 package financecheckui;
 import javax.swing.*;
 import javax.swing.event.*;
+import enumType.UserJob;
 
 public class Financecheckui {
 	
 	public JPanel panelFinancecheck=new JPanel();
 	JTabbedPane tab;
 	
-	DetailListCheck detailList=new DetailListCheck();
-	ProcessListCheck processList=new ProcessListCheck();
-	ConditionListCheck conditionList=new ConditionListCheck();
-	
-	public Financecheckui(){
+	public Financecheckui(UserJob job){
+		
+		DetailListCheck detailList=new DetailListCheck();
+		ProcessListCheck processList=new ProcessListCheck(job);
+		ConditionListCheck conditionList=new ConditionListCheck();
 		
 		tab=new JTabbedPane(JTabbedPane.LEFT);
 		tab.add("销售明细表",detailList.panel);

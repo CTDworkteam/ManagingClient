@@ -38,7 +38,7 @@ public class purchaseCustomerManagementui extends JPanel{
 	JLabel customerName=new JLabel("库户名称");
 	JTextField customerIDField=new JTextField();
 	JTextField customerNameField=new JTextField();
-	String[] column={"编号","类型","级别","名称","电话","地址","邮编","邮箱","默认业务员"};
+	String[] column={"编号","类型","级别","名称","电话","地址","邮编","邮箱","默认业务员","应收数量","应收金额","应付金额","折扣","代金卷"};
 	Object[][] rowData={{}};
 	DefaultTableModel customerTableModel=new DefaultTableModel(rowData,column);
 	JTable customerTable=new JTable(customerTableModel);
@@ -75,10 +75,22 @@ public class purchaseCustomerManagementui extends JPanel{
 		/*
 		 * 
 		 * 
-		 * 初始化表格
+		 * 初始化表格  12.27
 		 * 
 		 * 
 		 */
+		ClientController client=new ClientController();
+		ArrayList<ClientVO> allClient=client.getList();
+		int clientNum=allClient.size();
+		for(int i=0;i<clientNum;i++)
+		{
+			ClientVO insvo=allClient.get(i);                                                                                                                                         
+			Object[] newRow={insvo.getId(),insvo.getType(),insvo.getRank(),insvo.getName(),insvo.getTelephone(),insvo.getAddress(),insvo.getPostcode(),insvo.getEmail(),insvo.getCourterman(),insvo.getAmountReserved(),insvo.getMoneyReserved(),insvo.getMoneyToPay(),insvo.getDiscount(),insvo.getVoucher()};
+			customerTableModel.addRow(newRow);
+		}
+		
+		
+		
 		setLayout(new BorderLayout());
 		customerSearch1.add(customerID,BorderLayout.WEST);
 		customerSearch1.add(customerIDField,BorderLayout.CENTER);
@@ -197,7 +209,7 @@ public class purchaseCustomerManagementui extends JPanel{
 						ResultMessage result=client.add(vo);
 						if(result==ResultMessage.Success)
 						{
-						    Object[] newRow={newCustomerIDField.getText(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
+						    Object[] newRow={client.getNewClientID(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
 						    customerTableModel.addRow(newRow);
 						    JOptionPane.showMessageDialog(null, "添加成功");
 						    newCustomerFrame.dispose();
