@@ -11,16 +11,20 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import config.RMI;
 import convert.Convert;
+import po.ClientPO;
+import po.CommodityPO;
 import po.ExpensePO;
 import po.GiftBillPO;
 import po.OverflowBillPO;
 import po.PaymentPO;
+import po.PaymentPO.PaymentItemPO;
 import po.PurchaseBillPO;
 import po.PurchaseReturnBillPO;
 import po.ReciptPO;
 import po.SalesBillPO;
 import po.SalesBillPO.SalesBillItemPO;
 import po.SalesReturnBillPO;
+import po.SalesReturnBillPO.SalesReturnBillItemPO;
 import po.UnderflowBillPO;
 import purchasebl.Purchase;
 import salesbl.Sales;
@@ -28,8 +32,11 @@ import dataservice.*;
 import enumType.*;
 import expensebl.Expense;
 import financebl.Finance;
+import utility.Utility;
 import vo.*;
 import vo.DetailListVO.DetailListItemVO;
+import vo.SalesBillVO.SalesBillItemVO;
+import billbl.Bill;
 import blservice.*;
 public class FinanceCheck implements FinanceCheckBLService{
 	public FinanceCheck(){
@@ -827,7 +834,7 @@ public class FinanceCheck implements FinanceCheckBLService{
 		return null;
 	}
 
-	@Override
+
 	public ResultMessage deficitInvoice(SalesBillVO vo) {
 		SalesDataService sales = RMI.getSalesDataService();
 		
@@ -835,51 +842,206 @@ public class FinanceCheck implements FinanceCheckBLService{
 			return ResultMessage.Failure;
 		}
 		else{
-			
+			SalesBillPO result = sales.find1(vo.getId());
+			ArrayList<SalesBillPO.SalesBillItemPO> item = result.getList();
+			for(int i=0; i<item.size();i++){
+				item.get(i).setNumber(-item.get(i).getNumber());
+			}
+			result.setList(item);
+			result.setId("XSD"+Utility.getDate()+
+					Utility.getIntegerString(sales.numberOfBills(Utility.getDate())
+					+1,5));
+			result.setTotal(-vo.getTotal());
+			sales.insert(result);
+			Bill bill = new Bill();
+			SalesBillVO temp = Convert.convert(result);
+			if(bill.approveSalesBill(temp).equals(ResultMessage.Success))
+				return ResultMessage.Success;
+			return ResultMessage.Failure;
 		}
 	}
 
-	@Override
+
 	public ResultMessage deficitInvoice(SalesReturnBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService sales = RMI.getSalesDataService();
+		
+		if(sales == null){
+			return ResultMessage.Failure;
+		}
+		else{
+			SalesReturnBillPO result = sales.find2(vo.getId());
+			ArrayList<SalesReturnBillPO.SalesReturnBillItemPO> item = result.getList();
+			
+			for(int i=0; i<item.size();i++){
+				item.get(i).setNumber(-item.get(i).getNumber());
+			}
+			result.setList(item);
+			result.setId("XSTHD"+Utility.getDate()+
+					Utility.getIntegerString(sales.numberOfReturnBills(Utility.getDate())
+					+1,5));
+			result.setTotal(-vo.getTotal());
+			sales.insert(result);
+			Bill bill = new Bill();
+			SalesReturnBillVO temp = Convert.convert(result);
+			if(bill.approveSalesReturnBill(temp)==ResultMessage.Success)
+				return ResultMessage.Success;
+			return ResultMessage.Failure;
+		}
 	}
 
-	@Override
 	public ResultMessage deficitInvoice(PurchaseBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		PurchaseDataService service1 = RMI.getPurchaseDataService();
+		
+		if(service1==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			PurchaseBillPO bill = service1.find1(vo.getId());
+			ArrayList<PurchaseBillPO.PurchaseBillItemPO> item = bill.getList();
+			for(int i=0; i<item.size();i++){
+				item.get(i).setNumber(-item.get(i).getNumber());
+			}
+			bill.setList(item);
+			bill.setId("JHD"+Utility.getDate()+
+					Utility.getIntegerString(service1.numberOfBills(Utility.getDate())
+					+1,5));
+			bill.setTotal(-bill.getTotal());
+			service1.insert(bill);
+			Bill b = new Bill();
+			PurchaseBillVO temp = Convert.convert(bill);
+			if(b.approvePurchaseBill(temp)==ResultMessage.Success)
+				return ResultMessage.Success;
+			return ResultMessage.Failure;
+		}
 	}
 
-	@Override
+
 	public ResultMessage deficitInvoice(PurchaseReturnBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		PurchaseDataService service1 = RMI.getPurchaseDataService();
+		
+		if(service1==null){
+			return ResultMessage.Failure;
+		}
+		else{
+			PurchaseReturnBillPO bill = service1.find2(vo.getId());
+			ArrayList<PurchaseReturnBillPO.PurchaseReturnBillItemPO> item = bill.getList();
+			for(int i=0; i<item.size();i++){
+				item.get(i).setNumber(-item.get(i).getNumber());
+			}
+			bill.setList(item);
+			bill.setId("JHTHD"+Utility.getDate()+
+					Utility.getIntegerString(service1.numberOfBills(Utility.getDate())
+					+1,5));
+			bill.setTotal(-bill.getTotal());
+			service1.insert(bill);
+			Bill b = new Bill();
+			PurchaseReturnBillVO temp = Convert.convert(bill);
+			if(b.approvePurchaseReturnBill(temp)==ResultMessage.Success)
+				return ResultMessage.Success;
+			return ResultMessage.Failure;
+		}
 	}
 
-	@Override
+
 	public ResultMessage deficitInvoice(ReciptVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		FinanceDataService finance = RMI.getFinanceDataService();
+		
+		if(finance == null){
+			return ResultMessage.Failure;
+		}
+		else{
+			ReciptPO recipt = finance.find1(vo.getId());
+			ArrayList<ReciptPO.ReciptItemPO> item = recipt.getList();
+			for(int i=0;i<item.size();i++){
+				item.get(i).setMoney(-item.get(i).getMoney());
+			}
+			recipt.setList(item);
+			recipt.setId("SKD"+Utility.getDate()+
+					Utility.getIntegerString(finance.numberOfRecipts(Utility.getDate())
+							+1, 5));
+			recipt.setTotal(-recipt.getTotal());
+			finance.insert(recipt);
+			Bill b = new Bill();
+			ReciptVO temp = Convert.convert(recipt);
+			if(b.approveRecipt(temp)==ResultMessage.Failure)
+				return ResultMessage.Failure;
+			return ResultMessage.Success;
+		}
 	}
 
-	@Override
+
 	public ResultMessage deficitInvoice(PaymentVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		FinanceDataService finance = RMI.getFinanceDataService();
+		
+		if(finance == null){
+			return ResultMessage.Failure;
+		}
+		else{
+			PaymentPO payment = finance.find2(vo.getId());
+			ArrayList<PaymentPO.PaymentItemPO> item = payment.getList();
+			for(int i=0;i<item.size();i++){
+				item.get(i).setMoney(-item.get(i).getMoney());
+			}
+			payment.setList(item);
+			payment.setId("FKD"+Utility.getDate()+
+					Utility.getIntegerString(finance.numberOfPayments(Utility.getDate())
+							+1, 5));
+			payment.setTotal(-payment.getTotal());
+			finance.insert(payment);
+			Bill b = new Bill();
+			PaymentVO temp = Convert.convert(payment);
+			if(b.approvePayment(temp)==ResultMessage.Failure)
+				return ResultMessage.Failure;
+			return ResultMessage.Success;
+		}
 	}
 
-	@Override
+
 	public ResultMessage deficitInvoice(ExpenseVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		ExpenseDataService expense = RMI.getExpenseDataService();
+		
+		if(expense == null)
+			return ResultMessage.Failure;
+		else{
+			ExpensePO ex = expense.find(vo.getId());
+			ArrayList<ExpensePO.ExpenseItemPO> item = ex.getList();
+			for(int i=0;i<item.size();i++){
+				item.get(i).setMoney(-item.get(i).getMoney());
+			}
+			ex.setList(item);
+			ex.setId("XJXFD"+Utility.getDate()+
+					Utility.getIntegerString(expense.numberOfExpenses(Utility.getDate())
+							+1, 5));
+			ex.setTotal(-ex.getTotal());
+			Bill b = new Bill();
+			ExpenseVO temp = Convert.convert(ex);
+			if(b.approveExpense(temp)==ResultMessage.Failure)
+				return ResultMessage.Failure;
+			return ResultMessage.Success;
+		}
 	}
 
-	@Override
 	public ResultMessage deficitInvoice(GiftBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		StockDataService stock = RMI.getStockDataService();
+		
+		if(stock == null){
+			return ResultMessage.Failure;
+		}
+		else{
+			GiftBillPO gift = stock.find1(vo.getId());
+			ArrayList<GiftBillPO.GiftBillItemPO> item = gift.getList();
+			for(int i=0;i<item.size();i++){
+				item.get(i).setNumber(-item.get(i).getNumber());
+			}
+			gift.setList(item);
+			gift.setId("ZS"+Utility.getDate()+
+					Utility.getIntegerString(stock.numberOfGiftBills(Utility.getDate())
+							+1, 5));
+			Bill b = new Bill();
+			GiftBillVO temp = Convert.convert(gift);
+			if(b.approveGiftBill(temp)==ResultMessage.Failure)
+				return ResultMessage.Failure;
+			return ResultMessage.Success;
+		}
 	}
-	
-	
 }
