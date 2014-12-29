@@ -4,6 +4,7 @@ import java.util.*;
 import config.RMI;
 import po.*;
 import dataservice.*;
+import enumType.ResultMessage;
 import userbl.*;
 import vo.*;
 public class StockCheck{
@@ -61,6 +62,9 @@ public class StockCheck{
 		}*/
 	}
 	
+	public ResultMessage export(StockCommodityListVO list,String dest){
+		return ResultMessage.Failure;
+	}
 	private int getGift(GregorianCalendar start, GregorianCalendar end) {
 		StockDataService service=RMI.getStockDataService();
 		if(service==null){
