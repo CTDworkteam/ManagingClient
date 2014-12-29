@@ -57,7 +57,7 @@ public class ProcessListCheck {
 		ClientController clientController=new ClientController();
 		ArrayList<ClientVO> clients=clientController.getList();
 		for(int t=0;t<clients.size();t++){
-			boxClient.addItem(Long.toString(clients.get(t).getId()));
+			boxClient.addItem(clients.get(t).getName());
 		}
 		
 		JLabel labelOperator=new JLabel("²Ù×÷Ô±£º");
@@ -69,16 +69,16 @@ public class ProcessListCheck {
 		ArrayList<UserVO> financers=userController.getAll().getFinancemanager();
 		ArrayList<UserVO> stockers=userController.getAll().getStockmanager();
 		for(int t=0;t<salers.size();t++){
-			boxOperator.addItem(Long.toString(salers.get(t).getId()));
+			boxOperator.addItem(salers.get(t).getName());
 		}
 		for(int t=0;t<purchasers.size();t++){
-			boxOperator.addItem(Long.toString(purchasers.get(t).getId()));
+			boxOperator.addItem(purchasers.get(t).getName());
 		}
 		for(int t=0;t<financers.size();t++){
-			boxOperator.addItem(Long.toString(financers.get(t).getId()));
+			boxOperator.addItem(financers.get(t).getName());
 		}
 		for(int t=0;t<stockers.size();t++){
-			boxOperator.addItem(Long.toString(stockers.get(t).getId()));
+			boxOperator.addItem(stockers.get(t).getName());
 		}
 		
 		JLabel labelStorehouse=new JLabel("²Ö¿â£º");
@@ -247,7 +247,13 @@ public class ProcessListCheck {
 				 ArrayList<GiftBillVO> listGiftClient=new ArrayList<GiftBillVO>();
 				 if(!((String)boxClient.getSelectedItem()).equals(null)){
 					 ClientController clientController=new ClientController();
-					 ClientVO client=clientController.find(Long.parseLong((String)boxClient.getSelectedItem()));
+					 ArrayList<ClientVO> clients=clientController.getList();
+					 ClientVO client=new ClientVO();
+					 for(int t=0;t<clients.size();t++){
+						 if(((String)boxClient.getSelectedItem()).equals(clients.get(t).getName())){
+							 client=clients.get(t);
+						 }
+					 }
 					 ProcessListVO processList=controller.getProcessList(client);
 					 listSalesClient=processList.getList1();
 					 listSalesReturnClient=processList.getList2();
@@ -272,8 +278,34 @@ public class ProcessListCheck {
 				 ArrayList<UnderflowBillVO> listUnderflowOperator=new ArrayList<UnderflowBillVO>();
 				 ArrayList<GiftBillVO> listGiftOperator=new ArrayList<GiftBillVO>();
 				 if(!((String)boxOperator.getSelectedItem()).equals(null)){
+					 String theOperator=(String)boxOperator.getSelectedItem();
 					 UserController userController=new UserController();
-					 UserVO operator=userController.findUser(Long.parseLong((String)boxOperator.getSelectedItem()));
+					 UserVO operator=new UserVO();
+					 UserListVO userList=userController.getAll();
+					 ArrayList<UserVO> purchasemanager=userList.getPurchasemanager();
+					 ArrayList<UserVO> salesmanager=userList.getSalesmanager();
+					 ArrayList<UserVO> financemanager=userList.getFinancemanager();
+					 ArrayList<UserVO> stockmanager=userList.getStockmanager();
+					 for(int t=0;t<purchasemanager.size();t++){
+						 if(theOperator.equals(purchasemanager.get(t).getName())){
+							 operator=purchasemanager.get(t);
+						 }
+					 }
+					 for(int t=0;t<salesmanager.size();t++){
+						 if(theOperator.equals(salesmanager.get(t).getName())){
+							 operator=salesmanager.get(t);
+						 }
+					 }
+					 for(int t=0;t<financemanager.size();t++){
+						 if(theOperator.equals(financemanager.get(t).getName())){
+							 operator=financemanager.get(t);
+						 }
+					 }
+					 for(int t=0;t<stockmanager.size();t++){
+						 if(theOperator.equals(stockmanager.get(t).getName())){
+							 operator=stockmanager.get(t);
+						 }
+					 }
 					 ProcessListVO processList=controller.getProcessList(operator);
 					 listSalesOperator=processList.getList1();
 					 listSalesReturnOperator=processList.getList2();
