@@ -18,10 +18,13 @@ public class Salesui extends JFrame{
 	private JPanel topTotalPanel=new JPanel(new BorderLayout());
 	private JPanel textPanel=new JPanel();
 	private SalesHomePageui homePage=new SalesHomePageui();
-	private SalesCustomerManagementui customerManagement=new SalesCustomerManagementui();
-	private SalesImportPanelui importPanel=new SalesImportPanelui();
+	private SalesCustomerManagementui customerManagement;
+	private SalesImportPanelui importPanel;
 		
 	public void go(String operator){
+		customerManagement=new SalesCustomerManagementui(operator);
+		importPanel=new SalesImportPanelui(operator);
+			
 		salesGuide.setTabPlacement(JTabbedPane.LEFT);
 		salesGuide.addTab("首页", homePage);
 		salesGuide.addTab("客户管理",customerManagement);

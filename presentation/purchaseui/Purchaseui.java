@@ -20,10 +20,13 @@ public class Purchaseui extends JFrame{
 	private JPanel topTotalPanel=new JPanel(new BorderLayout());
 	private JPanel textPanel=new JPanel();
 	private PurchaseHomePageui homePage=new PurchaseHomePageui();
-	private PurchaseCustomerManagementui customerManagement=new PurchaseCustomerManagementui();
-	private PurchaseImportPanelui importPanel=new PurchaseImportPanelui();
+	private PurchaseCustomerManagementui customerManagement;
+	private PurchaseImportPanelui importPanel;
 	
-	public void go(){
+	public void go(String ope){
+		customerManagement=new PurchaseCustomerManagementui(ope);
+		importPanel=new PurchaseImportPanelui(ope);
+		
 		purchaseGuide.setTabPlacement(JTabbedPane.LEFT);
 		purchaseGuide.addTab("首页", homePage);
 		purchaseGuide.addTab("客户管理",customerManagement);

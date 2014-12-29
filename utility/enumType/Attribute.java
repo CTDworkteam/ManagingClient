@@ -15,4 +15,5 @@ public enum Attribute {
 	Commodity_Type,
 	CommodityType_Father,
 	CommodityType_Name,
+	CommodityModel_Name,
 }

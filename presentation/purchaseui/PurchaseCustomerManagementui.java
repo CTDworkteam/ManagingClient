@@ -18,9 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import recordbl.RecordController;
 import vo.ClientVO;
 import clientbl.ClientController;
+import enumType.ActionType;
+import enumType.Attribute;
 import enumType.ClientType;
+import enumType.Operation;
 import enumType.ResultMessage;
 
 public class PurchaseCustomerManagementui extends JPanel{
@@ -71,7 +75,11 @@ public class PurchaseCustomerManagementui extends JPanel{
 	JPanel createButtonsPanel=new JPanel();
 	JPanel createTotalPanel=new JPanel(new BorderLayout());
 	
-	PurchaseCustomerManagementui(){
+	RecordController record=new RecordController();
+	String operator;
+	
+	PurchaseCustomerManagementui(String ope){
+		operator=ope;
 		/*
 		 * 
 		 * 
@@ -209,6 +217,7 @@ public class PurchaseCustomerManagementui extends JPanel{
 						ResultMessage result=client.add(vo);
 						if(result==ResultMessage.Success)
 						{
+							record.saveDataAddDelRecord(Operation.Client, ActionType.Add, operator, vo.getId()+"",vo.getName());
 						    Object[] newRow={client.getNewClientID(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
 						    customerTableModel.addRow(newRow);
 						    JOptionPane.showMessageDialog(null, "添加成功");
@@ -241,8 +250,9 @@ public class PurchaseCustomerManagementui extends JPanel{
 					ResultMessage result=client.delete(vo);
 					if(result==ResultMessage.Success)
 					{
-						 customerTableModel.removeRow(customerTable.getSelectedRow());
-				         JOptionPane.showMessageDialog(null, "删除成功");
+						record.saveDataAddDelRecord(Operation.Client, ActionType.Delete, operator, vo.getId()+"",vo.getName());
+					    customerTableModel.removeRow(customerTable.getSelectedRow());
+				        JOptionPane.showMessageDialog(null, "删除成功");
 					}
 					else
 					{
@@ -256,7 +266,7 @@ public class PurchaseCustomerManagementui extends JPanel{
 		jbtUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				newCustomerFrame=new JFrame();
-				newCustomerTitle=new JLabel("新增销售商",SwingConstants.RIGHT);
+				newCustomerTitle=new JLabel("修改销售商",SwingConstants.RIGHT);
 				newCustomerID=new JLabel("库户编号",SwingConstants.RIGHT);
 				newCustomerRank=new JLabel("库户级别",SwingConstants.RIGHT);
 				newCustomerCounterman=new JLabel("默认业务员",SwingConstants.RIGHT);
@@ -316,13 +326,38 @@ public class PurchaseCustomerManagementui extends JPanel{
 				newCustomerFrame.setVisible(true);
 				jbtCreate.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
+						
+						String beforeName=(String)customerTable.getValueAt(customerTable.getSelectedRow(),3);
+				        String beforeTel=(String)customerTable.getValueAt(customerTable.getSelectedRow(),4);
+						String beforeEmail=(String)customerTable.getValueAt(customerTable.getSelectedRow(),5);
+						String beforeAddress=(String)customerTable.getValueAt(customerTable.getSelectedRow(),6);
+						String beforePostcode=(String)customerTable.getValueAt(customerTable.getSelectedRow(),7);
 						//注意修改rank 为阿拉伯数字
 						ClientVO vo=new ClientVO(Long.parseLong(newCustomerIDField.getText()),newCustomerNameField.getText(),ClientType.Supplier,Integer.parseInt(newCustomerRankBox.getToolTipText()),newCustomerTelField.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),newCustomerEmailField.getText(),0,0,0,newCustomerCountermanBox.getToolTipText(),0,0);
 						ClientController client=new ClientController();
 						ResultMessage result=client.update(vo);
 						if(result==ResultMessage.Success)
 						{
-						//    Object[] newRow={newCustomerIDField.getText(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
+							if(beforeName.equals(vo.getName()))
+							{
+							    record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Name, beforeName,vo.getName());
+							}
+							if(beforeTel.equals(vo.getTelephone()))
+							{
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Telephone, beforeTel,vo.getTelephone());
+							}
+							if(beforeEmail.equals(vo.getEmail()))
+							{
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Email, beforeEmail,vo.getEmail());
+							}
+							if(beforeAddress.equals(vo.getAddress()))
+							{
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Name, beforeAddress,vo.getAddress());
+							}
+							if(beforePostcode.equals(vo.getPostcode())){
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Name, beforePostcode,vo.getPostcode());
+							}
+							    //    Object[] newRow={newCustomerIDField.getText(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
 						//    customerTableModel.addRow(newRow);
 							//flash table here!!!!!
 						    JOptionPane.showMessageDialog(null, "修改成功");

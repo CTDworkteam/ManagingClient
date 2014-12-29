@@ -18,7 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import enumType.ActionType;
+import enumType.Operation;
 import enumType.ResultMessage;
+import recordbl.RecordController;
 import salesbl.SalesBill;
 import salesbl.SalesController;
 import utility.Utility;
@@ -96,9 +99,11 @@ class SalesImportPanelui extends JPanel{
 	JScrollPane returnJS=new JScrollPane(returnTable);
 	
 	ArrayList<SalesBillVO> allBills;
+	RecordController record=new RecordController();
+	String operator;
 	
-	
-	SalesImportPanelui(){
+	SalesImportPanelui(String ope){
+		operator=ope;
 		mainPanel.add(new JLabel());
 		mainPanel.add(new JLabel());
 		mainPanel.add(new JLabel());
@@ -249,6 +254,7 @@ class SalesImportPanelui extends JPanel{
 					    
 					    ResultMessage result=sales.sendBill(vos);
 					    if(result==ResultMessage.Success){
+					    	record.saveBillAddDelRecord(Operation.SalesBill, ActionType.Add, operator, vo.getId());
 					    	JOptionPane.showMessageDialog(null, "提交成功");
 					    	importListFrame.dispose();
 					    }
@@ -372,6 +378,7 @@ class SalesImportPanelui extends JPanel{
 					    ResultMessage result=sales.sendReturnBill(voarray);
 					    if(result==ResultMessage.Success)
 					    {
+					    	record.saveBillAddDelRecord(Operation.SalesReturnBill, ActionType.Add, operator, vo.getId());
 					    	JOptionPane.showMessageDialog(null, "提交成功");
 					    	importReturnFrame.dispose();
 					    }

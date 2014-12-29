@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 
 import commoditybl.CommodityController;
 import commoditybl.CommodityModel;
+import recordbl.RecordController;
 import stockbl.StockController;
 import stockcheckbl.StockCheckController;
 import utility.Utility;
@@ -38,6 +39,8 @@ import vo.StockCommodityInfoVO;
 import vo.StockCommodityListVO;
 import vo.UnderflowBillVO;
 import vo.GiftBillVO.GiftBillItemVO;
+import enumType.ActionType;
+import enumType.Operation;
 import enumType.ResultMessage;
 
 class StockManagementui extends JPanel{
@@ -250,9 +253,12 @@ class StockManagementui extends JPanel{
 			JPanel warmingButtons=new JPanel();
 			JPanel warmingTotal=new JPanel(new BorderLayout());
 			
+			RecordController record=new RecordController();
+			String operator;
 			
-	public StockManagementui()
+	public StockManagementui(String ope)
 	{
+		operator=ope;
 		stockListTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		setLayout(new GridLayout(10,1));
 		stock.add(jbtCheck);
@@ -514,12 +520,13 @@ class StockManagementui extends JPanel{
 								ResultMessage result=stock.send(vo);
 								if(result==ResultMessage.Success)
 								{
-								JOptionPane.showMessageDialog(null, "赠送成功");
-								subPresentFrame.dispose();
+									record.saveBillAddDelRecord(Operation.Stock	,ActionType.Add, operator,vo.getId());
+								    JOptionPane.showMessageDialog(null, "赠送成功");
+								    subPresentFrame.dispose();
 								}
 								else
 								{
-								JOptionPane.showMessageDialog(null, "赠送失败");
+								    JOptionPane.showMessageDialog(null, "赠送失败");
 							//	subPresentFrame.dispose();
 								}
 								}
@@ -689,12 +696,13 @@ class StockManagementui extends JPanel{
 								ResultMessage result=stock.send(vo);
 								if(result==ResultMessage.Success)
 								{
-								JOptionPane.showMessageDialog(null, "单据生成成功");
-								overListFrame.dispose();
+									record.saveBillAddDelRecord(Operation.Stock, ActionType.Add, operator, vo.getId());
+								    JOptionPane.showMessageDialog(null, "单据生成成功");
+								    overListFrame.dispose();
 								}
 								else
 								{
-								JOptionPane.showMessageDialog(null, "单据生成失败");
+								    JOptionPane.showMessageDialog(null, "单据生成失败");
 								
 								}
 							}
@@ -863,12 +871,13 @@ class StockManagementui extends JPanel{
 								ResultMessage result=stock.send(vo);
 								if(result==ResultMessage.Success)
 								{
-								JOptionPane.showMessageDialog(null, "单据生成成功");
-								lossListFrame.dispose();
+									record.saveBillAddDelRecord(Operation.Stock, ActionType.Add, operator, vo.getId());
+								    JOptionPane.showMessageDialog(null, "单据生成成功");
+								    lossListFrame.dispose();
 								}
 								else
 								{
-								JOptionPane.showMessageDialog(null, "单据生成失败");
+								    JOptionPane.showMessageDialog(null, "单据生成失败");
 								
 								}
 							}
@@ -946,13 +955,14 @@ class StockManagementui extends JPanel{
 							ResultMessage result=stock.send(vo);
 							if(result==ResultMessage.Success)
 							{
-							warmingTableModel.removeRow(warmingTable.getSelectedRow());
-							JOptionPane.showMessageDialog(null, "提交成功");
-							overListFrame.dispose();
+								record.saveBillAddDelRecord(Operation.Stock, ActionType.Add, operator, vo.getId());
+							    warmingTableModel.removeRow(warmingTable.getSelectedRow());
+							    JOptionPane.showMessageDialog(null, "提交成功");
+							    overListFrame.dispose();
 							}
 							else
 							{
-							JOptionPane.showMessageDialog(null, "提交失败");
+							    JOptionPane.showMessageDialog(null, "提交失败");
 							
 							}
 							

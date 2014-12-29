@@ -18,9 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import recordbl.RecordController;
 import vo.ClientVO;
 import clientbl.ClientController;
+import enumType.ActionType;
+import enumType.Attribute;
 import enumType.ClientType;
+import enumType.Operation;
 import enumType.ResultMessage;
 
 class SalesCustomerManagementui extends JPanel{
@@ -70,8 +74,11 @@ class SalesCustomerManagementui extends JPanel{
 	JPanel infoPanel=new JPanel(new GridLayout(8,2));
 	JPanel createButtonsPanel=new JPanel();
 	JPanel createTotalPanel=new JPanel(new BorderLayout());
+	RecordController record=new RecordController();
+	String operator;
 	
-	SalesCustomerManagementui(){
+	SalesCustomerManagementui(String ope){
+		operator=ope;
 		/*
 		 * 
 		 * 
@@ -208,6 +215,7 @@ class SalesCustomerManagementui extends JPanel{
 						ResultMessage result=client.add(vo);
 						if(result==ResultMessage.Success)
 						{
+							record.saveDataAddDelRecord(Operation.Client, ActionType.Add, operator, vo.getId()+"",vo.getName());
 						    Object[] newRow={newCustomerIDField.getText(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
 						    customerTableModel.addRow(newRow);
 						    JOptionPane.showMessageDialog(null, "添加成功");
@@ -242,6 +250,7 @@ class SalesCustomerManagementui extends JPanel{
 					ResultMessage result=client.delete(vo);
 					if(result==ResultMessage.Success)
 					{
+						 record.saveDataAddDelRecord(Operation.Client, ActionType.Delete, operator, vo.getId()+"",vo.getName());
 						 customerTableModel.removeRow(customerTable.getSelectedRow());
 				         JOptionPane.showMessageDialog(null, "删除成功");
 					}
@@ -318,11 +327,36 @@ class SalesCustomerManagementui extends JPanel{
 				jbtCreate.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						//注意修改rank 为阿拉伯数字
+						String beforeName=(String)customerTable.getValueAt(customerTable.getSelectedRow(),3);
+				        String beforeTel=(String)customerTable.getValueAt(customerTable.getSelectedRow(),4);
+						String beforeEmail=(String)customerTable.getValueAt(customerTable.getSelectedRow(),5);
+						String beforeAddress=(String)customerTable.getValueAt(customerTable.getSelectedRow(),6);
+						String beforePostcode=(String)customerTable.getValueAt(customerTable.getSelectedRow(),7);
+						
 						ClientVO vo=new ClientVO(Long.parseLong(newCustomerIDField.getText()),newCustomerNameField.getText(),ClientType.Supplier,Integer.parseInt(newCustomerRankBox.getToolTipText()),newCustomerTelField.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),newCustomerEmailField.getText(),0,0,0,newCustomerCountermanBox.getToolTipText(),0,0);
 						ClientController client=new ClientController();
 						ResultMessage result=client.update(vo);
 						if(result==ResultMessage.Success)
 						{
+							if(beforeName.equals(vo.getName()))
+							{
+							    record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Name, beforeName,vo.getName());
+							}
+							if(beforeTel.equals(vo.getTelephone()))
+							{
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Telephone, beforeTel,vo.getTelephone());
+							}
+							if(beforeEmail.equals(vo.getEmail()))
+							{
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Email, beforeEmail,vo.getEmail());
+							}
+							if(beforeAddress.equals(vo.getAddress()))
+							{
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Name, beforeAddress,vo.getAddress());
+							}
+							if(beforePostcode.equals(vo.getPostcode())){
+								record.saveDataModifyRecord(operator, Operation.Client,(String)customerTable.getValueAt(customerTable.getSelectedRow(),0),beforeName, Attribute.Client_Name, beforePostcode,vo.getPostcode());
+							}
 						//    Object[] newRow={newCustomerIDField.getText(),newCustomerRankBox.getSelectedItem(),newCustomerCountermanBox.getSelectedItem(),newCustomerNameField.getText(),newCustomerTelField.getText(),newCustomerEmail.getText(),newCustomerAddressField.getText(),newCustomerPostcode.getText(),0,0,0,0,0};
 						//    customerTableModel.addRow(newRow);
 							//flash table here!!!!!

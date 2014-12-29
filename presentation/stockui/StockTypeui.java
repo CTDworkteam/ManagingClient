@@ -25,10 +25,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import recordbl.RecordController;
 import vo.CommodityTypeVO;
 import vo.CommodityVO;
 import commoditybl.CommodityController;
 import commoditytypebl.CommodityTypeController;
+import enumType.ActionType;
+import enumType.Attribute;
+import enumType.Operation;
 import enumType.ResultMessage;
 
 class StockTypeui extends JPanel{
@@ -118,8 +122,10 @@ class StockTypeui extends JPanel{
 	JButton jbtUpdateCancel=new JButton("取消");
 	
 	JPopupMenu popupMenu;
+	String operator;
 	
-	StockTypeui(){
+	StockTypeui(String ope){
+		operator=ope;
 		CommodityTypeController commodityType=new CommodityTypeController();
 		DefaultMutableTreeNode type=new DefaultMutableTreeNode("商品分类");
 	/*	type.add(new DefaultMutableTreeNode("分类1"));
@@ -672,14 +678,16 @@ class StockTypeui extends JPanel{
 				assure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						CommodityTypeController commodityType=new CommodityTypeController();
-				        String[] parentInfo=parent.toString().split(" ");
+						RecordController record=new RecordController();
+						String[] parentInfo=parent.toString().split(" ");
 					    CommodityTypeVO vo=new CommodityTypeVO(commodityType.getNewID(parentInfo[1]),newNameField.getText(),false,true,new ArrayList<CommodityVO>(),commodityType.findInID(parentInfo[1]),new ArrayList<CommodityTypeVO>());
 						ResultMessage result=commodityType.addType(vo);
 					    String addName=newNameField.getText();
 					    
 					    if(result==ResultMessage.Success){
-						parent.add(new DefaultMutableTreeNode(addName+" "+newIDField.getText()));
-						((DefaultTreeModel)(jTree.getModel())).reload();
+					    	record.saveDataAddDelRecord(Operation.Stock, ActionType.Add, operator,parentInfo[1],parentInfo[0]);
+						    parent.add(new DefaultMutableTreeNode(addName+" "+newIDField.getText()));
+						    ((DefaultTreeModel)(jTree.getModel())).reload();
 					    }
 					    else
 					    {
@@ -701,6 +709,7 @@ class StockTypeui extends JPanel{
 		jbtDelete.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				CommodityTypeController commodityType=new CommodityTypeController();
+				RecordController record=new RecordController();
 				TreePath[] paths=jTree.getSelectionPaths();
 				ResultMessage result=ResultMessage.Failure;
 				if(paths==null){
@@ -709,14 +718,16 @@ class StockTypeui extends JPanel{
 				}
 				for(int i=0;i<paths.length;i++){
 					DefaultMutableTreeNode node=(DefaultMutableTreeNode)(paths[i].getLastPathComponent());
+					String[] parentInfo={};
+					String[] typeInfo={};
 					if(node.isRoot()){
 						JOptionPane.showMessageDialog(null, "Error：根分类不可删除");
 					}
 					else
 					{
 						
-						String[] parentInfo=node.getParent().toString().split(" ");
-						String[] typeInfo=node.toString().split(" ");
+						parentInfo=node.getParent().toString().split(" ");
+						typeInfo=node.toString().split(" ");
 					/*	if(node.isLeaf()){
 							if(node.isRoot()){
 								CommodityTypeVO vo=commodityType.findInID(typeInfo[1]);
@@ -742,8 +753,12 @@ class StockTypeui extends JPanel{
 						CommodityTypeVO vo=commodityType.findInID(typeInfo[1]);
 					    result=commodityType.deleteType(vo);
 					}
+					
 					if(result==ResultMessage.Success)
+					{
+						record.saveDataAddDelRecord(Operation.CommodityType, ActionType.Delete, operator, typeInfo[1], typeInfo[0]);
 						node.removeFromParent();
+					}
 					else
 						JOptionPane.showMessageDialog(null, "删除失败");
 						
@@ -784,6 +799,7 @@ class StockTypeui extends JPanel{
 				    
 				    jbtUpdateAssure.addActionListener(new ActionListener(){
 				    	public void actionPerformed(ActionEvent e){
+				    		RecordController record=new RecordController();
 				    		CommodityTypeController commodityType=new CommodityTypeController();
 				    		String[] parentInfo=parent.toString().split(" ");
 				    		CommodityTypeVO vo=commodityType.findInID(parentInfo[1]);
@@ -791,6 +807,7 @@ class StockTypeui extends JPanel{
 				    		ResultMessage result=commodityType.updateType(vo);
 				    		if(result==ResultMessage.Success)
 				    		{
+				    			record.saveDataModifyRecord(operator, Operation.CommodityType, parentInfo[1], updateField.getText(), Attribute.CommodityType_Name,parentInfo[0], updateField.getText());
 				    			JOptionPane.showMessageDialog(null,"修改成功");
 				    		}
 				    		else

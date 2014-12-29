@@ -19,13 +19,14 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import purchasebl.PurchaseController;
-
+import recordbl.RecordController;
 import utility.Utility;
 import vo.PurchaseBillVO;
-
 import vo.PurchaseBillVO.PurchaseBillItemVO;
 import vo.PurchaseReturnBillVO;
 import vo.PurchaseReturnBillVO.PurchaseReturnBillItemVO;
+import enumType.ActionType;
+import enumType.Operation;
 import enumType.ResultMessage;
 
 class PurchaseImportPanelui extends JPanel{
@@ -91,8 +92,11 @@ class PurchaseImportPanelui extends JPanel{
 	JScrollPane returnJS=new JScrollPane(returnTable);
 	
 	ArrayList<PurchaseBillVO> allBills;
+	RecordController record=new RecordController();
+	String operator;
 	
-	PurchaseImportPanelui(){
+	PurchaseImportPanelui(String ope){
+		operator=ope;
 		mainPanel.add(new JLabel());
 		mainPanel.add(new JLabel());
 		mainPanel.add(new JLabel());
@@ -199,6 +203,7 @@ class PurchaseImportPanelui extends JPanel{
 					    
 					    ResultMessage result=purchase.sendBill(vos);
 					    if(result==ResultMessage.Success){
+					    	record.saveBillAddDelRecord(Operation.PurchaseBill, ActionType.Add, operator, vo.getId());
 					    	JOptionPane.showMessageDialog(null, "提交成功");
 					    	importListFrame.dispose();
 					    }
@@ -211,7 +216,9 @@ class PurchaseImportPanelui extends JPanel{
 				
 				jbtSave.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						PurchaseBillVO vo=new PurchaseBillVO("XXX",supplierField.getText(),storehouseField.getText(),"didi",null,0,"");
+						Utility utility=new Utility();
+						PurchaseController purchase=new PurchaseController();
+						PurchaseBillVO vo=new PurchaseBillVO(purchase.getNewBillID(utility.getDate()),supplierField.getText(),storehouseField.getText(),"didi",null,0,"");
 						ArrayList<PurchaseBillVO.PurchaseBillItemVO> itemList=new ArrayList<PurchaseBillVO.PurchaseBillItemVO>();
 					    int itemNum=commodityItemTable.getRowCount();
 					    double total=0;
@@ -222,10 +229,11 @@ class PurchaseImportPanelui extends JPanel{
 					    }
 					    vo.setTotal(total);
 					    vo.setList(itemList);
-					    PurchaseController purchaseController=new PurchaseController();
-					    ResultMessage result=purchaseController.save(vo);
+					    
+					    ResultMessage result=purchase.save(vo);
 					    if(result==ResultMessage.Success)
 					    {
+					    	
 					    	JOptionPane.showMessageDialog(null, "保存成功");
 					    	importListFrame.dispose();
 					    }
@@ -329,6 +337,7 @@ class PurchaseImportPanelui extends JPanel{
 					    ResultMessage result=purchase.sendReturnBill(voarray);
 					    if(result==ResultMessage.Success)
 					    {
+					    	record.saveBillAddDelRecord(Operation.PurchaseReturnBill, ActionType.Add, operator, vo.getId());
 					    	JOptionPane.showMessageDialog(null, "提交成功");
 					    	importReturnFrame.dispose();
 					    }

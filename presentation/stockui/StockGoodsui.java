@@ -21,9 +21,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import recordbl.RecordController;
 import vo.CommodityModelVO;
 import vo.CommodityVO;
 import commoditybl.CommodityController;
+import enumType.ActionType;
+import enumType.Attribute;
+import enumType.Operation;
 import enumType.ResultMessage;
 
 class StockGoodsui extends JPanel{
@@ -108,8 +112,10 @@ class StockGoodsui extends JPanel{
 	JPopupMenu popupMenu;
 	CommodityVO vo;
 	CommodityModelVO modelvo;
+	String operator;
 	
-	public StockGoodsui(){
+	public StockGoodsui(String ope){
+		operator=ope;
 		/*
 		 * 
 		 * 初始化表格   "编号","名称","型号","总数" 12.27
@@ -284,14 +290,17 @@ class StockGoodsui extends JPanel{
 				jbtAssure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						CommodityController commodity=new CommodityController();
-						String nameInfo=nameField.getText();
-						String typeInfo=typeField.getText();
+						RecordController record=new RecordController();
 						String warmInfo=TipLineField.getText();
+						String nameInfo=nameField.getText();
+						String typeInfo=commodity.getNewID(warmInfo);
+						
 						
 						CommodityVO vo=new CommodityVO(typeInfo,nameInfo,warmInfo,0,new ArrayList<CommodityModelVO>());
 						ResultMessage result=commodity.addCommodity(vo);
 						if(result==ResultMessage.Success)
 						{
+						record.saveDataAddDelRecord(Operation.Commodity, ActionType.Add, operator,warmInfo,nameInfo);
 						Object[] newRow={typeInfo,nameInfo,warmInfo,0};
 						tableModel.addRow(newRow);
 						insFrame.dispose();
@@ -380,11 +389,13 @@ class StockGoodsui extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				if(jTable.getSelectedRow()>=0)
 				{
+					RecordController record=new RecordController();
 					CommodityController commodity=new CommodityController();
 					CommodityVO vo=commodity.findCommodityByID((String)jTable.getValueAt(jTable.getSelectedRow(), 0));
 					ResultMessage result=commodity.deleteCommodity(vo);
 					if(result==ResultMessage.Success)
 					{
+						record.saveBillAddDelRecord(Operation.Commodity, ActionType.Delete, operator, vo.getId());
 						JOptionPane.showMessageDialog(null, "删除成功");
 						tableModel.removeRow(jTable.getSelectedRow());
 					}
@@ -403,6 +414,7 @@ class StockGoodsui extends JPanel{
 		jbtUpdate.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				CommodityController commodity=new CommodityController();
+				RecordController record=new RecordController();
 				vo=commodity.findCommodityByID((String)jTable.getValueAt(jTable.getSelectedRow(),0));
 				updateFrame=new JFrame();
 				updatePanel=new JPanel(new BorderLayout());
@@ -507,6 +519,7 @@ class StockGoodsui extends JPanel{
 							jbtModelAssure.addActionListener(new ActionListener(){
 								public void actionPerformed(ActionEvent e){
 									CommodityController commodity=new CommodityController();
+									RecordController record=new RecordController();
 									String modelInfo=newModelField.getText();
 									String storehouseInfo=newStorehouseField.getText();
 									int warmingInfo=Integer.parseInt(newWarmingField.getText());
@@ -515,6 +528,7 @@ class StockGoodsui extends JPanel{
 									ResultMessage result=commodity.addModel(modelvo);
 									if(result==ResultMessage.Success)
 									{
+										record.saveDataAddDelRecord(Operation.Commodity, ActionType.Add, operator, vo.getId(),modelvo.getCommodity());
 										JOptionPane.showMessageDialog(null, "添加成功");
 										modelFrame.dispose();
 									}
@@ -535,10 +549,12 @@ class StockGoodsui extends JPanel{
 				jbtDeleteModel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						CommodityController commodity=new CommodityController();
+						RecordController record=new RecordController();
 						CommodityModelVO returnvo=commodity.getModel(vo.getId(),(String)updateModelTable.getValueAt(updateModelTable.getSelectedRow(),1));
 						ResultMessage result=commodity.deleteModel(vo.getId(), returnvo.getModel());
 						if(result==ResultMessage.Success)
 						{
+							record.saveDataAddDelRecord(Operation.Commodity, ActionType.Delete, operator, vo.getId(), returnvo.getModel());
 							JOptionPane.showMessageDialog(null, "删除成功");
 					        updateModelTableModel.removeRow(updateModelTable.getSelectedRow());
 						}
@@ -552,6 +568,7 @@ class StockGoodsui extends JPanel{
 				jbtUpdateModel.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						CommodityController commodity=new CommodityController();
+						RecordController record=new RecordController();
 						modelvo=commodity.getModel(vo.getId(),(String)updateModelTable.getValueAt(updateModelTable.getSelectedRow(),1));
 						updateModelFrame=new JFrame();
 						updateModelPanel=new JPanel(new BorderLayout());
@@ -589,6 +606,7 @@ class StockGoodsui extends JPanel{
 						
 						jbtUpdateModelAssure.addActionListener(new ActionListener(){
 							public void actionPerformed(ActionEvent e){
+								RecordController record=new RecordController();
 								String beforeName=modelvo.getModel();
 								CommodityController commodity=new CommodityController();
 								modelvo.setModel(updateModelField.getText());
@@ -597,6 +615,7 @@ class StockGoodsui extends JPanel{
 								ResultMessage result=commodity.updateModel(beforeName, modelvo);
 								if(result==ResultMessage.Success)
 								{
+									record.saveDataModifyRecord(operator, Operation.Commodity, vo.getId(),modelvo.getModel(), Attribute.CommodityModel_Name, beforeName, modelvo.getModel());
 									JOptionPane.showMessageDialog(null, "修改成功");
 									updateModelFrame.dispose();
 									//flash
@@ -617,6 +636,9 @@ class StockGoodsui extends JPanel{
 				jbtUpdateAssure.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						CommodityController commodity=new CommodityController();
+						RecordController record=new RecordController();
+						String beforeName=vo.getName();
+						String beforeType=vo.getType();
 						vo=commodity.findCommodityByID((String)jTable.getValueAt(jTable.getSelectedRow(),0));
 						vo.setId(updateIDField.getText());
 						vo.setName(updateNameField.getText());
@@ -624,6 +646,14 @@ class StockGoodsui extends JPanel{
 						ResultMessage result=commodity.updateCommodity(vo);
 						if(result==ResultMessage.Success)
 						{
+							if(vo.getName().equals(beforeName))
+							{
+							    record.saveDataModifyRecord(operator, Operation.Commodity,vo.getId() ,vo.getName(), Attribute.Commodity_Name, beforeName,vo.getName());
+							}
+							else if(vo.getType().equals(beforeType))
+							{
+								record.saveDataModifyRecord(operator, Operation.Commodity,vo.getId() ,vo.getName(), Attribute.Commodity_Type, beforeType,vo.getType());
+							}
 							JOptionPane.showMessageDialog(null, "修改成功");
 							updateFrame.dispose();
 							//flash
