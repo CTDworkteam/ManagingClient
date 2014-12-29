@@ -776,7 +776,7 @@ public class FinanceCheck implements FinanceCheckBLService{
 	}
 */
 	public ResultMessage export(ProcessListVO list, String dest) {
-		try{
+	/*	try{
 			String s = dest+".xls";
 			WritableWorkbook book1 = Workbook.createWorkbook(new File(s));
 			WritableSheet sheet = book1.createSheet("经营历程表",0);
@@ -811,7 +811,7 @@ public class FinanceCheck implements FinanceCheckBLService{
 					
 				}
 			}
-		}
+		}*/
 		return ResultMessage.Success;
 	}
 
@@ -829,8 +829,14 @@ public class FinanceCheck implements FinanceCheckBLService{
 
 	@Override
 	public ResultMessage deficitInvoice(SalesBillVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		SalesDataService sales = RMI.getSalesDataService();
+		
+		if(sales == null){
+			return ResultMessage.Failure;
+		}
+		else{
+			
+		}
 	}
 
 	@Override
