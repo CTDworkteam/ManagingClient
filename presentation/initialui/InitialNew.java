@@ -23,8 +23,6 @@ public class InitialNew implements ChangeListener{
 		
 		JButton buttonCancel=new JButton("取消");
 		buttonCancel.addActionListener(new cancelListener());
-		JButton buttonSave=new JButton("存储");
-		buttonSave.addActionListener(new saveListener());
 		
 		tab.add("账户信息",account.panelAccount);
 		tab.add("客户信息",client.panelClient);
@@ -35,7 +33,6 @@ public class InitialNew implements ChangeListener{
 		
 		panel.setLayout(null);
 		buttonCancel.setBounds(600,10,65,25);
-		buttonSave.setBounds(700,10,65,25);
 		tab.setBounds(30,50,820,500);
 		
 		tab.addChangeListener(new ChangeListener(){
@@ -46,7 +43,6 @@ public class InitialNew implements ChangeListener{
 		});
 		
 		panel.add(buttonCancel);
-		panel.add(buttonSave);
 		panel.add(tab);
 		
 		frame.getContentPane().add(panel);
@@ -57,12 +53,6 @@ public class InitialNew implements ChangeListener{
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	class saveListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-		}
 	}
 	
 	class cancelListener implements ActionListener{

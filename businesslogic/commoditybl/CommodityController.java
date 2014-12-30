@@ -12,63 +12,41 @@ public class CommodityController implements CommodityBLService{
 	public CommodityController(){
 		commodity=new Commodity();
 	}
-	@Override
 	public ResultMessage addCommodity(CommodityVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.addCommodity(vo);
 	}
-	@Override
 	public ResultMessage deleteCommodity(CommodityVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.deleteCommodity(vo);
 	}
-	@Override
 	public ResultMessage updateCommodity(CommodityVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.updateCommodity(vo);
 	}
-	@Override
 	public ResultMessage addModel(CommodityModelVO model) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.addModel(model);
 	}
-	@Override
 	public ResultMessage deleteModel(String commodityID, String modelName) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.deleteModel(commodityID, modelName);
 	}
-	@Override
 	public ResultMessage updateModel(String beforeName, CommodityModelVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.updateModel(beforeName, vo);
 	}
-	@Override
 	public CommodityVO findCommodityByID(String id) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.findCommodityByID(id);
 	}
-	@Override
 	public CommodityVO findCommodityByName(String name) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.findCommodityByName(name);
 	}
-	@Override
 	public ArrayList<CommodityVO> findCommodityInKeyword(String key) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.findCommodityInKeyword(key);
 	}
-	@Override
 	public CommodityModelVO getModel(String commodityID, String model) {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.getModel(commodityID, model);
 	}
-	@Override
 	public ArrayList<CommodityVO> getAllCommodity() {
-		// TODO 自动生成的方法存根
-		return null;
+		return commodity.getAllCommodity();
 	}
 	@Override
 	public String getNewID(String typeID) {
-		return null;
+		return commodity.getNewID(typeID);
 	}
 }

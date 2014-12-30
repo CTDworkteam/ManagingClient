@@ -30,7 +30,7 @@ public class ClientController implements ClientBLService{
 	}
 	@Override
 	public long getNewClientID() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return client.getNewClientID();
 	}
 }
