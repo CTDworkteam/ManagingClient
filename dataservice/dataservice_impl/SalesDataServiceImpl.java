@@ -340,14 +340,26 @@ public class SalesDataServiceImpl implements SalesDataService,java.io.Serializab
 		}
 		return list.iterator();
 	}
-	@Override
 	public Iterator<SalesReturnBillPO> findClient2(long id) {
-		// TODO 自动生成的方法存根
-		return null;
+		ArrayList<SalesReturnBillPO> list = new ArrayList<SalesReturnBillPO>();
+		Iterator<String> iter = returnbillIDs.iterator();
+		while(iter.hasNext()){
+			SalesReturnBillPO returnbill = returnbills.get(iter.next());
+			if(returnbill.getClientID() == id){
+				list.add(returnbill);
+			}
+		}
+		return list.iterator();
 	}
-	@Override
 	public Iterator<SalesReturnBillPO> findOperator2(String name) {
-		// TODO 自动生成的方法存根
-		return null;
+		ArrayList<SalesReturnBillPO> list = new ArrayList<SalesReturnBillPO>();
+		Iterator<String> iter = billIDs.iterator();
+		while(iter.hasNext()){
+			SalesReturnBillPO returnbill = returnbills.get(iter.next());
+			if(returnbill.getOperator().equals(name)){
+				list.add(returnbill);
+			}
+		}
+		return list.iterator();
 	}
 }

@@ -13,32 +13,26 @@ public class UserController implements blservice.UserBLService{
 	}
 	@Override
 	public ResultMessage addUser(UserVO vo) {
-		// TODO 自动生成的方法存根
-		return null;
+		return user.addUser(vo);
 	}
 	@Override
 	public ResultMessage deleteUser(long id) {
-		// TODO 自动生成的方法存根
-		return null;
+		return user.deleteUser(id);
 	}
 	@Override
 	public UserVO findUser(long id) {
-		// TODO 自动生成的方法存根
-		return null;
+		return user.findUser(id);
 	}
 	@Override
 	public ResultMessage updateUser(UserVO user) {
-		// TODO 自动生成的方法存根
-		return null;
+		return this.user.updateUser(user);
 	}
 	@Override
 	public UserListVO getAll() {
-		// TODO 自动生成的方法存根
-		return null;
+		return user.getAll();
 	}
 	@Override
 	public long getNewUserID() {
-		// TODO 自动生成的方法存根
-		return 0;
+		return user.getNewUserID();
 	}
 }
