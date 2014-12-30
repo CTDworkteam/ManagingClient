@@ -30,7 +30,6 @@ public class Loginui {
 		
 		frame.setTitle("欢迎登陆进销存系统");
 		
-		JLabel labelWork=new JLabel("职务",JLabel.RIGHT);
 		JLabel labelName=new JLabel("用户名",JLabel.RIGHT);
 		JLabel labelPassword=new JLabel("密码",JLabel.RIGHT);
 		JButton buttonSure=new JButton("登陆");
@@ -44,7 +43,6 @@ public class Loginui {
 		frame.setLocation(wide/4,high/6);
 		
 		panel.setLayout(null);
-		labelWork.setBounds(300,220,50,25);
 		labelName.setBounds(300,270,50,25);
 		fieldID.setBounds(360,270,150,25);
 		labelPassword.setBounds(300,320,50,25);
@@ -53,7 +51,6 @@ public class Loginui {
 		buttonRegister.setBounds(550,270,90,25);
 		buttonFind.setBounds(550,320,90,25);
 		
-		panel.add(labelWork);
 		panel.add(labelName);
 		panel.add(labelPassword);
 		panel.add(fieldPassword);
@@ -72,7 +69,7 @@ public class Loginui {
 			String password=fieldPassword.getPassword().toString();
 			ResultMessage result=login.verify(id, password);
 			if(result==ResultMessage.Failure){
-				Runnable r=new Confirmui("");
+				Runnable r=new Confirmui("用户名或密码输入错误");
 				Thread t=new Thread(r);
 				t.start();
 			}else{

@@ -14,7 +14,7 @@ public class Initialui {
 	JTextField text=new JTextField();
 	
 	String[] heading={"ÐòºÅ","ÆÚ³õ±êÊ¶"};
-	String[][] data={{"1","2013"},{"2","2014"}};
+	String[][] data=new String[10][2];
 	JTable table=new JTable(data,heading);
 	
 	InitialNew inew=new InitialNew();
@@ -62,6 +62,8 @@ public class Initialui {
 	class lookListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			String identification=text.getText();
+			InitialLook look=new InitialLook();
+			look.go(identification);
 		}
 	}
 	
@@ -74,9 +76,7 @@ public class Initialui {
 	class selectListener implements MouseListener{
 
 		public void mouseClicked(MouseEvent e) {
-			Object o=e.getSource();
-			JTable t=(JTable)o;
-			String identification=(String) t.getModel().getValueAt(t.getSelectedRow(), t.getSelectedColumn());
+			String identification=(String)table.getValueAt(table.getSelectedRow(), 1);
 			text.setText(identification);
 		}
 

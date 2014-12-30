@@ -13,6 +13,7 @@ public class InitialNew implements ChangeListener{
 	InitialAccount account=new InitialAccount();
 	InitialClient client=new InitialClient();
 	InitialCommodity commodity=new InitialCommodity();
+	InitialCommodityType commodityType=new InitialCommodityType();
 	
 	public void go(){
 		
@@ -26,6 +27,7 @@ public class InitialNew implements ChangeListener{
 		
 		tab.add("账户信息",account.panelAccount);
 		tab.add("客户信息",client.panelClient);
+		tab.add("商品分类信息",commodityType.panelCommodityType);
 		tab.add("商品信息",commodity.panelCommodity);
 		
 		frame.setSize(wide/2+100,high/2+200);

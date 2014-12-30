@@ -20,6 +20,8 @@ public class InitialAccount {
 	public InitialAccount(){
 		JButton button=new JButton("导入");
 		
+		button.addActionListener(new buttonListener());
+		
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(true);
@@ -42,7 +44,14 @@ public class InitialAccount {
 			ArrayList<AccountVO> account=controller.getList();
 			ResultMessage result=initial.addAccount(account);
 			if(result==ResultMessage.Failure){
-				
+				Runnable r=new Confirmui("导入失败");
+				Thread thread=new Thread(r);
+				thread.start();
+			}else{
+				for(int t=0;t<account.size();t++){
+					data[t][0]=account.get(t).getName();
+					data[t][1]=Double.toString(account.get(t).getMoney());
+				}
 			}
 		}
 	}
