@@ -13,6 +13,10 @@ public class Initialui {
 	public JPanel panelInitial=new JPanel();
 	JTextField text=new JTextField();
 	
+	String[] heading={"序号","期初标识"};
+	String[][] data={{"1","2013"},{"2","2014"}};
+	JTable table=new JTable(data,heading);
+	
 	InitialNew inew=new InitialNew();
 	
 	public Initialui(){
@@ -20,10 +24,8 @@ public class Initialui {
 		JLabel label=new JLabel("期初标识");
 		JButton buttonLook=new JButton("查看");
 		buttonLook.addActionListener(new lookListener());
-		JButton button=new JButton("");
-		String[] heading={"序号","期初标识"};
-		String[][] data={{"1","2013"},{"2","2014"}};
-		JTable table=new JTable(data,heading);
+		JButton button=new JButton("刷新");
+		
 		table.addMouseListener(new selectListener());
 		JButton buttonNew=new JButton("新建");
 		buttonNew.addActionListener(new newListener());
