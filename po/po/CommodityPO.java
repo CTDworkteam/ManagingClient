@@ -1,13 +1,17 @@
 package po;
 import java.util.ArrayList;
 public class CommodityPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2547532448279892811L;
 	private String id;
 	private String name;
 	private String typeid;
 	private int total;
-	private ArrayList<CommodityPO.CommodityModelPO> list;
+	private ArrayList<CommodityModelPO> list;
 	public CommodityPO(String id, String name, String type, int total,
-			ArrayList<CommodityPO.CommodityModelPO> list) {
+			ArrayList<CommodityModelPO> list) {
 		this.id = id;
 		this.name = name;
 		this.typeid = type;
@@ -48,6 +52,10 @@ public class CommodityPO implements java.io.Serializable{
 		this.list = list;
 	}
 	public class CommodityModelPO implements java.io.Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6119944001332870257L;
 		private String name;
 		private int stock;
 		private String storehouse;

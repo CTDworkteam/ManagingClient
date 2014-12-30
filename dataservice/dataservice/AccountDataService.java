@@ -4,16 +4,6 @@ import java.util.*;
 public interface AccountDataService {
 	/**
 	 * @author 殷迪
-	 * 用于初始化数据
-	 */
-	public void init();
-	/**
-	 * @author 殷迪
-	 * 用于使用完成后保存数据
-	 */
-	public void save();
-	/**
-	 * @author 殷迪
 	 * @param po 需要添加的新的银行账户AccountPO对象
 	 * 在不存在同名银行账户的前置条件下，添加一个新的AccountPO对象到系统数据中
 	 */

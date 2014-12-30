@@ -3,6 +3,10 @@ package po;
 import enumType.UserJob;
 
 public class RegisterInfoPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 632735207793813857L;
 	private String name;
 	private String password;
 	private UserJob role;
@@ -10,9 +14,6 @@ public class RegisterInfoPO implements java.io.Serializable{
 		this.name = name;
 		this.password = password;
 		this.role = role;
-	}
-	public RegisterInfoPO() {
-		// TODO 自动生成的构造函数存根
 	}
 	public String getName() {
 		return name;

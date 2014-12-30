@@ -1,6 +1,10 @@
 package po;
 
 public class OverflowBillPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4038258086084837080L;
 	private boolean isPassed;
 	private String id;
 	private String storehouse;

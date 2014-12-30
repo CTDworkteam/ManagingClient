@@ -12,6 +12,4 @@ public interface RecordDataService {
 	public int numOfBillRecordPO();
 	public int numOfDataModifyRecordPO();
 	public int numOfDataAddDelRecordPO();
-	public void init();
-	public void save();
 }

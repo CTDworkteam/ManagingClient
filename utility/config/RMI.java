@@ -6,22 +6,28 @@ import java.rmi.RemoteException;
 import dataservice.*;
 import datafactory.*;
 public class RMI {
-	public static String URL="rmi://172.26.37.78:7112/datafactory";
+	public static String URL="rmi://114.212.42.149:7112/datafactory";
 	public static DataFactoryService getDataFactoryService(){
+		System.out.println("方法开始");
 		if(System.getSecurityManager() == null){
 			System.setSecurityManager(new SecurityManager());
 		}
+		System.out.println(System.getProperty("java.security.policy"));
 		System.setProperty("java.security.policy","client.policy");
 		DataFactoryService service=null;
 		try {
-			service=(DataFactoryService)Naming.lookup(URL);
+			service=(DataFactoryService)Naming.lookup(RMI.URL);
+			System.out.println("Success");
 		} catch (MalformedURLException e) {
+			System.out.println("MalformedURLException");
 			e.printStackTrace();
 			return null;
 		} catch (RemoteException e) {
+			System.out.println("RemoteException");
 			e.printStackTrace();
 			return null;
 		} catch (NotBoundException e) {
+			System.out.println("NoBoundException");
 			e.printStackTrace();
 			return null;
 		}

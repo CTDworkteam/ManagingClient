@@ -1,7 +1,10 @@
 package po;
 
-public class VoucherBasedOnTotalMoneyPO {
-	//ID:VBOTM2014122300001
+public class VoucherBasedOnTotalMoneyPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8999284545156638951L;
 	private String id;
 	private double money;
 	private double lower;
@@ -12,9 +15,6 @@ public class VoucherBasedOnTotalMoneyPO {
 		this.money = money;
 		this.lower = lower;
 		this.upper = upper;
-	}
-	public VoucherBasedOnTotalMoneyPO() {
-		// TODO 自动生成的构造函数存根
 	}
 	public String getId() {
 		return id;
