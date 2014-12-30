@@ -15,7 +15,4 @@ public interface CommodityDataService {
 	public Iterator<CommodityPO> findCommoditiesInType(String id);
 	public Iterator<CommodityPO> getAllCommodities();
 	public boolean hasCommodity();
-	
-	public void init();
-	public void save();
 }

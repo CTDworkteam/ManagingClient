@@ -11,7 +11,4 @@ public interface UserDataService {
 	public Iterator<UserPO> getList();
 	public Iterator<RegisterInfoPO> getRegisterInfo();
 	public int size();
-	
-	public void init();
-	public void save();
 }

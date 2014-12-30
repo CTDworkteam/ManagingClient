@@ -7,7 +7,4 @@ public interface InitialDataService {
 	public InitialPO find(String id);
 	public boolean isEmpty();
 	public Iterator<InitialPO> getAllInitials();
-	
-	public void init();
-	public void save();
 }
