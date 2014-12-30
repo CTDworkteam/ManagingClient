@@ -14,11 +14,11 @@ public class AccountModifyui {
 	JFrame frame=new JFrame();
 	JPanel panel=new JPanel();
 	
-	JTextField fieldName;//更改后的帐户名
+	JTextField fieldName=new JTextField();//更改后的帐户名
 	
 	AccountController controller=new AccountController();
 	
-	AccountVO theAccount;//账户原始信息
+	AccountVO theAccount=new AccountVO();//账户原始信息
 	
 	public void go(AccountVO vo){
 		
@@ -31,7 +31,6 @@ public class AccountModifyui {
 		
 		JLabel labelInitial=new JLabel("账户原有属性:"+vo.getName()+"   "+Double.toString(vo.getMoney()));
 		JLabel labelName=new JLabel("账户名",JLabel.RIGHT);
-		fieldName=new JTextField(); 
 		JButton buttonConfirm=new JButton("确定");
 		buttonConfirm.addActionListener(new confirmListener());
 		JButton buttonCancel=new JButton("取消");

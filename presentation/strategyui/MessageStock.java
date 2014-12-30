@@ -9,7 +9,7 @@ public class MessageStock {
 	
 	public JPanel panel=new JPanel();
 	
-	String[][] data;
+	String[][] data=new String[200][9];
 	String[] heading={"仓库编号","商品编号","商品名","商品型号","库存数量","进价","售价","最近进价","最近售价"};
 	JTable table=new JTable(data,heading);
 	

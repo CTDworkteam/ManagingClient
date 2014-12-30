@@ -16,6 +16,7 @@ public class RegisterInfoPO implements java.io.Serializable{
 		this.role = role;
 	}
 	public RegisterInfoPO() {
+		// TODO Auto-generated constructor stub
 		// TODO 自动生成的构造函数存根
 	}
 	public String getName() {

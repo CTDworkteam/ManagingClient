@@ -9,13 +9,12 @@ import javax.swing.event.ChangeListener;
 public class Recordui {
 	
 	public JPanel panelRecord=new JPanel();
-	JTabbedPane tab;
+	JTabbedPane tab=new JTabbedPane();
 	
 	RecordBillui bill=new RecordBillui();
 	RecordComdifyui comdify=new RecordComdifyui();
 	
 	public Recordui(){
-		tab=new JTabbedPane();
 		tab.add("数据修改",bill.panel);
 		tab.add("单据制定",comdify.panel);
 		panelRecord.setLayout(null);

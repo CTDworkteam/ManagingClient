@@ -14,9 +14,6 @@ import vo.*;
  */
 public class Mainui {
 	
-	JFrame frame;
-	JPanel panel;
-	
 	Financemanagerui finance=new Financemanagerui();
 	Managerui manager=new Managerui();
 	Stockui stock=new Stockui();

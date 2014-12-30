@@ -6,17 +6,15 @@ import java.awt.event.*;
 
 public class InitialNew implements ChangeListener{
 	
-	JFrame frame;
-	JPanel panel;
-	JTabbedPane tab;
+	JFrame frame=new JFrame();
+	JPanel panel=new JPanel();
+	JTabbedPane tab=new JTabbedPane();
 	
 	InitialAccount account=new InitialAccount();
 	InitialClient client=new InitialClient();
 	InitialCommodity commodity=new InitialCommodity();
 	
 	public void go(){
-		frame=new JFrame();
-		panel=new JPanel();
 		
 		frame.setTitle("新建期初信息");
 		
@@ -27,7 +25,6 @@ public class InitialNew implements ChangeListener{
 		buttonCancel.addActionListener(new cancelListener());
 		JButton buttonSave=new JButton("存储");
 		buttonSave.addActionListener(new saveListener());
-		tab=new JTabbedPane();
 		
 		tab.add("账户信息",account.panelAccount);
 		tab.add("客户信息",client.panelClient);

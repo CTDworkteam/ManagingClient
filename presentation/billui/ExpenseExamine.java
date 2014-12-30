@@ -20,15 +20,16 @@ public class ExpenseExamine {
 	
 	JLabel label=new JLabel("现金费用单");
 	
-	String[][] data;
-	JTable table;
+	String[] heading={"条目名","条目金额","备注"};
+	String[][] data=new String[100][3];
+	JTable table=new JTable(data,heading);
 	
-	JTextField fieldOperator;
-	JTextField fieldAccount;
-	JTextField fieldTotal;
-	JComboBox<String> boxState;
+	JTextField fieldOperator=new JTextField();
+	JTextField fieldAccount=new JTextField();
+	JTextField fieldTotal=new JTextField();
+	JComboBox<String> boxState=new JComboBox<String>();
 	
-	ExpenseVO vo;
+	ExpenseVO vo=new ExpenseVO();
 	
 	public void go(ExpenseVO vo){
 		
@@ -42,28 +43,22 @@ public class ExpenseExamine {
 		
 		ArrayList<ExpenseItemVO> items=vo.getList();
 		//条目信息列表设置
-		String[] heading={"条目名","条目金额","备注"};
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getItemName();
 			data[t][1]=Double.toString(items.get(t).getMoney());
 			data[t][2]=items.get(t).getNote();
 		}
-		table=new JTable(data,heading);
 		table.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scroller=new JScrollPane(table);		
 		
 		JLabel labelID=new JLabel(vo.getId());
 		JLabel labelOperator=new JLabel("操作员：");
-		fieldOperator=new JTextField();
 		fieldOperator.setText(vo.getOperator());
 		JLabel labelAccount=new JLabel("账户：");
-		fieldAccount=new JTextField();
 		fieldAccount.setText(vo.getAccount());
 		JLabel labelTotal=new JLabel("总计：");
-		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");

@@ -12,7 +12,6 @@ public class ReciptLook {
 	JFrame frame=new JFrame();
 	JPanel panel=new JPanel();
 	JLabel label=new JLabel("收款单");
-	String[][] data;
 	
 	public void go(ReciptVO vo){
 		
@@ -38,6 +37,7 @@ public class ReciptLook {
 		
 		//转账信息列表设置
 		String[] heading={"帐户名","转账金额","备注"};
+		String[][] data=new String[100][3];
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getAccount();
 			data[t][1]=Double.toString(items.get(t).getMoney());

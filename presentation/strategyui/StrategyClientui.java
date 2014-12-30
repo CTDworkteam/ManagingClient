@@ -16,18 +16,17 @@ public class StrategyClientui {
 	
 	public JPanel panel=new JPanel();
 	
-	JComboBox<String> boxLevel;
-	JTextField fieldName;
-	JTextField fieldModel;
-	JTextField fieldCount;
-	JTextField fieldDiscount;
-	JTextField fieldVoucher;
+	JComboBox<String> boxLevel=new JComboBox<String>();
+	JTextField fieldName=new JTextField();
+	JTextField fieldModel=new JTextField();
+	JTextField fieldCount=new JTextField();
+	JTextField fieldDiscount=new JTextField();
+	JTextField fieldVoucher=new JTextField();
 	
 	ArrayList<GiftItemVO> gifts=new ArrayList<GiftItemVO>();
 	
 	public StrategyClientui(){
 		JLabel labelLevel=new JLabel("客户级别",JLabel.RIGHT);
-		boxLevel=new JComboBox<String>();
 		boxLevel.setEditable(true);
 		boxLevel.addItem("1");
 		boxLevel.addItem("2");
@@ -35,15 +34,10 @@ public class StrategyClientui {
 		boxLevel.addItem("4");
 		boxLevel.addItem("5");
 		JLabel labelName=new JLabel("商品名称",JLabel.RIGHT);
-		fieldName=new JTextField();
 		JLabel labelModel=new JLabel("商品型号",JLabel.RIGHT);
-		fieldModel=new JTextField();
 		JLabel labelCount=new JLabel("数量",JLabel.RIGHT);
-		fieldCount=new JTextField();
 		JLabel labelDiscount=new JLabel("折让",JLabel.RIGHT);
-		fieldDiscount=new JTextField();
 		JLabel labelVoucher=new JLabel("代金券",JLabel.RIGHT);
-		fieldVoucher=new JTextField();
 		JButton buttonAdd=new JButton("加入");//确定一项赠品
 		JButton buttonConfirmItem=new JButton("确定");//确定该促销策略中一项的加入
 		
@@ -97,7 +91,6 @@ public class StrategyClientui {
 	
 	class confirmListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			String level=(String) boxLevel.getSelectedItem();
 			int client=Integer.parseInt((String)boxLevel.getSelectedItem());
 			StrategyController strategyController=new StrategyController();
 			GregorianCalendar date=new GregorianCalendar();//得到日期以设置策略编号

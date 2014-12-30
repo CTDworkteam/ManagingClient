@@ -1,10 +1,15 @@
 package financecheckui;
 import javax.swing.*;
+
 import java.util.*;
+import java.awt.event.*;
 
 import vo.*;
 import vo.SalesBillVO.SalesBillItemVO;
+import enumType.ResultMessage;
 import enumType.UserJob;
+import financecheckbl.FinanceCheckController;
+import confirmui.*;
 
 public class ProcessListShowSales {
 	
@@ -13,10 +18,11 @@ public class ProcessListShowSales {
 	
 	JLabel label=new JLabel("销售单");
 	
-	String[] heading={"商品","型号","数量","单价","总价","备注"};
-	String[][] data;
+	SalesBillVO vo=new SalesBillVO();
 
 	public void go(SalesBillVO vo,UserJob job){
+		
+		this.vo=vo;
 		
 		int wide=frame.getToolkit().getScreenSize().width;
 		int high=frame.getToolkit().getScreenSize().height;
@@ -32,6 +38,8 @@ public class ProcessListShowSales {
 		}
 		
 		ArrayList<SalesBillItemVO> billItem=vo.getList();
+		String[] heading={"商品","型号","数量","单价","总价","备注"};
+		String[][] data=new String[100][6];
 		for(int t=0;t<billItem.size();t++){
 			data[t][0]=billItem.get(t).getCommodity();
 			data[t][1]=billItem.get(t).getModel();
@@ -61,7 +69,11 @@ public class ProcessListShowSales {
 		JLabel labelVoucher=new JLabel("代金券："+Double.toString(vo.getVoucher()));
 		JLabel labelTotal=new JLabel("总额："+Double.toString(vo.getTotal()));
 		JScrollPane scrollerText=new JScrollPane(text);
+		JButton button=new JButton("红冲");
+		JButton buttonCopy=new JButton("红冲并复制");
 		
+		button.addActionListener(new buttonListener());
+		buttonCopy.addActionListener(new buttonCopyListener());
 		
 		panel.setLayout(null);
 		
@@ -78,6 +90,8 @@ public class ProcessListShowSales {
 		labelVoucher.setBounds(140,365,100,25);
 		labelTotal.setBounds(250,330,100,25);
 		scrollerText.setBounds(30,400,400,80);
+		button.setBounds(50,500,90,25);
+		buttonCopy.setBounds(160,500,90,25);
 		
 		panel.add(label);
 		panel.add(labelID);
@@ -92,8 +106,46 @@ public class ProcessListShowSales {
 		panel.add(labelVoucher);
 		panel.add(labelTotal);
 		panel.add(scrollerText);
+		if(job==UserJob.FinanceManager){
+			panel.add(button);
+			panel.add(buttonCopy);
+		}
 		
 		frame.getContentPane().add(panel);
 		frame.setVisible(true);
+	}
+	
+	class buttonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			FinanceCheckController controller=new FinanceCheckController();
+			ResultMessage result=controller.deficitInvoice(vo);
+			String message="";
+			if(result==ResultMessage.Failure){
+				message="红冲失败";
+			}else{
+				message="已成功进行红冲";
+			}
+			Runnable r=new Confirmui(message);
+			Thread thread=new Thread(r);
+			thread.start();
+		}
+	}
+	
+	class buttonCopyListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			FinanceCheckController controller=new FinanceCheckController();
+			ResultMessage result=controller.deficitInvoice(vo);
+			if(result==ResultMessage.Failure){
+				Runnable r=new Confirmui("红冲失败");
+				Thread thread=new Thread(r);
+				thread.start();
+			}else{
+				Runnable r=new Confirmui("已成功进行红冲");
+				Thread thread=new Thread(r);
+				thread.start();
+				CopySales copy=new CopySales();
+				copy.go(vo.getId());
+			}
+		}
 	}
 }

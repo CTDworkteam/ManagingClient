@@ -10,10 +10,10 @@ import confirmui.*;
 
 public class Loginui {
 	
-	JFrame frame;
-	JPanel panel;
-	JTextField fieldID;
-	JPasswordField fieldPassword;
+	JFrame frame=new JFrame();
+	JPanel panel=new JPanel();
+	JTextField fieldID=new JTextField();
+	JPasswordField fieldPassword=new JPasswordField();
 	
 	Registerui register=new Registerui();
 	FindPasswordui find=new FindPasswordui();
@@ -24,8 +24,6 @@ public class Loginui {
 	UserController userController=new UserController();
 	
 	public void go(){
-		frame=new JFrame();
-		panel=new JPanel();
 		
 		int wide=frame.getToolkit().getScreenSize().width;
 		int high=frame.getToolkit().getScreenSize().height;
@@ -35,8 +33,6 @@ public class Loginui {
 		JLabel labelWork=new JLabel("职务",JLabel.RIGHT);
 		JLabel labelName=new JLabel("用户名",JLabel.RIGHT);
 		JLabel labelPassword=new JLabel("密码",JLabel.RIGHT);
-		fieldID=new JTextField();
-		fieldPassword=new JPasswordField();
 		JButton buttonSure=new JButton("登陆");
 		buttonSure.addActionListener(new loginListener());
 		JButton buttonRegister=new JButton("注册");

@@ -19,7 +19,7 @@ public class AccountDeleteui{
 	
 	AccountController controller=new AccountController();
 	
-	AccountVO theAccount;//账户信息
+	AccountVO theAccount=new AccountVO();//账户信息
 	
 	public void go(AccountVO vo){
 		

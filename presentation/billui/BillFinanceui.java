@@ -15,17 +15,17 @@ public class BillFinanceui {
 	
 	String[] heading={"编号","类型","操作员"};
 	
-	String[][] dataRecipt;
-	String[][] dataPayment;
-	String[][] dataExpense;
+	String[][] dataRecipt=new String[100][3];
+	String[][] dataPayment=new String[100][3];
+	String[][] dataExpense=new String[100][3];
 	
 	JTable tableRecipt=new JTable(dataRecipt,heading);
 	JTable tablePayment=new JTable(dataPayment,heading);
 	JTable tableExpense=new JTable(dataExpense,heading);
 	
-	ArrayList<ReciptVO> recipt;
-	ArrayList<PaymentVO> payment;
-	ArrayList<ExpenseVO> expense;
+	ArrayList<ReciptVO> recipt=new ArrayList<ReciptVO>();
+	ArrayList<PaymentVO> payment=new ArrayList<PaymentVO>();
+	ArrayList<ExpenseVO> expense=new ArrayList<ExpenseVO>();
 	
 	public void go(ArrayList<ReciptVO> recipt,ArrayList<PaymentVO> payment,ArrayList<ExpenseVO> expense){
 		

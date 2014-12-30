@@ -10,9 +10,9 @@ import enumType.UserJob;
 
 public class Managerui implements ChangeListener,ActionListener{
 	
-	JFrame frame;
-	JPanel panel;
-	JTabbedPane tab;
+	JFrame frame=new JFrame();
+	JPanel panel=new JPanel();
+	JTabbedPane tab=new JTabbedPane();
 	
 	Billui bill=new Billui();
 	Strategyui strategy=new Strategyui();
@@ -20,8 +20,6 @@ public class Managerui implements ChangeListener,ActionListener{
 	Recordui record=new Recordui();
 	
 	public void go(String name){
-		frame=new JFrame();
-		panel=new JPanel();
 		
 		frame.setTitle("总经理");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +28,6 @@ public class Managerui implements ChangeListener,ActionListener{
 		int high=frame.getToolkit().getScreenSize().height;
 		
 		JPanel panelFace=new JPanel();
-		tab=new JTabbedPane();
 		JLabel labelName=new JLabel("姓名 "+name);
 		JLabel labelWork=new JLabel("职务 总经理");
 		JButton button=new JButton("退出");

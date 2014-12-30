@@ -18,7 +18,7 @@ public class MessageStrategy {
 	public JPanel panel=new JPanel();
 	
 	String[] heading={"±àºÅ","²ßÂÔÄÚÈİ"};
-	String[][] data;
+	String[][] data=new String[100][2];
 	JTable table=new JTable(data,heading);
 	
 	public MessageStrategy(){

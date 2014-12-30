@@ -17,14 +17,14 @@ public class BillSalesui {
 	
 	String[] heading={"编号","类型","操作员"};
 	
-	String[][] dataSales;
-	String[][] dataSalesReturn;
+	String[][] dataSales=new String[100][3];
+	String[][] dataSalesReturn=new String[100][3];
 	
 	JTable tableSales=new JTable(dataSales,heading);
 	JTable tableSalesReturn=new JTable(dataSalesReturn,heading);
 	
-	ArrayList<SalesBillVO> salesBill;
-	ArrayList<SalesReturnBillVO> salesReturnBill;
+	ArrayList<SalesBillVO> salesBill=new ArrayList<SalesBillVO>();
+	ArrayList<SalesReturnBillVO> salesReturnBill=new ArrayList<SalesReturnBillVO>();
 	
 	public void go(ArrayList<SalesBillVO> salesBill,ArrayList<SalesReturnBillVO> salesReturnBill){
 		

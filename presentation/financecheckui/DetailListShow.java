@@ -19,12 +19,12 @@ public class DetailListShow {
 	JLabel label=new JLabel("销售明细表");
 	
 	String[] heading={"日期","商品","型号","数量","单价","总价"};
-	String[][] data;
-	JTable table;
+	String[][] data=new String[100][6];
+	JTable table=new JTable(data,heading);
 	
-	JTextField fieldDest;
+	JTextField fieldDest=new JTextField();
 	
-	DetailListVO vo;
+	DetailListVO vo=new DetailListVO();
 	
 	public void go(DetailListVO vo){
 		
@@ -52,10 +52,8 @@ public class DetailListShow {
 			data[t][4]=Double.toString(theList.get(t).getPrice());
 			data[t][5]=Double.toString(theList.get(t).getTotal());
 		}
-		JTable table=new JTable(data,heading);
 		JScrollPane scroller=new JScrollPane(table);
 		
-		fieldDest=new JTextField();
 		JButton button=new JButton("导出");
 		
 		button.addActionListener(new buttonListener());

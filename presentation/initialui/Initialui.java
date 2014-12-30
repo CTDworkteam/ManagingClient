@@ -11,14 +11,13 @@ import java.awt.event.*;
 public class Initialui {
 
 	public JPanel panelInitial=new JPanel();
-	JTextField text;
+	JTextField text=new JTextField();
 	
 	InitialNew inew=new InitialNew();
 	
 	public Initialui(){
 		
 		JLabel label=new JLabel("期初标识");
-		text=new JTextField();
 		JButton buttonLook=new JButton("查看");
 		buttonLook.addActionListener(new lookListener());
 		JButton button=new JButton("");
