@@ -1,6 +1,10 @@
 package po;
 import enumType.*;
 public class BillRecordPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3744687406761745541L;
 	private String ID;
 	private String operator;
 	private Operation operation;

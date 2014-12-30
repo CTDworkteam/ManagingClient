@@ -1,7 +1,10 @@
 package po;
 import java.util.ArrayList;
 public class CombinationStrategyPO implements java.io.Serializable{
-	//ID:COMBINATION2014122300001
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6467107955080022331L;
 	private String id;
 	private ArrayList<CombinationItemPO> list;
 	private double total;
@@ -32,6 +35,10 @@ public class CombinationStrategyPO implements java.io.Serializable{
 		this.total=total;
 	}
 	public class CombinationItemPO implements java.io.Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6397215107446992682L;
 		private String commodityID;
 		private String model;
 		private int number;

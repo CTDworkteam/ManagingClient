@@ -1,6 +1,10 @@
 package po;
 import java.util.ArrayList;;
 public class CommodityTypePO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8092702191209861190L;
 	private String id;
 	private String name;
 	private boolean isRootNode;

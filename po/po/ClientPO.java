@@ -1,6 +1,10 @@
 package po;
 import enumType.ClientType;
 public class ClientPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8666873046048255416L;
 	private long id;
 	private String name;
 	private ClientType type;
