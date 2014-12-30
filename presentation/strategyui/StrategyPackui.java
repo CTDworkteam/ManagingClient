@@ -17,25 +17,20 @@ public class StrategyPackui {
 	
 	public JPanel panel=new JPanel();
 	
-	JTextField fieldInitial;
-	JTextField fieldLater;
-	JTextField fieldCommodity;
-	JTextField fieldModel;
-	JTextField fieldNumber;
+	JTextField fieldInitial=new JTextField();
+	JTextField fieldLater=new JTextField();
+	JTextField fieldCommodity=new JTextField();
+	JTextField fieldModel=new JTextField();
+	JTextField fieldNumber=new JTextField();
 	
 	ArrayList<CombinationItemVO> item=new ArrayList<CombinationItemVO>();
 	
 	public StrategyPackui(){
 		JLabel labelInitial=new JLabel("原价");
-		fieldInitial=new JTextField();
 		JLabel labelLater=new JLabel("现价");
-		fieldLater=new JTextField();
 		JLabel labelCommodity=new JLabel("名称",JLabel.RIGHT);
-		fieldCommodity=new JTextField();
 		JLabel labelModel=new JLabel("型号",JLabel.RIGHT);
-		fieldModel=new JTextField();
 		JLabel labelNumber=new JLabel("数量",JLabel.RIGHT);
-		fieldNumber=new JTextField();
 		JButton buttonAdd=new JButton("加入");//加入特价包中的一项商品
 		JButton buttonConfirmItem=new JButton("确定");//确定加入该促销策略中的一个特价包
 		

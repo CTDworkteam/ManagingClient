@@ -20,10 +20,10 @@ public class ProcessListShow {
 	JPanel panel=new JPanel();
 	
 	String[] heading={"±‡∫≈","¿‡–Õ"};
-	String[][] data;
+	String[][] data=new String[500][2];
 	JTable table=new JTable(data,heading);
 	
-	UserJob theJob;
+	UserJob theJob=null;
 
 	public void go(ProcessListVO vo,UserJob job){
 		

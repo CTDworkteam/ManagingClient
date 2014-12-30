@@ -14,9 +14,9 @@ import enumType.UserJob;
  */
 public class Financemanagerui implements ChangeListener,ActionListener{
 	
-	JFrame frame;
-	JPanel panel;
-	JTabbedPane tab;
+	JFrame frame=new JFrame();
+	JPanel panel=new JPanel();
+	JTabbedPane tab=new JTabbedPane();
 	
 	Accountui account=new Accountui();
 	Financeui finance=new Financeui();
@@ -25,8 +25,6 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 	Recordui record=new Recordui();
 	
 	public void go(String name){
-		frame=new JFrame();
-		panel=new JPanel();
 		
 		frame.setTitle("财务人员");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,7 +33,6 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 		int high=frame.getToolkit().getScreenSize().height;
 		
 		JPanel panelFace=new JPanel();
-		tab=new JTabbedPane();
 		JLabel labelName=new JLabel("姓名 "+name);
 		JLabel labelWork=new JLabel("职务 财务人员");
 		JButton button=new JButton("退出");

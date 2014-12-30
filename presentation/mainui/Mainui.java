@@ -1,5 +1,4 @@
 package mainui;
-import javax.swing.*;
 import financemanagerui.Financemanagerui;
 import managerui.Managerui;
 import enumType.UserJob;
@@ -9,9 +8,6 @@ import vo.*;
  * 各工作人员工作界面跳转
  */
 public class Mainui {
-	
-	JFrame frame;
-	JPanel panel;
 	
 	Financemanagerui finance=new Financemanagerui();
 	Managerui manager=new Managerui();

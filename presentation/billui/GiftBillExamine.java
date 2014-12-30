@@ -21,15 +21,16 @@ public class GiftBillExamine {
 	
 	JLabel label=new JLabel("库存赠送单");
 	
-	JTextField fieldClient;
-	JTextField fieldStorehouse;
-	JTextField fieldOperator;
-	JComboBox<String> boxState;
+	JTextField fieldClient=new JTextField();
+	JTextField fieldStorehouse=new JTextField();
+	JTextField fieldOperator=new JTextField();
+	JComboBox<String> boxState=new JComboBox<String>();
 	
+	String[] heading={"编号","型号","数量"};
 	String[][] data=new String[3][3];
-	JTable table;
+	JTable table=new JTable(data,heading);
 	
-	GiftBillVO vo;
+	GiftBillVO vo=new GiftBillVO();
 
 	public void go(GiftBillVO vo){
 		
@@ -41,28 +42,22 @@ public class GiftBillExamine {
 		frame.setSize(wide/2-250,high*3/4);
 		frame.setLocation(wide/4,high/8);
 		
-		String[] heading={"编号","型号","数量"};
 		ArrayList<GiftBillItemVO> items=new ArrayList<GiftBillItemVO>();
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getCommodity();
 			data[t][1]=items.get(t).getModel();
 			data[t][2]=Integer.toString(items.get(t).getNumber());
 		}
-		table=new JTable(data,heading);
 		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		JScrollPane scroller=new JScrollPane(table);
 		
 		JLabel labelID=new JLabel(vo.getId());
 		JLabel labelClient=new JLabel("客户：");
-		fieldClient=new JTextField();
 		fieldClient.setText(vo.getClient());
 		JLabel labelStorehouse=new JLabel("仓库：");
-		fieldStorehouse=new JTextField();
 		fieldStorehouse.setText(vo.getStorehouse());
 		JLabel labelOperator=new JLabel("操作员：");
-		fieldOperator=new JTextField();
 		fieldOperator.setText(vo.getOperator());
-		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");

@@ -20,21 +20,22 @@ public class SalesReturnExamine {
 	
 	JLabel label=new JLabel("销售单");
 	
-	String[][] data=new String[6][6];
-	JTable table;
+	String[] heading={"编号","型号","数量","单价","总价","备注"};
+	String[][] data=new String[100][6];
+	JTable table=new JTable(data,heading);
 	
-	JTextField fieldClient;
-	JTextField fieldDefaultOperator;
-	JTextField fieldOperator;
-	JTextField fieldStorehouse;
-	JTextField fieldInitialTotal;
-	JTextField fieldDiscount;
-	JTextField fieldVoucher;
-	JTextField fieldTotal;
-	JTextArea text;
-	JComboBox<String> boxState;
+	JTextField fieldClient=new JTextField();
+	JTextField fieldDefaultOperator=new JTextField();
+	JTextField fieldOperator=new JTextField();
+	JTextField fieldStorehouse=new JTextField();
+	JTextField fieldInitialTotal=new JTextField();
+	JTextField fieldDiscount=new JTextField();
+	JTextField fieldVoucher=new JTextField();
+	JTextField fieldTotal=new JTextField();
+	JTextArea text=new JTextArea();
+	JComboBox<String> boxState=new JComboBox<String>();
 	
-	SalesReturnBillVO vo;
+	SalesReturnBillVO vo=new SalesReturnBillVO();
 	
 	public void go(SalesReturnBillVO vo){
 		
@@ -46,7 +47,6 @@ public class SalesReturnExamine {
 		frame.setSize(wide/2-200,high*3/4);
 		frame.setLocation(wide/4,high/8);
 		
-		String[] heading={"编号","型号","数量","单价","总价","备注"};
 		ArrayList<SalesReturnBillItemVO> items=vo.getList();
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getCommodity();
@@ -56,7 +56,6 @@ public class SalesReturnExamine {
 			data[t][4]=Double.toString(items.get(t).getTotal());
 			data[t][5]=items.get(t).getNote();
 		}
-		table=new JTable(data,heading);
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table.getColumnModel().getColumn(5).setPreferredWidth(200);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -64,34 +63,24 @@ public class SalesReturnExamine {
 		
 		JLabel labelID=new JLabel("编号");
 		JLabel labelClient=new JLabel("客户：");
-		fieldClient=new JTextField();
 		fieldClient.setText(vo.getClient());
 		JLabel labelDefaultOperator=new JLabel("默认业务员:");
-		fieldDefaultOperator=new JTextField();
 		fieldDefaultOperator.setText(vo.getDefaultOperator());
 		JLabel labelOperator=new JLabel("操作员：");
-		fieldOperator=new JTextField();
 		fieldOperator.setText(vo.getOperator());
 		JLabel labelStorehouse=new JLabel("仓库：");
-		fieldStorehouse=new JTextField();
 		fieldStorehouse.setText(vo.getStorehouse());
 		JLabel labelInitialTotal=new JLabel("原始总价：");
-		fieldInitialTotal=new JTextField();
 		fieldInitialTotal.setText(Double.toString(vo.getInitialTotal()));
 		JLabel labelDiscount=new JLabel("折扣：");
-		fieldDiscount=new JTextField();
 		fieldDiscount.setText(Double.toString(vo.getDiscount()));
 		JLabel labelVoucher=new JLabel("代金券：");
-		fieldVoucher=new JTextField();
 		fieldVoucher.setText(Double.toString(vo.getVoucher()));
 		JLabel labelTotal=new JLabel("最终总价：");
-		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		text=new JTextArea();
 		text.setLineWrap(true);
 		text.setText(vo.getNote());
 		JScrollPane scrollerText=new JScrollPane(text);
-		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");

@@ -13,8 +13,6 @@ public class RecordComdifyui {
 	
 	public JPanel panel=new JPanel();
 	
-	String[] heading={"操作范围","操作行为","操作内容","操作员"};
-	String[][] data;
 	
 	public RecordComdifyui(){
 		
@@ -27,6 +25,8 @@ public class RecordComdifyui {
 				records.add(theRecord.get(t));
 			}
 		}
+		String[] heading={"操作范围","操作行为","操作内容","操作员"};
+		String[][] data=new String[100][4];
 		for(int t=0;t<records.size();t++){
 			data[t][0]=controller.changeOperation(records.get(t).getOperation());
 			data[t][1]=controller.changeAction(records.get(t).getAction());

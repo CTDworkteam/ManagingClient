@@ -17,8 +17,6 @@ public class PaymentConfirm {
 	JFrame frame=new JFrame();
 	JPanel panel=new JPanel();
 	
-	String[][] data;
-	
 	ArrayList<PaymentVO> payment=new ArrayList<PaymentVO>();
 	
 	public void go(PaymentVO vo){
@@ -52,6 +50,7 @@ public class PaymentConfirm {
 		
 		//转账信息列表设置
 		String[] heading={"帐户名","转账金额","备注"};
+		String[][] data=new String[100][3];
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getAccount();
 			data[t][1]=Double.toString(items.get(t).getMoney());

@@ -6,7 +6,7 @@ import enumType.UserJob;
 public class Financecheckui {
 	
 	public JPanel panelFinancecheck=new JPanel();
-	JTabbedPane tab;
+	JTabbedPane tab=new JTabbedPane(JTabbedPane.LEFT);
 	
 	public Financecheckui(UserJob job){
 		
@@ -14,7 +14,6 @@ public class Financecheckui {
 		ProcessListCheck processList=new ProcessListCheck(job);
 		ConditionListCheck conditionList=new ConditionListCheck();
 		
-		tab=new JTabbedPane(JTabbedPane.LEFT);
 		tab.add("销售明细表",detailList.panel);
 		tab.add("经营历程表",processList.panel);
 		tab.add("经营情况表",conditionList.panel);

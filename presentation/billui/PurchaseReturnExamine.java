@@ -17,17 +17,18 @@ public class PurchaseReturnExamine {
 	
 	JLabel label=new JLabel("进货退货单");
 	
-	String[][] data;
-	JTable table;
+	String[] heading={"商品编号","型号","数量","单价","总价","备注"};
+	String[][] data=new String[100][6];
+	JTable table=new JTable(data,heading);
 	
-	JTextField fieldSupplier;
-	JTextField fieldStorehouse;
-	JTextField fieldOperator;
-	JTextField fieldTotal;
-	JTextArea text;
-	JComboBox<String> boxState;
+	JTextField fieldSupplier=new JTextField();
+	JTextField fieldStorehouse=new JTextField();
+	JTextField fieldOperator=new JTextField();
+	JTextField fieldTotal=new JTextField();
+	JTextArea text=new JTextArea();
+	JComboBox<String> boxState=new JComboBox<String>();
 	
-	PurchaseReturnBillVO vo;
+	PurchaseReturnBillVO vo=new PurchaseReturnBillVO();
 	
 	public void go(PurchaseReturnBillVO vo){
 		
@@ -41,7 +42,6 @@ public class PurchaseReturnExamine {
 		
 		ArrayList<PurchaseReturnBillItemVO> items=vo.getList();
 		
-		String[] heading={"商品编号","型号","数量","单价","总价","备注"};
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getCommodity();
 			data[t][1]=items.get(t).getModel();
@@ -50,7 +50,6 @@ public class PurchaseReturnExamine {
 			data[t][4]=Double.toString(items.get(t).getTotal());
 			data[t][5]=items.get(t).getNote();
 		}
-		table=new JTable(data,heading);
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table.getColumnModel().getColumn(5).setPreferredWidth(200);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -58,22 +57,16 @@ public class PurchaseReturnExamine {
 		
 		JLabel labelID=new JLabel(vo.getId());
 		JLabel labelSupplier=new JLabel("进货商");
-		fieldSupplier=new JTextField();
 		fieldSupplier.setText(vo.getSupplier());
 		JLabel labelStorehouse=new JLabel("仓库");
-		fieldStorehouse=new JTextField();
 		fieldStorehouse.setText(vo.getStorehouse());
 		JLabel labelOperator=new JLabel("操作员");
-		fieldOperator=new JTextField();
 		fieldOperator.setText(vo.getOperator());
 		JLabel labelTotal=new JLabel("总价");
-		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		text=new JTextArea();
 		text.setLineWrap(true);
 		text.setText(vo.getNote());
 		JScrollPane scrollerText=new JScrollPane(text);
-		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");
