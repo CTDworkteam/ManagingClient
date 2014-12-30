@@ -1,31 +1,12 @@
 package financecheckbl;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.*;
 
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 import config.RMI;
 import convert.Convert;
-import po.ClientPO;
-import po.CommodityPO;
-import po.ExpensePO;
-import po.GiftBillPO;
-import po.OverflowBillPO;
-import po.PaymentPO;
-import po.PaymentPO.PaymentItemPO;
-import po.PurchaseBillPO;
-import po.PurchaseReturnBillPO;
-import po.ReciptPO;
-import po.SalesBillPO;
+import po.*;
+import po.CommodityPO.CommodityModelPO;
+import po.GiftBillPO.GiftBillItemPO;
 import po.SalesBillPO.SalesBillItemPO;
-import po.SalesReturnBillPO;
-import po.SalesReturnBillPO.SalesReturnBillItemPO;
-import po.UnderflowBillPO;
 import purchasebl.Purchase;
 import salesbl.Sales;
 import dataservice.*;
@@ -35,7 +16,6 @@ import financebl.Finance;
 import utility.Utility;
 import vo.*;
 import vo.DetailListVO.DetailListItemVO;
-import vo.SalesBillVO.SalesBillItemVO;
 import billbl.Bill;
 import blservice.*;
 public class FinanceCheck implements FinanceCheckBLService{
@@ -736,20 +716,75 @@ public class FinanceCheck implements FinanceCheckBLService{
 		SalesDataService s = RMI.getSalesDataService();
 		CommodityDataService c = RMI.getCommodityDataService();
 		StockDataService st = RMI.getStockDataService();
+		PurchaseDataService p = RMI.getPurchaseDataService();
 		
-		ConditionListVO result = new ConditionListVO(start.toString(),
-				end.toString(),null,null,0);
-		//InVO in = calculate(start,end);
-		//OutVO out = calculate2(start,end);
-		
-		Iterator<SalesBillPO> i = s.finds1(start, end);
-		Iterator<SalesReturnBillPO> j = s.finds2(start, end);
-		double total = 0;
-		while(i.hasNext()){
-			total+=i.next().getTotal();
-		}
-		while(j.hasNext()){
-			total-=j.next().getTotal();
+		if(s == null || c == null|| st == null || p == null)
+			return null;
+		else{
+			double salesIn=0.0;
+			double VoucherIn=0.0;
+			double discount=0.0;
+			double total=0.0;
+			Iterator<SalesBillPO> i = s.finds1(start, end);
+			while(i.hasNext()){
+				salesIn+=i.next().getInitialTotal();
+				VoucherIn+=i.next().getVoucher();
+				discount+=i.next().getDiscount();
+				total+=i.next().getTotal();
+			}
+			double overflowIn=0.0;
+			Iterator<OverflowBillPO> iof = st.finds(start, end);
+			while(iof.hasNext()){
+				CommodityPO temp = c.findCommodityInID(iof.next().getCommodityID());
+				ArrayList<CommodityModelPO> list = temp.getList();
+				for(int j=0;j<list.size();j++){
+					if(list.get(j).getName().equals(iof.next().getModel())){
+						overflowIn+=list.get(j).getRecentRetailPrice()*
+							(iof.next().getActualNumber()-iof.next().getRecordNumber());
+						break;
+					}
+				}
+			}
+			InVO in = new InVO(salesIn, overflowIn, 0, 0, VoucherIn, discount, total);
+			
+			double salesBase=0.0;
+			double purchaseTotal=0.0;
+			Iterator<PurchaseBillPO> ip = p.finds1(start, end);
+			while(ip.hasNext()){
+				salesBase+=ip.next().getTotal();
+				purchaseTotal+=ip.next().getTotal();
+			}
+			double underflowOut=0.0;
+			double giftOut=0.0;
+			Iterator<UnderflowBillPO> iuf = st.finds2(start, end);
+			while(iuf.hasNext()){
+				CommodityPO temp = c.findCommodityInID(iuf.next().getCommodityID());
+				ArrayList<CommodityModelPO> list = temp.getList();
+				for(int j=0;j<list.size();j++){
+					if(list.get(j).getName().equals(iuf.next().getModel())){
+						underflowOut+=list.get(j).getRecentPurchasePrice()*
+								(iuf.next().getRecordNumber()-iuf.next().getActualNumber());
+						break;
+					}
+				}
+			}
+			Iterator<GiftBillPO> ig = st.finds1(start, end);
+			while(ig.hasNext()){
+				ArrayList<GiftBillItemPO> list = ig.next().getList();
+				for(int j=0;j<list.size();j++){
+					CommodityPO temp = c.findCommodityInID(list.get(j).getCommodityID());
+					ArrayList<CommodityModelPO> l = temp.getList();
+					for(int k=0;k<l.size();k++){
+						if(l.get(k).getName().equals(list.get(j).getModel())){
+							giftOut+=list.get(j).getNumber()*l.get(k).getRecentPurchasePrice();
+						}
+					}
+				}
+			}
+			OutVO out = new OutVO(salesBase, underflowOut, giftOut, purchaseTotal);
+			
+			return new ConditionListVO(start.toString(),end.toString(),
+					in, out,total-purchaseTotal);
 		}
 	}
 
