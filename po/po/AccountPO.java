@@ -13,6 +13,9 @@ public class AccountPO implements java.io.Serializable{
 		this.name = name;
 		this.money = money;
 	}
+	public AccountPO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getName() {
 		return name;
 	}

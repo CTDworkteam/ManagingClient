@@ -68,6 +68,9 @@ public class ExpensePO implements java.io.Serializable{
 			this.money = money;
 			this.note = note;
 		}
+		public ExpenseItemPO() {
+			// TODO 自动生成的构造函数存根
+		}
 		public String getItemName() {
 			return itemName;
 		}

@@ -16,6 +16,9 @@ public class VoucherBasedOnTotalMoneyPO implements java.io.Serializable{
 		this.lower = lower;
 		this.upper = upper;
 	}
+	public VoucherBasedOnTotalMoneyPO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getId() {
 		return id;
 	}

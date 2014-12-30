@@ -15,6 +15,9 @@ public class RegisterInfoPO implements java.io.Serializable{
 		this.password = password;
 		this.role = role;
 	}
+	public RegisterInfoPO() {
+		// TODO 自动生成的构造函数存根
+	}
 	public String getName() {
 		return name;
 	}
