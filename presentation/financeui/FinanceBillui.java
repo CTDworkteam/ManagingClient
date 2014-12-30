@@ -15,15 +15,18 @@ public class FinanceBillui {
 	
 	public JPanel panel=new JPanel();
 	
-	JTable table;
+	String[] heading={"编号","状态","操作员","客户"};//付款单列表表头
+	String[][] data=new String[100][4];
+	JTable table=new JTable(data,heading);
 	
-	JTextField fieldCustomer;//客户
-	JTable tableFinanceItem;//转账信息
-	JTextField fieldOperator;//操作员
+	JTextField fieldCustomer=new JTextField();//客户
+	JTextField fieldOperator=new JTextField();//操作员
 	
-	String[][] data;
+	String[] headingItem={"银行帐户名","转账金额","备注"};
+	String[][] dataItem=new String[6][3];
+	JTable tableFinanceItem=new JTable(dataItem,headingItem);
 	
-	String billType;
+	String billType="";
 	
 	public FinanceBillui(String billType){
 		
@@ -32,7 +35,6 @@ public class FinanceBillui {
 		FinanceController controller=new FinanceController();
 		
 		JButton button=new JButton("刷新");//刷新单据列表
-		String[] heading={"编号","状态","操作员","客户"};//付款单列表表头
 		//获取付款单或收款单列表信息
 		if(billType=="付款单"){
 			ArrayList<PaymentVO> payments=controller.getAllPayments();
@@ -78,7 +80,6 @@ public class FinanceBillui {
 			}
 		}
 		//单据列表设置
-		JTable table=new JTable(data,heading);
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 	    table.setColumnSelectionAllowed(false);
@@ -89,14 +90,9 @@ public class FinanceBillui {
 		
 		JLabel labelNew=new JLabel("新建"+billType);
 		JLabel labelCustomer=new JLabel("客户名",JLabel.RIGHT);
-		fieldCustomer=new JTextField();
 		JLabel labelOperator=new JLabel("操作员",JLabel.RIGHT);
-		fieldOperator=new JTextField();
 		
 		//转账信息列表设置
-		String[] headingItem={"银行帐户名","转账金额","备注"};
-		String[][] dataItem=new String[6][3];
-		tableFinanceItem=new JTable(dataItem,headingItem);
 		tableFinanceItem.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		tableFinanceItem.getColumnModel().getColumn(2).setPreferredWidth(300);
 		tableFinanceItem.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

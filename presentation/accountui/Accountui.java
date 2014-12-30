@@ -16,11 +16,11 @@ import confirmui.*;
 public class Accountui {
 	
 	public JPanel panelAccount=new JPanel();
-	JTextField fieldNum;
-	JTable table;
-	JTextField fieldName;
-	
-	String[][] data;
+	JTextField fieldNum=new JTextField();
+	JTextField fieldName=new JTextField();
+	String[] heading={"序号","银行账户名"};
+	String[][] data=new String[100][2];
+	JTable table=new JTable(data,heading);
 	
 	AccountVO vo=new AccountVO();
 	
@@ -35,7 +35,7 @@ public class Accountui {
 		
 		JButton button=new JButton("");
 		button.addActionListener(new newListener());
-		String[] heading={"序号","银行账户名"};
+		
 		ArrayList<AccountVO> accounts=new ArrayList<AccountVO>();
 		accounts=controller.getList();
 		int size=accounts.size();
@@ -43,12 +43,9 @@ public class Accountui {
 			data[i][0]=Long.toString(accounts.get(i).getId());
 			data[i][1]=accounts.get(i).getName();
 		}
-		table=new JTable(data,heading);
 		JLabel labelNumber=new JLabel("共有            个账户");
-		fieldNum=new JTextField();
 		setNum();
 		JLabel labelName=new JLabel("银行帐户名");
-		fieldName=new JTextField();//银行帐户名输入
 		JButton buttonAdd=new JButton("增加");//增加账户操作
 		buttonAdd.addActionListener(new addListener());
 		JButton buttonLook=new JButton("查看");//查看账户属性操作按钮

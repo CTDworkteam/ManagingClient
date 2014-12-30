@@ -19,26 +19,23 @@ public class ProcessListCheck {
 
 	JPanel panel=new JPanel();
 	
-	JTextField fieldStart;
-	JTextField fieldEnd;
-	JComboBox<String> boxType;
-	JComboBox<String> boxClient;
-	JComboBox<String> boxOperator;
-	JTextField fieldStorehouse;
+	JTextField fieldStart=new JTextField();
+	JTextField fieldEnd=new JTextField();
+	JComboBox<String> boxType=new JComboBox<String>();
+	JComboBox<String> boxClient=new JComboBox<String>();
+	JComboBox<String> boxOperator=new JComboBox<String>();
+	JTextField fieldStorehouse=new JTextField();
 	
-	UserJob theJob;
+	UserJob theJob=null;
 	
 	public ProcessListCheck(UserJob job){
 		
 		this.theJob=job;
 		
 		JLabel labelStart=new JLabel("开始时间：");
-		fieldStart=new JTextField();
 		JLabel labelEnd=new JLabel("结束时间：");
-		fieldEnd=new JTextField();
 		
 		JLabel labelType=new JLabel("单据类型");
-		boxType=new JComboBox<String>();
 		boxType.addItem(null);
 		boxType.addItem("销售单");
 		boxType.addItem("销售退货单");
@@ -52,7 +49,6 @@ public class ProcessListCheck {
 		boxType.addItem("库存赠送单");
 		
 		JLabel labelClient=new JLabel("客户：");
-		boxClient=new JComboBox<String>();
 		boxClient.addItem(null);
 		ClientController clientController=new ClientController();
 		ArrayList<ClientVO> clients=clientController.getList();
@@ -61,7 +57,6 @@ public class ProcessListCheck {
 		}
 		
 		JLabel labelOperator=new JLabel("操作员：");
-		boxOperator=new JComboBox<String>();
 		boxOperator.addItem(null);
 		UserController userController=new UserController();
 		ArrayList<UserVO> salers=userController.getAll().getSalesmanager();
@@ -82,7 +77,6 @@ public class ProcessListCheck {
 		}
 		
 		JLabel labelStorehouse=new JLabel("仓库：");
-		fieldStorehouse=new JTextField();
 		JButton button=new JButton("查询");
 		
 		panel.setLayout(null);

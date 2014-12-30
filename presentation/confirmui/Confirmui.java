@@ -6,19 +6,18 @@ import javax.swing.*;
  */
 public class Confirmui implements Runnable{
 	
-	JFrame frame;
-	JLabel label;
+	JFrame frame=new JFrame();
+	JLabel label=new JLabel();
 	
 	public Confirmui(){
 		
 	}
 	
 	public Confirmui(String result){
-		frame=new JFrame();
 		frame.setSize(400,200);
 		frame.setLocation(550,250);
 		
-		label=new JLabel(result);
+		label.setText(result);
 		
 		frame.setLayout(null);
 		

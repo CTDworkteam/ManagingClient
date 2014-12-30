@@ -13,9 +13,9 @@ public class ConditionListShow {
 	
 	JLabel label=new JLabel("经营情况表");
 	
-	JTextField fieldDest;
+	JTextField fieldDest=new JTextField();
 	
-	ConditionListVO vo;
+	ConditionListVO vo=new ConditionListVO(null,null,null,null, 0);
 	
 	public void go(ConditionListVO vo){
 		

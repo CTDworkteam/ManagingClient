@@ -11,7 +11,6 @@ public class Financeui implements ChangeListener{
 	public JPanel panelFinance=new JPanel();
 	JTabbedPane tab=new JTabbedPane(JTabbedPane.LEFT);
 	
-	FinanceBillui financeBill;
 	Expenseui expense=new Expenseui();
 	
 	public Financeui(){

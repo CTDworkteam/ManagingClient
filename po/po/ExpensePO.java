@@ -69,6 +69,7 @@ public class ExpensePO implements java.io.Serializable{
 			this.note = note;
 		}
 		public ExpenseItemPO() {
+			// TODO Auto-generated constructor stub
 			// TODO 自动生成的构造函数存根
 		}
 		public String getItemName() {

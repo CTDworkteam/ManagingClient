@@ -19,28 +19,25 @@ public class DetailListCheck {
 
 	JPanel panel=new JPanel();
 	
-	JTextField fieldStart;
-	JTextField fieldEnd;
-	JComboBox<String> boxCommodity;
-	JComboBox<String> boxClient;
-	JComboBox<String> boxOperator;
-	JTextField fieldStorehouse;
+	JTextField fieldStart=new JTextField();
+	JTextField fieldEnd=new JTextField();
+	JComboBox<String> boxCommodity=new JComboBox<String>();
+	JComboBox<String> boxClient=new JComboBox<String>();
+	JComboBox<String> boxOperator=new JComboBox<String>();
+	JTextField fieldStorehouse=new JTextField();
 	
-	ArrayList<CommodityVO> commodities;
-	ArrayList<ClientVO> clients;
-	ArrayList<UserVO> operators;
+	ArrayList<CommodityVO> commodities=new ArrayList<CommodityVO>();
+	ArrayList<ClientVO> clients=new ArrayList<ClientVO>();
+	ArrayList<UserVO> operators=new ArrayList<UserVO>();
 	
 	public DetailListCheck(){
 		
 		JLabel labelStart=new JLabel("开始时间：");
-		fieldStart=new JTextField();
 		fieldStart.setText("年/月/日");
 		JLabel labelEnd=new JLabel("结束时间：");
-		fieldEnd=new JTextField();
 		fieldEnd.setText("年/月/日");
 		
 		JLabel labelCommodity=new JLabel("商品名：");
-		boxCommodity=new JComboBox<String>();
 		boxCommodity.addItem(null);
 		CommodityController commodityController=new CommodityController();
 		commodities=commodityController.getAllCommodity();
@@ -49,7 +46,6 @@ public class DetailListCheck {
 		}
 		
 		JLabel labelClient=new JLabel("客户：");
-		boxClient=new JComboBox<String>();
 		boxClient.addItem(null);
 		ClientController clientController=new ClientController();
 		clients=clientController.getList();
@@ -58,7 +54,6 @@ public class DetailListCheck {
 		}
 		
 		JLabel labelOperator=new JLabel("操作员：");
-		boxOperator=new JComboBox<String>();
 		boxOperator.addItem(null);
 		UserController userController=new UserController();
 		operators=userController.getAll().getSalesmanager();
@@ -67,7 +62,6 @@ public class DetailListCheck {
 		}
 		
 		JLabel labelStorehouse=new JLabel("仓库");
-		fieldStorehouse=new JTextField();
 		JButton button=new JButton("查询");
 		
 		panel.setLayout(null);

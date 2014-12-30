@@ -11,16 +11,14 @@ import confirmui.*;
  */
 public class AccountAddui {
 	
-	JFrame frame;
-	JPanel panel;
-	JTextField fieldName;
-	JTextField fieldMoney;
+	JFrame frame=new JFrame();
+	JPanel panel=new JPanel();
+	JTextField fieldName=new JTextField();
+	JTextField fieldMoney=new JTextField();
 	
 	AccountController controller=new AccountController();
 	
 	public void go(){
-		frame=new JFrame();
-		panel=new JPanel();
 		
 		frame.setTitle("增加账户");
 		
@@ -28,9 +26,7 @@ public class AccountAddui {
 		int high=frame.getToolkit().getScreenSize().height;
 		
 		JLabel labelName=new JLabel("账户名",JLabel.RIGHT);
-		fieldName=new JTextField();
 		JLabel labelMoney=new JLabel("初始金额",JLabel.RIGHT);
-		fieldMoney=new JTextField();
 		JButton buttonAdd=new JButton("增加");
 		buttonAdd.addActionListener(new addListener());
 		JButton buttonCancel=new JButton("取消");

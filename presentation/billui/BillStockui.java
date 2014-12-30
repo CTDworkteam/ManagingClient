@@ -17,17 +17,17 @@ public class BillStockui {
 	
 	String[] heading={"编号","类型","操作员"};
 	
-	String[][] dataGift;
-	String[][] dataOverFlow;
-	String[][] dataUnderFlow;
+	String[][] dataGift=new String[100][3];
+	String[][] dataOverFlow=new String[100][3];
+	String[][] dataUnderFlow=new String[100][3];
 	
 	JTable tableGift=new JTable(dataGift,heading);
 	JTable tableOverFlow=new JTable(dataOverFlow,heading);
 	JTable tableUnderFlow=new JTable(dataUnderFlow,heading);
 	
-	ArrayList<GiftBillVO> giftBill;
-	ArrayList<OverflowBillVO> overFlowBill;
-	ArrayList<UnderflowBillVO> underFlowBill;
+	ArrayList<GiftBillVO> giftBill=new ArrayList<GiftBillVO>();
+	ArrayList<OverflowBillVO> overFlowBill=new ArrayList<OverflowBillVO>();
+	ArrayList<UnderflowBillVO> underFlowBill=new ArrayList<UnderflowBillVO>();
 	
 	public void go(ArrayList<GiftBillVO> giftBill,ArrayList<OverflowBillVO> overFlowBill,ArrayList<UnderflowBillVO> underFlowBill){
 		

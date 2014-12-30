@@ -13,16 +13,16 @@ public class OverflowBillExamine {
 	
 	JLabel label=new JLabel("库存报溢");
 	
-	JTextField fieldStorehouse;
-	JTextField fieldCommodity;
-	JTextField fieldModel;
-	JTextField fieldRecordNumber;
-	JTextField fieldActualNumber;
-	JTextField fieldOperator;
-	JTextArea text;
-	JComboBox<String> boxState;
+	JTextField fieldStorehouse=new JTextField();
+	JTextField fieldCommodity=new JTextField();
+	JTextField fieldModel=new JTextField();
+	JTextField fieldRecordNumber=new JTextField();
+	JTextField fieldActualNumber=new JTextField();
+	JTextField fieldOperator=new JTextField();
+	JTextArea text=new JTextArea();
+	JComboBox<String> boxState=new JComboBox<String>();
 	
-	OverflowBillVO vo;
+	OverflowBillVO vo=new OverflowBillVO();
 
 	public void go(OverflowBillVO vo){
 		
@@ -36,28 +36,20 @@ public class OverflowBillExamine {
 		
 		JLabel labelID=new JLabel(vo.getId());
 		JLabel labelStorehouse=new JLabel("仓库：");
-		fieldStorehouse=new JTextField();
 		fieldStorehouse.setText(vo.getStorehouse());
 		JLabel labelCommodity=new JLabel("商品：");
-		fieldCommodity=new JTextField();
 		fieldCommodity.setText(vo.getCommodity());
 		JLabel labelModel=new JLabel("型号：");
-		fieldModel=new JTextField();
 		fieldModel.setText(vo.getModel());
 		JLabel labelRecordNumber=new JLabel("记录数量：");
-		fieldRecordNumber=new JTextField();
 		fieldRecordNumber.setText(Integer.toString(vo.getRecordNumber()));
 		JLabel labelActualNumber=new JLabel("实际数量：");
-		fieldActualNumber=new JTextField();
 		fieldActualNumber.setText(Integer.toString(vo.getActualNumber()));
 		JLabel labelOperator=new JLabel("操作员");
-		fieldOperator=new JTextField();
 		fieldOperator.setText(vo.getOperator());
-		text=new JTextArea();
 		text.setLineWrap(true);
 		text.setText(vo.getNote());
 		JScrollPane scroller=new JScrollPane(text);
-		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");

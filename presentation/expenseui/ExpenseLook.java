@@ -16,8 +16,6 @@ public class ExpenseLook {
 	
 	JLabel label=new JLabel("现金费用单");
 	
-	String[][] data;
-
 	public void go(ExpenseVO vo){
 		
 		String id=vo.getId();
@@ -42,6 +40,7 @@ public class ExpenseLook {
 		
 		//条目信息列表设置
 		String[] heading={"条目名","条目金额","备注"};
+		String[][] data=new String[100][3];
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getItemName();
 			data[t][1]=Double.toString(items.get(t).getMoney());

@@ -19,15 +19,16 @@ public class ReciptExamine {
 	
 	JLabel label=new JLabel("收款单");
 	
-	String[][] data;
-	JTable table;
+	String[] heading={"帐户名","转账金额","备注"};
+	String[][] data=new String[100][3];
+	JTable table=new JTable(data,heading);
 	
-	JTextField fieldClient;
-	JTextField fieldOperator;
-	JTextField fieldTotal;
-	JComboBox<String> boxState;
+	JTextField fieldClient=new JTextField();
+	JTextField fieldOperator=new JTextField();
+	JTextField fieldTotal=new JTextField();
+	JComboBox<String> boxState=new JComboBox<String>();
 	
-	ReciptVO vo;
+	ReciptVO vo=new ReciptVO();
 	
 	public void go(ReciptVO vo){
 		
@@ -41,28 +42,22 @@ public class ReciptExamine {
 		
 		ArrayList<FinanceItemVO> items=vo.getList();
 		//转账信息列表设置
-		String[] heading={"帐户名","转账金额","备注"};
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getAccount();
 			data[t][1]=Double.toString(items.get(t).getMoney());
 			data[t][2]=items.get(t).getNote();
 		}
-		table=new JTable(data,heading);
 		table.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scroller=new JScrollPane(table);
 		
 		JLabel labelID=new JLabel(vo.getId());
 		JLabel labelClient=new JLabel("客户：");
-		fieldClient=new JTextField();
 		fieldClient.setText(vo.getClient());
 		JLabel labelOperator=new JLabel("操作员：");
-		fieldOperator=new JTextField();
 		fieldOperator.setText(vo.getOperator());
 		JLabel labelTotal=new JLabel("总计：");
-		fieldTotal=new JTextField();
 		fieldTotal.setText(Double.toString(vo.getTotal()));
-		boxState=new JComboBox<String>();
 		boxState.addItem("未通过");
 		boxState.addItem("通过");
 		JButton button=new JButton("确定");//审批完成

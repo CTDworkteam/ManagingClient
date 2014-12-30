@@ -17,19 +17,20 @@ public class Expenseui {
 	public JPanel panel=new JPanel();
 	ExpenseConfirm expense=new ExpenseConfirm();
 	
-	JTable tableLook;
-	JTable tableNew;
-	JTextField fieldOperator;
+	String[] headingLook={"单据编号","银行账户名","状态"};
+	String[] headingNew={"银行账户","条目名","条目金额","备注信息"};
+	String[][] dataLook=new String[100][3];
+	String[][] dataNew=new String[100][3];
+	JTable tableLook=new JTable(dataLook,headingLook);
+	JTable tableNew=new JTable(dataNew,headingNew);
 	
-	String[][] dataLook;
-	String[][] dataNew;
+	JTextField fieldOperator=new JTextField();
 	
 	int theRow=-1;//选中的新建现金费用单的行标
 	
 	public Expenseui(){
 		JButton buttonNew=new JButton("刷新");
 		
-		String[] headingLook={"单据编号","银行账户名","状态"};
 		//获取现金费用单列表数据
 		ExpenseController controller=new ExpenseController();
 		ArrayList<ExpenseVO> expenses=controller.getList();
@@ -49,7 +50,6 @@ public class Expenseui {
 				dataLook[t+count][2]="通过";
 			}
 		}
-		tableLook=new JTable(dataLook,headingLook);
 		tableLook.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		tableLook.setColumnSelectionAllowed(false);
 		tableLook.setRowSelectionAllowed(true);
@@ -58,11 +58,7 @@ public class Expenseui {
 		tableLook.addMouseListener(new lookListener());
 		
 		JLabel labelOperator=new JLabel("操作员",JLabel.RIGHT);
-		fieldOperator=new JTextField();
 		
-		String[] headingNew={"银行账户","条目名","条目金额","备注信息"};
-		dataNew=new String[5][4];
-		tableNew=new JTable(dataNew,headingNew);
 		JScrollPane scrollerNew=new JScrollPane(tableNew);
 		tableNew.getColumnModel().getColumn(3).setPreferredWidth(200);
 		tableNew.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

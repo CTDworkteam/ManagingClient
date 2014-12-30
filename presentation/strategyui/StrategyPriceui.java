@@ -15,28 +15,22 @@ public class StrategyPriceui {
 	
 	public JPanel panel=new JPanel();
 	
-	JTextField fieldLow;
-	JTextField fieldHigh;
-	JTextField fieldName;
-	JTextField fieldModel;
-	JTextField fieldCount;
-	JTextField fieldVoucher;
+	JTextField fieldLow=new JTextField();
+	JTextField fieldHigh=new JTextField();
+	JTextField fieldName=new JTextField();
+	JTextField fieldModel=new JTextField();
+	JTextField fieldCount=new JTextField();
+	JTextField fieldVoucher=new JTextField();
 	
 	ArrayList<GBOTMItemVO> item=new ArrayList<GBOTMItemVO>();
 	
 	public StrategyPriceui(){
 		JLabel labelLow=new JLabel("价格下限",JLabel.RIGHT);
-		fieldLow=new JTextField();
 		JLabel labelHigh=new JLabel("价格上限",JLabel.RIGHT);
-		fieldHigh=new JTextField();
 		JLabel labelName=new JLabel("商品名",JLabel.RIGHT);
-		fieldName=new JTextField();
 		JLabel labelModel=new JLabel("型号",JLabel.RIGHT);
-		fieldModel=new JTextField();
 		JLabel labelCount=new JLabel("数量",JLabel.RIGHT);
-		fieldCount=new JTextField();
 		JLabel labelVoucher=new JLabel("代金券",JLabel.RIGHT);
-		fieldVoucher=new JTextField();
 		JButton buttonAdd=new JButton("加入");//加入一项赠品
 		JButton buttonConfirmItem=new JButton("确定");//确定一项策略制定
 		

@@ -10,8 +10,8 @@ import java.awt.*;
 public class Strategyui {
 	
 	public JPanel panelStrategy=new JPanel();
-	JTabbedPane tabMessage;
-	JTabbedPane tabNew;
+	JTabbedPane tabMessage=new JTabbedPane();
+	JTabbedPane tabNew=new JTabbedPane();
 	
 	StrategyClientui client=new StrategyClientui();
 	StrategyPackui pack=new StrategyPackui();
@@ -20,11 +20,9 @@ public class Strategyui {
 	MessageStrategy strategy=new MessageStrategy();
 
 	public Strategyui(){
-		tabMessage=new JTabbedPane();
 		tabMessage.addChangeListener(new messageChangeListener());
 		tabMessage.add("库存信息",stock.panel);
 		tabMessage.add("促销策略",strategy.panel);
-		tabNew=new JTabbedPane();
 		tabNew.addChangeListener(new newChangeListener());
 		tabNew.add("不同客户",client.panel);
 		tabNew.add("特价包",pack.panel);

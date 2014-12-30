@@ -14,10 +14,10 @@ public class Registerui {
 	JFrame frame=new JFrame();
 	JPanel panel=new JPanel();
 	
-	JTextField fieldName;
-	JComboBox<UserJob> boxWork;
-	JPasswordField password;
-	JPasswordField passwordConfirm;
+	JTextField fieldName=new JTextField();
+	JComboBox<UserJob> boxWork=new JComboBox<UserJob>();
+	JPasswordField password=new JPasswordField();
+	JPasswordField passwordConfirm=new JPasswordField();
 	
 	public void go(){
 		
@@ -30,10 +30,6 @@ public class Registerui {
 		JLabel labelWork=new JLabel("职务",JLabel.RIGHT);
 		JLabel labelPassword=new JLabel("密码",JLabel.RIGHT);
 		JLabel labelPasswAgain=new JLabel("确认密码",JLabel.RIGHT);
-		fieldName=new JTextField();
-		boxWork=new JComboBox<UserJob>();
-		password=new JPasswordField();
-		passwordConfirm=new JPasswordField();
 		JButton buttonSure=new JButton("确定");
 		JButton buttonCancel=new JButton("取消");
 		

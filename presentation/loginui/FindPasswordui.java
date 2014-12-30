@@ -14,10 +14,10 @@ public class FindPasswordui {
 	
 	JFrame frame=new JFrame();
 	JPanel panel=new JPanel();
-	JTextField fieldID;
-	JTextField fieldName;
-	JComboBox<UserJob> box;
-	JTextArea areaMessage;//反馈信息
+	JTextField fieldID=new JTextField();
+	JTextField fieldName=new JTextField();
+	JComboBox<UserJob> box=new JComboBox<UserJob>();
+	JTextArea areaMessage=new JTextArea();//反馈信息
 	
 	UserController controller=new UserController();
 	Login login=new Login();
@@ -32,15 +32,11 @@ public class FindPasswordui {
 		JLabel labelID=new JLabel("用户名",JLabel.RIGHT);
 		JLabel labelName=new JLabel("姓名",JLabel.RIGHT);
 		JLabel labelWork=new JLabel("职务",JLabel.RIGHT);
-		fieldID=new JTextField();
-		fieldName=new JTextField();
-		box=new JComboBox<UserJob>();
 		box.addItem(UserJob.FinanceManager);
 		box.addItem(UserJob.PurchaseManager);
 		box.addItem(UserJob.StockManager);
 		box.addItem(UserJob.SalesManager);
 		box.addItem(UserJob.Manager);
-		areaMessage=new JTextArea();
 		areaMessage.setLineWrap(true);
 		JButton buttonSearch=new JButton("找回");
 		JButton buttonAgain=new JButton("重置");

@@ -18,9 +18,10 @@ public class ExpenseConfirm {
 	JFrame frame=new JFrame();
 	JPanel panel=new JPanel();
 	
-	String[][] data;
+	String[] heading={"条目名","条目金额","备注"};
+	String[][] data=new String[100][3];
 	
-	ExpenseVO expense;
+	ExpenseVO expense=new ExpenseVO();
 	
 	public void go(ExpenseVO vo){
 		
@@ -52,7 +53,6 @@ public class ExpenseConfirm {
 		JLabel labelTotal=new JLabel("总计："+Double.toString(total));
 		
 		//条目信息列表设置
-		String[] heading={"条目名","条目金额","备注"};
 		for(int t=0;t<items.size();t++){
 			data[t][0]=items.get(t).getItemName();
 			data[t][1]=Double.toString(items.get(t).getMoney());
