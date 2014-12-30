@@ -25,7 +25,4 @@ public interface FinanceDataService {
 	public TreeMap<String,PaymentPO> getList2();
 	public ArrayList<String> getPaymentIDs();
 	public boolean hasPayments();
-	
-	public void init();
-	public void save();
 }

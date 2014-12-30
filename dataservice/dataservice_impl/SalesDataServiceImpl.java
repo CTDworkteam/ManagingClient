@@ -1,5 +1,6 @@
 package dataservice_impl;
 import java.util.*;
+
 import comparator.*;
 import po.*;
 import dataservice.SalesDataService;
@@ -338,5 +339,15 @@ public class SalesDataServiceImpl implements SalesDataService,java.io.Serializab
 			}
 		}
 		return list.iterator();
+	}
+	@Override
+	public Iterator<SalesReturnBillPO> findClient2(long id) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public Iterator<SalesReturnBillPO> findOperator2(String name) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
 }

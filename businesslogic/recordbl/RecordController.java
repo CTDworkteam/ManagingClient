@@ -32,7 +32,7 @@ public class RecordController implements RecordBLService{
 			String objectID, String objectName, Attribute attribute,
 			String beforeData, String modifyData) {
 		record.saveDataModifyRecord(operator, operation, objectID, objectName, attribute, beforeData, modifyData);
-		
+	
 	}
 
 	@Override

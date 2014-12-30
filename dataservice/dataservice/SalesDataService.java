@@ -32,8 +32,6 @@ public interface SalesDataService {
 	    public int numberOfBills(GregorianCalendar date);
 	    public int numberOfReturnBills(GregorianCalendar date);
 	    
-	    public void init();
-	    public void save();
 		public boolean containBillsByStorehouse(String storehouse);
 		public Iterator<SalesBillPO> findBillsByStorehouse(String storehouse);
 		public boolean containReturnBillsByStorehouse(String storehouse);

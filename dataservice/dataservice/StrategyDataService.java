@@ -55,7 +55,4 @@ public interface StrategyDataService {
 	public Iterator<VoucherBasedOnTotalMoneyPO> getVBOTMList();
 	public int numberOfVBOTMs(GregorianCalendar date);
 	public boolean hasVBOTM();
-	
-	public void init();
-	public void save();
 }

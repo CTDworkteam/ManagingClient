@@ -12,6 +12,4 @@ public interface CommodityTypeDataService {
 	public Iterator<CommodityTypePO> findByKeyword(String key);
 	public Iterator<CommodityTypePO> getAllCommodityTypes();
 	public boolean hasCommodityType();
-	public void init();
-	public void save();
 }

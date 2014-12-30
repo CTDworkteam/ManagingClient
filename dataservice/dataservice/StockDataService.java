@@ -45,7 +45,4 @@ public interface StockDataService {
 	public TreeMap<String,NoticeBillPO> getNoticeBillList();
 	public ArrayList<String> getNoticeBillIDs();
 	public boolean hasNoticeBills();
-	
-	public void init();
-	public void save();
 }

@@ -12,6 +12,4 @@ public interface ExpenseDataService {
 	public ArrayList<String> getIDs();
 	public TreeMap<String,ExpensePO> getDataList();
 	public boolean hasExpenses();
-	public void init();
-	public void save();
 }

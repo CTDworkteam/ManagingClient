@@ -28,8 +28,6 @@ public interface ClientDataService {
     public void update(ClientPO po);
     public Iterator<ClientPO> list();
     public int number();
-    public void init();
-    public void save();
 	public ArrayList<ClientPO> findInKeyword(String key);
 	public ArrayList<ClientPO> findInRank(int rank);
 }
