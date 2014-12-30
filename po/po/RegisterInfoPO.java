@@ -15,6 +15,9 @@ public class RegisterInfoPO implements java.io.Serializable{
 		this.password = password;
 		this.role = role;
 	}
+	public RegisterInfoPO() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getName() {
 		return name;
 	}

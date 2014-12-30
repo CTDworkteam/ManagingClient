@@ -13,6 +13,9 @@ public class AccountPO implements java.io.Serializable{
 		this.name = name;
 		this.money = money;
 	}
+	public AccountPO() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getName() {
 		return name;
 	}

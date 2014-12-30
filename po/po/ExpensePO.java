@@ -68,6 +68,9 @@ public class ExpensePO implements java.io.Serializable{
 			this.money = money;
 			this.note = note;
 		}
+		public ExpenseItemPO() {
+			// TODO Auto-generated constructor stub
+		}
 		public String getItemName() {
 			return itemName;
 		}

@@ -16,6 +16,9 @@ public class VoucherBasedOnTotalMoneyPO implements java.io.Serializable{
 		this.lower = lower;
 		this.upper = upper;
 	}
+	public VoucherBasedOnTotalMoneyPO() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getId() {
 		return id;
 	}
