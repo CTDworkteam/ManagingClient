@@ -32,11 +32,9 @@ public class CommodityTypeController implements CommodityTypeBLService{
 		return type.getAllCommodity(vo);
 	}
 	public ArrayList<CommodityTypeVO> getAllCommodityType() {
-		return null;
+		return type.getAllCommodityType();
 	}
-	@Override
 	public String getNewID(String fatherID) {
-		// TODO 自动生成的方法存根
-		return null;
+		return type.getNewID(fatherID);
 	}
 }
