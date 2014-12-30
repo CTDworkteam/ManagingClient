@@ -14,63 +14,63 @@ public class StockController implements StockBLService{
 	}
 	@Override
 	public ResultMessage send(GiftBillVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.send(bill);
 	}
 	@Override
 	public ResultMessage send(OverflowBillVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.send(bill);
 	}
 	@Override
 	public ResultMessage send(UnderflowBillVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.send(bill);
 	}
 	@Override
 	public ResultMessage send(NoticeBillVO bill) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.send(bill);
 	}
 	@Override
 	public ArrayList<GiftBillVO> getAllGiftBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getAllGiftBills();
 	}
 	@Override
 	public ArrayList<OverflowBillVO> getAllOverflowBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getAllOverflowBills();
 	}
 	@Override
 	public ArrayList<UnderflowBillVO> getAllUnderflowBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getAllUnderflowBills();
 	}
 	@Override
 	public ArrayList<NoticeBillVO> getAllNoticeBills() {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getAllNoticeBills();
 	}
 	@Override
 	public String getNewGiftBillID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getNewGiftBillID(date);
 	}
 	@Override
 	public String getNewOverflowBillID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getNewOverflowBillID(date);
 	}
 	@Override
 	public String getNewUnderflowBillID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getNewUnderflowBillID(date);
 	}
 	@Override
 	public String getNewNoticeBillID(GregorianCalendar date) {
-		// TODO 自动生成的方法存根
-		return null;
+		
+		return stock.getNewNoticeBillID(date);
 	}
 	
 }
