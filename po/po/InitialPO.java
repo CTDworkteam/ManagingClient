@@ -3,6 +3,10 @@ package po;
 import java.util.ArrayList;
 
 public class InitialPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2366210451925297474L;
 	private String id;
 	private ArrayList<String> commodity;
 	private ArrayList<String> type;

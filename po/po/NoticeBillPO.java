@@ -1,6 +1,10 @@
 package po;
 
 public class NoticeBillPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8923789662630431754L;
 	private String id;
 	private String storehouse;
 	private String commodityID;

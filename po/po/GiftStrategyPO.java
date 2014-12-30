@@ -1,8 +1,15 @@
 package po;
 import java.util.*;
 public class GiftStrategyPO implements java.io.Serializable{
-	//ID:GIFT2014122300001
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2780702677643755342L;
 	public class GiftItemPO implements java.io.Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6059673036093425848L;
 		private String commodityID;
 		private String model;
 		private int number;

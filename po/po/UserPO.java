@@ -3,6 +3,10 @@ package po;
 import enumType.UserJob;
 
 public class UserPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8404441676382427294L;
 	private long id;
 	private String name;
 	private String password;

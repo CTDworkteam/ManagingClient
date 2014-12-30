@@ -1,6 +1,10 @@
 package po;
 import enumType.*;
-public class DataAddDelRecordPO {
+public class DataAddDelRecordPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -873151357274086398L;
 	private String id;
 	private String operator;
 	private Operation operation;
@@ -10,9 +14,8 @@ public class DataAddDelRecordPO {
 	public DataAddDelRecordPO(){
 	}
 	public DataAddDelRecordPO(String id, String operator, Operation operation,
-			String objectID, String objectName,ActionType action) {
+			String objectID, String objectName) {
 		super();
-		this.action = action;
 		this.id = id;
 		this.operator = operator;
 		this.operation = operation;

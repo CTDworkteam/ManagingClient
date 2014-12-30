@@ -1,7 +1,10 @@
 package po;
 
 public class VoucherStrategyPO implements java.io.Serializable{
-	//ID:VOUCHER2014122300001
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3019873137675505214L;
 	private String id;
 	private double voucher;
 	private int rank;
