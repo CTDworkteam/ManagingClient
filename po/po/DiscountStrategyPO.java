@@ -1,6 +1,9 @@
 package po;
 public class DiscountStrategyPO implements java.io.Serializable{
-	//ID:DISCOUNT2014122300001
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8614410979581759783L;
 	private String id;
 	private double discount;
 	private int rank;

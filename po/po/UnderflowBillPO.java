@@ -1,6 +1,10 @@
 package po;
 
 public class UnderflowBillPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6825259252867488869L;
 	private boolean isPassed;
 	private String id;
 	private String storehouse;

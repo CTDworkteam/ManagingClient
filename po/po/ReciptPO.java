@@ -3,6 +3,10 @@ package po;
 import java.util.ArrayList;
 
 public class ReciptPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -453352312445244260L;
 	private boolean isPassed;
 	private String id;
 	private long clientID;
@@ -57,6 +61,10 @@ public class ReciptPO implements java.io.Serializable{
 		this.total = total;
 	}
 	public class ReciptItemPO implements java.io.Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2861645797680449865L;
 		private String account;
 		private double money;
 		private String note;
