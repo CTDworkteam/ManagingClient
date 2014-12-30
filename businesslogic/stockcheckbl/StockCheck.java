@@ -6,6 +6,7 @@ import po.*;
 import dataservice.*;
 import enumType.ResultMessage;
 import userbl.*;
+import utility.Utility;
 import vo.*;
 public class StockCheck{
 	public User operator;
@@ -42,11 +43,19 @@ public class StockCheck{
 			ArrayList<StockCommodityInfoVO> list=new ArrayList<StockCommodityInfoVO>();
 			while(iterator.hasNext()){
 				CommodityPO po=iterator.next();
-				StockCommodityInfoVO item=new StockCommodityInfoVO();
-				
+				ArrayList<CommodityPO.CommodityModelPO> models = po.getList();
+				for(int i = 0;i < models.size();i++){
+					if(models.get(i).getStorehouse().equals(storehouse)){
+						list.add(new StockCommodityInfo(po.getName(),models.get(i).getName(),models.get(i).getStock(),
+								models.get(i).getRecentRetailPrice(),0,0,Utility.getDate()))
+					}
+				}
 			}
 			return null;//////
 		}
+		/*public StockCommodityInfoVO(String name, String model, int numInStock,
+			double average, long batch, long batchNumber, String date) {
+	}*/
 		/*try{
 			CommodityDataService service=RMI.getCommodityDataService();
 			
