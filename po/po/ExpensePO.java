@@ -1,6 +1,10 @@
 package po;
 import java.util.ArrayList;
 public class ExpensePO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8596576235670816984L;
 	private boolean isPassed;
 	private String id;
 	private String operator;
@@ -63,9 +67,6 @@ public class ExpensePO implements java.io.Serializable{
 			this.itemName = itemName;
 			this.money = money;
 			this.note = note;
-		}
-		public ExpenseItemPO() {
-			// TODO 自动生成的构造函数存根
 		}
 		public String getItemName() {
 			return itemName;

@@ -3,6 +3,10 @@ package po;
 import java.util.ArrayList;
 
 public class SalesBillPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7042376505790953139L;
 	private boolean isPassed;
 	private String id;
 	private long clientID;
@@ -107,6 +111,10 @@ public class SalesBillPO implements java.io.Serializable{
 		this.note = note;
 	}
 	public class SalesBillItemPO implements java.io.Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3791836523852142141L;
 		private String commodityID;
 		private String model;
 		private int number;

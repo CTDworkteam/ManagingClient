@@ -1,6 +1,10 @@
 package po;
 import java.util.ArrayList;
 public class PaymentPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9195445273334184081L;
 	private boolean isPassed;
 	private String id;
 	private String operator;
@@ -55,6 +59,10 @@ public class PaymentPO implements java.io.Serializable{
 		this.total = total;
 	}
 	public class PaymentItemPO implements java.io.Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -523836601161157721L;
 		private String account;
 		private double money;
 		private String note;

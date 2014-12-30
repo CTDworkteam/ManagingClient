@@ -1,6 +1,10 @@
 package po;
 import enumType.*;
 public class DataModifyRecordPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3716014843863848155L;
 	private String ID;
 	private String operator;
 	private Operation operation;

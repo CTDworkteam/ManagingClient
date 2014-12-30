@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import dataservice.*;
 import datafactory.*;
 public class RMI {
-	public static String URL="rmi://172.26.37.78:7112/datafactory";
+	public static String URL="rmi://114.212.42.149:7112/datafactory";
 	public static DataFactoryService getDataFactoryService(){
 		System.out.println("方法开始");
 		if(System.getSecurityManager() == null){

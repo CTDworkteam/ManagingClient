@@ -1,7 +1,10 @@
 package po;
 import java.util.*;
-public class GiftBasedOnTotalMoneyPO {
-	//ID:GBOTM2014122300001
+public class GiftBasedOnTotalMoneyPO implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4394990357791305488L;
 	private String id;
 	private double lower;
 	private double upper;
