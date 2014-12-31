@@ -66,7 +66,7 @@ public class Loginui {
 	class loginListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			long id=Long.parseLong(fieldID.getText());
-			String password=fieldPassword.getPassword().toString();
+			String password=new String(fieldPassword.getPassword());
 			ResultMessage result=login.verify(id, password);
 			if(result==ResultMessage.Failure){
 				Runnable r=new Confirmui("用户名或密码输入错误");

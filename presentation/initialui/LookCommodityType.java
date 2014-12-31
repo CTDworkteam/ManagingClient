@@ -12,7 +12,8 @@ import javax.swing.ListSelectionModel;
 import vo.*;
 
 public class LookCommodityType {
-JPanel panelCommodityType=new JPanel();
+    
+	JPanel panelCommodityType=new JPanel();
 	
 	String[] heading={"类名","类名","类名","类名","类名"};
 	String[][] data=new String[100][5];
@@ -28,8 +29,6 @@ JPanel panelCommodityType=new JPanel();
 			}
 		}
 		
-        JButton button=new JButton("导入");
-        
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(true);
@@ -37,11 +36,9 @@ JPanel panelCommodityType=new JPanel();
 		JScrollPane scroller=new JScrollPane(table);
 		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		
-		panelCommodityType.setLayout(null);
-		button.setBounds(600,3,65,25);
+		panelCommodityType.setLayout(null);		
 		scroller.setBounds(0,35,820,500);
 		
-		panelCommodityType.add(button);
 		panelCommodityType.add(scroller);
 	}
 }

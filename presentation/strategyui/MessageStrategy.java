@@ -92,6 +92,7 @@ public class MessageStrategy {
 		button.setBounds(330,3,65,25);
 		scroller.setBounds(0,40,410,420);
 		
+		panel.add(button);
 		panel.add(scroller);
 	}
 	

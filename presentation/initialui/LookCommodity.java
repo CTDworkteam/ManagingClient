@@ -1,18 +1,13 @@
 package initialui;
 
 import java.util.*;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 
 import vo.*;
 
 public class LookCommodity {
 
-	public JPanel panelCommodity=new JPanel();
+	JPanel panelCommodity=new JPanel();
 	
 	String[] heading={"商品编号","商品类别","商品名称","总量","型号","仓库","警戒数量","库存数量","进价","售价","最近进价","最近售价"};
 	String[][] data=new String[100][12];

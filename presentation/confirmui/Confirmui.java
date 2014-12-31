@@ -31,7 +31,7 @@ public class Confirmui implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		try{
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			frame.dispose();
 		}catch(InterruptedException e){
 			

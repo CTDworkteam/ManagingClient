@@ -9,7 +9,7 @@ import vo.*;
 
 public class LookClient {
 	
-public JPanel panelClient=new JPanel();
+    JPanel panelClient=new JPanel();
 	
 	String[] heading={"编号","客户类别","客户级别","姓名","电话","地址","邮编","电子邮件","应收额度","应收","应付","默认业务员"};
 	String[][] data=new String[100][12];

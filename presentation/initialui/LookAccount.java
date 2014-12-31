@@ -6,7 +6,7 @@ import vo.*;
 
 public class LookAccount {
 
-public JPanel panelAccount=new JPanel();
+    public JPanel panelAccount=new JPanel();
 	
 	String[] heading={"’Àªß√˚","’Àªß”‡∂Ó"};
 	String[][] data=new String[100][2];
