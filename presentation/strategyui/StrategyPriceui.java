@@ -42,7 +42,7 @@ public class StrategyPriceui {
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(true);
 		JScrollPane scroller=new JScrollPane(table);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		
 		panel.setLayout(null);
 		labelLow.setBounds(30,3,80,25);

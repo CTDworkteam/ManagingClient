@@ -80,7 +80,7 @@ public class FinanceBillui {
 			}
 		}
 		//单据列表设置
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 	    table.setColumnSelectionAllowed(false);
 	    table.setRowSelectionAllowed(true);

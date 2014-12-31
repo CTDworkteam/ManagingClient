@@ -1,6 +1,7 @@
 package strategyui;
 import javax.swing.*;
 
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class StrategyPackui {
 		table.setColumnSelectionAllowed(false);
 		table.setRowSelectionAllowed(true);
 		JScrollPane scroller=new JScrollPane(table);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		
 		panel.setLayout(null);
 		labelInitial.setBounds(10,3,65,25);

@@ -30,7 +30,7 @@ public class InitialNew implements ChangeListener{
 		tab.add("商品分类信息",commodityType.panelCommodityType);
 		tab.add("商品信息",commodity.panelCommodity);
 		
-		frame.setSize(wide/2+100,high/2+200);
+		frame.setSize(900,650);
 		frame.setLocation(wide/4,high/6);
 		
 		panel.setLayout(null);

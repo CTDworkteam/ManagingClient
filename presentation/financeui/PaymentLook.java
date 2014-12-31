@@ -48,21 +48,18 @@ public class PaymentLook {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scroller=new JScrollPane(table);
 		
-		int wide=frame.getToolkit().getScreenSize().width;
-		int high=frame.getToolkit().getScreenSize().height;
-		
-		frame.setSize(wide/3,high-300);
-		frame.setLocation(wide/3,high-150);
+		frame.setSize(530,600);
+		frame.setLocation(530,750);
 		
 		panel.setLayout(null);
 		
-		label.setBounds(wide/12,30,100,25);
-		labelID.setBounds(wide/12,65,200,25);
-		labelState.setBounds(wide/4,120,100,25);
+		label.setBounds(133,30,100,25);
+		labelID.setBounds(133,65,200,25);
+		labelState.setBounds(400,120,100,25);
 		labelClient.setBounds(20,150,150,25);
 		labelOperator.setBounds(300,150,150,25);
 		scroller.setBounds(50,190,300,300);
-		labelTotal.setBounds(wide/4,400,100,25);
+		labelTotal.setBounds(400,400,100,25);
 		
 		panel.add(label);
 		panel.add(labelID);

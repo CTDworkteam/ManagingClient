@@ -2,7 +2,6 @@ package initialui;
 import javax.swing.*;
 import java.util.*;
 
-import java.awt.*;
 import java.awt.event.*;
 import initialbl.Initial;
 import vo.*;
