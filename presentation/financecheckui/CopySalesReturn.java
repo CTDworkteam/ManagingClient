@@ -2,6 +2,9 @@ package financecheckui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import confirmui.Confirmui;
+import enumType.ResultMessage;
+import salesbl.SalesController;
 import vo.SalesReturnBillVO;
 import vo.SalesReturnBillVO.SalesReturnBillItemVO;
 
@@ -154,7 +157,19 @@ public class CopySalesReturn {
 			double total=InitialTotal*discount-voucher;
 			fieldTotal.setText(Double.toString(total));
 			SalesReturnBillVO theBill=new SalesReturnBillVO(id,fieldClient.getText(),fieldDefaultOperator.getText(),fieldOperator.getText(),fieldStorehouse.getText(),items,InitialTotal,discount,voucher,total,text.getText());
-			
+			SalesController controller=new SalesController();
+			ArrayList<SalesReturnBillVO> bills=new ArrayList<SalesReturnBillVO>();
+			bills.add(theBill);
+			ResultMessage result=controller.sendReturnBill(bills);
+			String message="";
+			if(result==ResultMessage.Failure){
+				message="提交失败";
+			}else{
+				message="已成功提交复制销售退货单";
+			}
+			Runnable r=new Confirmui(message);
+			Thread thread=new Thread(r);
+			thread.start();
 		}
 	}
 	

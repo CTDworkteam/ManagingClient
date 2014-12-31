@@ -4,7 +4,9 @@ import javax.swing.table.DefaultTableModel;
 
 import vo.SalesBillVO;
 import vo.SalesBillVO.SalesBillItemVO;
-
+import salesbl.SalesController;
+import enumType.ResultMessage;
+import confirmui.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -154,7 +156,19 @@ public class CopySales {
 			double total=InitialTotal*discount-voucher;
 			fieldTotal.setText(Double.toString(total));
 			SalesBillVO theBill=new SalesBillVO(id,fieldClient.getText(),fieldDefaultOperator.getText(),fieldOperator.getText(),fieldStorehouse.getText(),items,InitialTotal,discount,voucher,total,text.getText());
-			
+			SalesController controller=new SalesController();
+			ArrayList<SalesBillVO> bills=new ArrayList<SalesBillVO>();
+			bills.add(theBill);
+			ResultMessage result=controller.sendBill(bills);
+			String message="";
+			if(result==ResultMessage.Failure){
+				message="提交失败";
+			}else{
+				message="已成功提交复制销售单";
+			}
+			Runnable r=new Confirmui(message);
+			Thread thread=new Thread(r);
+			thread.start();
 		}
 	}
 	

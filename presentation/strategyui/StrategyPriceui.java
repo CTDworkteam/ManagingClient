@@ -4,6 +4,7 @@ import javax.swing.*;
 import vo.*;
 import vo.GiftBasedOnTotalMoneyVO.GBOTMItemVO;
 
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.*;
 

@@ -2,6 +2,10 @@ package financecheckui;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import purchasebl.PurchaseController;
+import confirmui.Confirmui;
+import enumType.ResultMessage;
+
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -128,7 +132,19 @@ public class CopyPurchaseReturn {
 			fieldTotal.setText(Double.toString(total));
 			fieldTotal.setText(Double.toString(total));
 			PurchaseReturnBillVO theBill=new PurchaseReturnBillVO(id,fieldSupplier.getText(),fieldStorehouse.getText(),fieldOperator.getText(),items,total,text.getText());
-			
+			ArrayList<PurchaseReturnBillVO> bills=new ArrayList<PurchaseReturnBillVO>();
+			bills.add(theBill);
+			PurchaseController controller=new PurchaseController();
+			ResultMessage result=controller.sendReturnBill(bills);
+			String message="";
+			if(result==ResultMessage.Failure){
+				message="提交失败";
+			}else{
+				message="已成功提交复制进货单";
+			}
+			Runnable r=new Confirmui(message);
+			Thread thread=new Thread(r);
+			thread.start();
 		}
 	}
 	

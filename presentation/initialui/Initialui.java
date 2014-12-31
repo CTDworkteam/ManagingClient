@@ -24,7 +24,6 @@ public class Initialui {
 		JLabel label=new JLabel("期初标识");
 		JButton buttonLook=new JButton("查看");
 		buttonLook.addActionListener(new lookListener());
-		JButton button=new JButton("刷新");
 		
 		table.addMouseListener(new selectListener());
 		JButton buttonNew=new JButton("新建");
@@ -41,22 +40,14 @@ public class Initialui {
 		label.setBounds(125,20,70,25);
 		text.setBounds(205,20,100,25);
 		buttonLook.setBounds(330,20,65,25);
-		button.setBounds(70,65,65,25);
 		scroller.setBounds(150,65,200,370);
 		buttonNew.setBounds(530,70,65,65);
 		
 		panelInitial.add(label);
 		panelInitial.add(text);
 		panelInitial.add(buttonLook);
-		panelInitial.add(button);
 		panelInitial.add(scroller);
 		panelInitial.add(buttonNew);
-	}
-	
-	class buttonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-		}
 	}
 	
 	class lookListener implements ActionListener{

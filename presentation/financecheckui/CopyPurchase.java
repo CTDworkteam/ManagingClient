@@ -8,6 +8,9 @@ import java.util.Vector;
 
 import vo.*;
 import vo.PurchaseBillVO.PurchaseBillItemVO;
+import purchasebl.PurchaseController;
+import enumType.ResultMessage;
+import confirmui.*;
 
 public class CopyPurchase {
 
@@ -128,7 +131,19 @@ public class CopyPurchase {
 			fieldTotal.setText(Double.toString(total));
 			fieldTotal.setText(Double.toString(total));
 			PurchaseBillVO theBill=new PurchaseBillVO(id,fieldSupplier.getText(),fieldStorehouse.getText(),fieldOperator.getText(),items,total,text.getText());
-			
+			ArrayList<PurchaseBillVO> bills=new ArrayList<PurchaseBillVO>();
+			bills.add(theBill);
+			PurchaseController controller=new PurchaseController();
+			ResultMessage result=controller.sendBill(bills);
+			String message="";
+			if(result==ResultMessage.Failure){
+				message="提交失败";
+			}else{
+				message="已成功提交复制进货单";
+			}
+			Runnable r=new Confirmui(message);
+			Thread thread=new Thread(r);
+			thread.start();
 		}
 	}
 	
