@@ -46,29 +46,15 @@ public class StockCheck{
 				ArrayList<CommodityPO.CommodityModelPO> models = po.getList();
 				for(int i = 0;i < models.size();i++){
 					if(models.get(i).getStorehouse().equals(storehouse)){
-						list.add(new StockCommodityInfo(po.getName(),models.get(i).getName(),models.get(i).getStock(),
-								models.get(i).getRecentRetailPrice(),0,0,Utility.getDate()))
+						list.add(new StockCommodityInfoVO(po.getName(),models.get(i).getName(),models.get(i).getStock(),
+								models.get(i).getRecentRetailPrice(),0,0,Utility.getDate().toString()));
 					}
 				}
 			}
-			return null;//////
+			StockCommodityListVO vo = new StockCommodityListVO();
+			vo.setList(list);
+			return vo;
 		}
-		/*public StockCommodityInfoVO(String name, String model, int numInStock,
-			double average, long batch, long batchNumber, String date) {
-	}*/
-		/*try{
-			CommodityDataService service=RMI.getCommodityDataService();
-			
-			TreeMap<String,TreeSet<CommodityPO>> list=service.getCommodityList();
-			
-			Iterator it = list.keySet().iterator();
-			while(it.hasNext()){
-				TreeSet<CommodityPO> temp=list.get(it.next());
-				
-			}
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}*/
 	}
 	
 	public ResultMessage export(StockCommodityListVO list,String dest){

@@ -30,74 +30,68 @@ public class CommodityTypeDataServiceStub implements CommodityTypeDataService{
 	}
 	public void insert(CommodityTypePO po) {
 		list.add(po);
-		System.out.println();
-		
 	}
-
-	@Override
 	public void delete(CommodityTypePO po) {
-		// TODO 自动生成的方法存根
-		
+		Iterator<CommodityTypePO> iterator=list.iterator();
+		while(iterator.hasNext()){
+			if(iterator.next().getId().equals(po.getId())){
+				iterator.remove();
+				break;
+			}
+		}
 	}
-
-	@Override
+	public boolean containInID(String id){
+		Iterator<CommodityTypePO> iterator=list.iterator();
+		while(iterator.hasNext()){
+			if(iterator.next().getId().equals(id)){
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean containInKey(String key){
+		Iterator<CommodityTypePO> iterator=list.iterator();
+		while(iterator.hasNext()){
+			CommodityTypePO po=iterator.next();
+			if(po.getId().contains(key)||po.getName().contains(key)){
+				return true;
+			}
+		}
+		return false;
+	}
 	public void update(CommodityTypePO po) {
-		// TODO 自动生成的方法存根
-		
+		delete(po);
+		insert(po);
 	}
-
-	@Override
-	public boolean containInID(String id) {
-		// TODO 自动生成的方法存根
-		return false;
-	}
-
-	@Override
-	public boolean containInKey(String key) {
-		// TODO 自动生成的方法存根
-		return false;
-	}
-
-	@Override
 	public CommodityTypePO findByName(String name) {
-		// TODO 自动生成的方法存根
+		for(int i=0;i<=list.size()-1;i++){
+			if(list.get(i).getName().equals(name)){
+				return list.get(i);
+			}
+		}
 		return null;
 	}
-
-	@Override
 	public CommodityTypePO findByID(String ID) {
-		// TODO 自动生成的方法存根
+		for(int i=0;i<=list.size()-1;i++){
+			if(list.get(i).getId().equals(ID)){
+				return list.get(i);
+			}
+		}
 		return null;
 	}
-
-	@Override
 	public Iterator<CommodityTypePO> findByKeyword(String key) {
-		// TODO 自动生成的方法存根
-		return null;
+		ArrayList<CommodityTypePO> output=new ArrayList<CommodityTypePO>();
+		for(int i=0;i<=list.size()-1;i++){
+			if(list.get(i).getId().contains(key)||list.get(i).getName().contains(key)){
+				output.add(list.get(i));
+			}
+		}
+		return output.iterator();
 	}
-
-	@Override
 	public Iterator<CommodityTypePO> getAllCommodityTypes() {
-		// TODO 自动生成的方法存根
-		return null;
+		return list.iterator();
 	}
-
-	@Override
 	public boolean hasCommodityType() {
-		// TODO 自动生成的方法存根
-		return false;
+		return list.size()==0?false:true;
 	}
-
-	@Override
-	public void init() {
-		// TODO 自动生成的方法存根
-		
-	}
-
-	@Override
-	public void save() {
-		// TODO 自动生成的方法存根
-		
-	}
-
 }
