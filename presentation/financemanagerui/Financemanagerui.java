@@ -29,9 +29,6 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 		frame.setTitle("财务人员");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		int wide=frame.getToolkit().getScreenSize().width;
-		int high=frame.getToolkit().getScreenSize().height;
-		
 		JPanel panelFace=new JPanel();
 		JLabel labelName=new JLabel("姓名 "+name);
 		JLabel labelWork=new JLabel("职务 财务人员");
@@ -44,16 +41,16 @@ public class Financemanagerui implements ChangeListener,ActionListener{
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		frame.setSize(wide/2+100, high/2+200);
-		frame.setLocation(wide/4,high/6);
+		frame.setSize(900, 650);
+		frame.setLocation(400,150);
 		
 		panel.setLayout(null);
 		panelFace.setLayout(null);
 		panelFace.add(scroller);
-		tab.setBounds(50,50,wide/2-50,high/2+50);
+		tab.setBounds(50,50,750,500);
 		labelName.setBounds(50,5,100,30);
 		labelWork.setBounds(120,5,200,30);
-		scroller.setBounds(0,0,wide/2-350,high-430);
+		scroller.setBounds(0,0,450,470);
 		button.setBounds(800,10,65,25);
 		
 		panelFace.add(scroller);

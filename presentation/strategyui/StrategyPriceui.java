@@ -4,6 +4,7 @@ import javax.swing.*;
 import vo.*;
 import vo.GiftBasedOnTotalMoneyVO.GBOTMItemVO;
 
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.*;
 
@@ -22,6 +23,10 @@ public class StrategyPriceui {
 	JTextField fieldCount=new JTextField();
 	JTextField fieldVoucher=new JTextField();
 	
+	String[] heading={"商品名称","商品型号","商品数量"};
+	String[][] data=new String[100][3];
+	JTable table=new JTable(data,heading);
+	
 	ArrayList<GBOTMItemVO> item=new ArrayList<GBOTMItemVO>();
 	
 	public StrategyPriceui(){
@@ -33,6 +38,12 @@ public class StrategyPriceui {
 		JLabel labelVoucher=new JLabel("代金券",JLabel.RIGHT);
 		JButton buttonAdd=new JButton("加入");//加入一项赠品
 		JButton buttonConfirmItem=new JButton("确定");//确定一项策略制定
+		
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		table.setColumnSelectionAllowed(false);
+		table.setRowSelectionAllowed(true);
+		JScrollPane scroller=new JScrollPane(table);
+		table.setPreferredScrollableViewportSize(new Dimension(460,60));
 		
 		panel.setLayout(null);
 		labelLow.setBounds(30,3,80,25);
@@ -48,7 +59,8 @@ public class StrategyPriceui {
 		labelVoucher.setBounds(153,70,75,25);
 		fieldVoucher.setBounds(243,70,60,25);
 		buttonAdd.setBounds(93,140,65,25);
-		buttonConfirmItem.setBounds(243,175,65,25);
+		scroller.setBounds(3,140,300,200);
+		buttonConfirmItem.setBounds(243,360,65,25);
 		
 		panel.add(labelLow);
 		panel.add(fieldLow);
@@ -63,6 +75,7 @@ public class StrategyPriceui {
 		panel.add(labelVoucher);
 		panel.add(fieldVoucher);
 		panel.add(buttonAdd);
+		panel.add(scroller);
 		panel.add(buttonConfirmItem);
 	}
 	
@@ -74,6 +87,10 @@ public class StrategyPriceui {
 				vo.setModel(fieldModel.getText());
 				vo.setNumber(Integer.parseInt(fieldCount.getText()));
 				item.add(vo);
+				int size=item.size();
+				data[size-1][0]=fieldName.getText();
+				data[size-1][1]=fieldModel.getText();
+				data[size-1][2]=fieldCount.getText();
 			}else{
 				Runnable r=new Confirmui("请完整填写赠品信息");
 				Thread t=new Thread(r);

@@ -22,10 +22,7 @@ public class ReciptConfirm {
 	public void go(ReciptVO vo){
 		
 		recipt.add(vo);
-		
-		int wide=frame.getToolkit().getScreenSize().width;
-		int high=frame.getToolkit().getScreenSize().height;
-		
+
 		frame.setTitle("财务人员——财务管理——收款单生成");
 		
 		String id=vo.getId();
@@ -65,8 +62,8 @@ public class ReciptConfirm {
 		JButton buttonComdify=new JButton("修改");
 		JButton buttonSubmit=new JButton("提交");
 		
-		frame.setSize(wide/2+100,high/2+200);
-		frame.setLocation(wide/4,high/6);
+		frame.setSize(900,650);
+		frame.setLocation(400,150);
 		panel.setLayout(null);
 		labelID.setBounds(280,65,200,25);
 		labelState.setBounds(380,120,100,25);

@@ -39,16 +39,16 @@ public class Managerui implements ChangeListener,ActionListener{
 		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		frame.setSize(wide/2+100, high/2+200);
+		frame.setSize(900, 650);
 		frame.setLocation(wide/4,high/6);
 		
 		panel.setLayout(null);
 		panelFace.setLayout(null);
 		panelFace.add(scroller);
-		tab.setBounds(50,50,wide/2-30,high/2+50);
+		tab.setBounds(50,50,770,500);
 		labelName.setBounds(50,5,100,30);
 		labelWork.setBounds(120,5,200,30);
-		scroller.setBounds(0,0,wide/2-350,high-430);
+		scroller.setBounds(0,0,450,high-430);
 		button.setBounds(800,10,65,25);
 		
 		panelFace.add(scroller);

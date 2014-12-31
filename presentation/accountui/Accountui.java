@@ -149,7 +149,7 @@ public class Accountui {
 		public void actionPerformed(ActionEvent e){
 			vo=controller.find(fieldName.getText());
 			if(vo==null){
-				Runnable r=new Confirmui();
+				Runnable r=new Confirmui("请正确输入需要查看的帐户名");
 				Thread t=new Thread(r);
 				t.start();
 			}else{
@@ -162,7 +162,7 @@ public class Accountui {
 		public void actionPerformed(ActionEvent e){
 			vo=controller.find(fieldName.getText());
 			if(vo==null){
-				Runnable r=new Confirmui();
+				Runnable r=new Confirmui("请正确输入需要修改的账户的账户名");
 				Thread t=new Thread(r);
 				t.start();
 			}else{
